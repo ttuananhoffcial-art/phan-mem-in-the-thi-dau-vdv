@@ -21,10 +21,8 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
-try:
-    from database.excel_handler import load_data
-except:
-    def load_data(): return pd.DataFrame()
+def load_data():
+    return pd.DataFrame()
 
 # ==========================================
 # CẤU HÌNH TRANG WEB & GIAO DIỆN CSS GLOBAL
