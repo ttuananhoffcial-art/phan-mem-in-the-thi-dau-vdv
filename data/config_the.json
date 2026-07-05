@@ -1,0 +1,51 @@
+{
+    "font_choice": "Times New Roman",
+    "img_x": 175,
+    "img_y": 1850,
+    "img_w": 730,
+    "img_h": 1000,
+    "w_card_cm": 10.0,
+    "h_card_cm": 14.0,
+    "layout_pdf": "🔲 4 thẻ / 1 trang A4",
+    "bg_option": "🖼️ In đầy đủ",
+    "data_mapping": [
+        "Họ và Tên",
+        "Đơn vị",
+        "Trống (Không in)",
+        "Chức Vụ"
+    ],
+    "lines": [
+        {
+            "color": "#ff0000",
+            "initial_size": 130,
+            "l_x": 1670,
+            "l_y": 2050,
+            "is_bold": true,
+            "is_uppercase": true
+        },
+        {
+            "color": "#000000",
+            "initial_size": 130,
+            "l_x": 1670,
+            "l_y": 2250,
+            "is_bold": true,
+            "is_uppercase": false
+        },
+        {
+            "color": "#000000",
+            "initial_size": 130,
+            "l_x": 1243,
+            "l_y": 2048,
+            "is_bold": true,
+            "is_uppercase": false
+        },
+        {
+            "color": "#000000",
+            "initial_size": 130,
+            "l_x": 1670,
+            "l_y": 2470,
+            "is_bold": true,
+            "is_uppercase": false
+        }
+    ]
+}
