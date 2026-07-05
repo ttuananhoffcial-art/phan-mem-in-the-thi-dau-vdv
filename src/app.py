@@ -600,6 +600,7 @@ def init_data():
                 if required_col not in df.columns: df[required_col] = ""
             df['Mã hội viên'] = df['Mã hội viên'].astype(str).str.strip()
         return df
+
     if os.path.exists("data/custom_database.csv"):
         try:
             df = pd.read_csv("data/custom_database.csv", dtype=str, encoding="utf-8-sig", on_bad_lines="skip").fillna("")
@@ -611,8 +612,8 @@ def init_data():
                 df = pd.read_csv("data/custom_database.csv", dtype=str, sep=";", encoding="cp1252", on_bad_lines="skip").fillna("")
                 return clean_df(df)
             except:
-                return clean_df(load_data())
-   elif os.path.exists("data/custom_database.xlsx"):
+                return pd.DataFrame()
+    elif os.path.exists("data/custom_database.xlsx"):
         try:
             df = pd.read_excel("data/custom_database.xlsx", dtype=str).fillna("")
             return clean_df(df)
