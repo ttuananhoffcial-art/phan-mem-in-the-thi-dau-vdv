@@ -621,7 +621,6 @@ def init_data():
             return pd.DataFrame()
             
     return pd.DataFrame()
-
 df_data = init_data()
 settings_data = load_settings()
 graphics_config = load_graphics_config()
