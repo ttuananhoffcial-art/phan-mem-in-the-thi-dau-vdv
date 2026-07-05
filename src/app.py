@@ -31,35 +31,23 @@ except:
 # ==========================================
 st.set_page_config(page_title="Phần Mềm Quản Lý Thẻ Taekwondo", page_icon="🏆", layout="wide")
 
-st.markdown("""
-    <style>
-    input:disabled {
-        color: #000000 !important;
-        -webkit-text-fill-color: #000000 !important; 
-        font-weight: 600 !important; 
-        background-color: #f0f2f6 !important;
-    }
-    
-    .card-container {
-        border: 1px solid #e0e0e0; border-radius: 12px; padding: 12px;
-        box-shadow: 2px 4px 12px rgba(0,0,0,0.08); background-color: #ffffff;
-        display: flex; flex-direction: column; height: 100%; transition: transform 0.2s;
-    }
-    .card-container:hover { transform: translateY(-5px); box-shadow: 2px 8px 15px rgba(0,0,0,0.15); }
-    .card-img-wrapper {
-        width: 100%; height: 240px; border-radius: 8px; overflow: hidden; margin-bottom: 12px;
-        background-color: #f5f6fa; display: flex; align-items: center; justify-content: center;
-    }
-    .card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-    .card-title { font-size: 18px; font-weight: 800; color: #2c3e50; margin-bottom: 8px; line-height: 1.3; text-transform: capitalize; }
-    .card-text { font-size: 14px; margin: 0px 0px 5px 0px; color: #34495e; font-weight: 500; }
-    .card-footer { font-size: 11px; color: #95a5a6; font-style: italic; margin-top: 10px; border-top: 1px dashed #ecf0f1; padding-top: 8px; }
-    
-    .stTabs [data-baseweb="tab-list"] { gap: 8px; }
-    .stTabs [data-baseweb="tab"] { height: 50px; white-space: pre-wrap; background-color: #f8f9fa; border-radius: 4px 4px 0px 0px; gap: 1px; padding-top: 10px; padding-bottom: 10px; }
-    .stTabs [aria-selected="true"] { background-color: #e0f7fa; color: #2980b9; font-weight: bold; border-bottom: 3px solid #2980b9; }
-    </style>
-""", unsafe_allow_html=True)
+# (Đã sửa lại cách khai báo CSS để chống lỗi thụt lề khi copy)
+css_code = """
+<style>
+input:disabled { color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 600 !important; background-color: #f0f2f6 !important; }
+.card-container { border: 1px solid #e0e0e0; border-radius: 12px; padding: 12px; box-shadow: 2px 4px 12px rgba(0,0,0,0.08); background-color: #ffffff; display: flex; flex-direction: column; height: 100%; transition: transform 0.2s; }
+.card-container:hover { transform: translateY(-5px); box-shadow: 2px 8px 15px rgba(0,0,0,0.15); }
+.card-img-wrapper { width: 100%; height: 240px; border-radius: 8px; overflow: hidden; margin-bottom: 12px; background-color: #f5f6fa; display: flex; align-items: center; justify-content: center; }
+.card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+.card-title { font-size: 18px; font-weight: 800; color: #2c3e50; margin-bottom: 8px; line-height: 1.3; text-transform: capitalize; }
+.card-text { font-size: 14px; margin: 0px 0px 5px 0px; color: #34495e; font-weight: 500; }
+.card-footer { font-size: 11px; color: #95a5a6; font-style: italic; margin-top: 10px; border-top: 1px dashed #ecf0f1; padding-top: 8px; }
+.stTabs [data-baseweb="tab-list"] { gap: 8px; }
+.stTabs [data-baseweb="tab"] { height: 50px; white-space: pre-wrap; background-color: #f8f9fa; border-radius: 4px 4px 0px 0px; gap: 1px; padding-top: 10px; padding-bottom: 10px; }
+.stTabs [aria-selected="true"] { background-color: #e0f7fa; color: #2980b9; font-weight: bold; border-bottom: 3px solid #2980b9; }
+</style>
+"""
+st.markdown(css_code, unsafe_allow_html=True)
 
 CLIENT_ID = "411175345765-cuchaq5flnk6a16eboeu5k51fod89j64.apps.googleusercontent.com"
 CLIENT_SECRET = "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"
