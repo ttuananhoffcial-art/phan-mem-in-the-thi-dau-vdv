@@ -162,10 +162,11 @@ def load_settings():
             if "printed_status" not in data: data["printed_status"] = {}
             
             if "tournament_config" in data and data["tournament_config"].get("name"):
-                if not data["tournaments"]:
-                    old_t = data["tournament_config"]
-                    old_t["is_active"] = True
-                    data["tournaments"].append(old_t)
+             if not data["tournaments"]:
+                 old_t = data["tournament_config"]
+                 old_t["is_active"] = True
+                 if "type" not in old_t: old_t["type"] = "QGIA"
+                 data["tournaments"].append(old_t)
             return data
     except: return default_data
 
