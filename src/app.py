@@ -170,8 +170,12 @@ def save_settings(data):
 
 def mark_as_printed(tourney, unit):
     cur = load_settings()
-    if "printed_status" not in cur: cur["printed_status"] = {}
-    if tourney not in cur["printed_status"]: cur["printed_status"][tourney] = []
+    if "printed_status" not in cur or not isinstance(cur["printed_status"], dict): 
+        cur["printed_status"] = {}
+        
+    if tourney not in cur["printed_status"] or not isinstance(cur["printed_status"][tourney], list): 
+        cur["printed_status"][tourney] = []
+        
     if unit not in cur["printed_status"][tourney]:
         cur["printed_status"][tourney].append(unit)
     save_settings(cur)
