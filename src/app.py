@@ -1002,7 +1002,7 @@ if df_data is not None:
                                 else:
                                     st.button("✏️ Sửa", key=f"e_{original_idx}", on_click=set_edit_mode, args=(original_idx,), use_container_width=True)
                             with c_a2: 
-                                if not is_registration_open habits and role != "ADMIN":
+                                if not is_registration_open and role != "ADMIN":
                                     st.button("🗑️ Xóa", key=f"d_{original_idx}", disabled=True, use_container_width=True)
                                 else:
                                     st.button("🗑️ Xóa", key=f"d_{original_idx}", on_click=delete_card, args=(original_idx,), use_container_width=True)
