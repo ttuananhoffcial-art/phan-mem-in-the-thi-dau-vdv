@@ -624,6 +624,7 @@ def init_data():
             return pd.DataFrame()
             
     return pd.DataFrame()
+
 df_data = init_data()
 settings_data = load_settings()
 graphics_config = load_graphics_config()
@@ -660,16 +661,6 @@ if df_data is not None and not df_data.empty:
     danh_sach_thuc_the_cai_dat = sorted(list(set(ds_qg + ds_ti)))
 else:
     danh_sach_thuc_the_cai_dat = ["CAND", "QDOI"]
-        
-    if 'CLB/ Võ đường' in df_data.columns:
-        ds_ti = df_data['CLB/ Võ đường'].dropna().astype(str).str.strip().str.upper().unique().tolist()
-    else:
-        ds_ti = []
-        
-    danh_sach_thuc_the_cai_dat = sorted(list(set(ds_qg + ds_ti)))
-else:
-    danh_sach_thuc_the_cai_dat = ["CAND", "QDOI"]
-    danh_sach_thuc_the_cai_dat = sorted(list(set(ds_qg + ds_ti)))
 
 # ==========================================
 # LOGIC XỬ LÝ ĐĂNG NHẬP GOOGLE OAUTH
@@ -1011,7 +1002,7 @@ if df_data is not None:
                                 else:
                                     st.button("✏️ Sửa", key=f"e_{original_idx}", on_click=set_edit_mode, args=(original_idx,), use_container_width=True)
                             with c_a2: 
-                                if not is_registration_open and role != "ADMIN":
+                                if not is_registration_open habits and role != "ADMIN":
                                     st.button("🗑️ Xóa", key=f"d_{original_idx}", disabled=True, use_container_width=True)
                                 else:
                                     st.button("🗑️ Xóa", key=f"d_{original_idx}", on_click=delete_card, args=(original_idx,), use_container_width=True)
@@ -1036,7 +1027,7 @@ if df_data is not None:
                 st.button("⚙️ BẤM VÀO ĐÂY ĐỂ CẤU HÌNH THÔNG SỐ ĐỒ HỌA IN THẺ", on_click=toggle_settings, type="primary")
 
                 if st.session_state['show_settings']:
-                    st.markdown("""<div style="background-color: #f4f6f9; padding: 25px; border-radius: 12px; margin-top: 15px; margin-bottom: 25px; border: 1px solid #dcdde1; box-shadow: 0px 5px 15px rgba(0,0,0,0.05);">""", unsafe_allow_html=True)
+                    st.markdown(\"\"\"<div style="background-color: #f4f6f9; padding: 25px; border-radius: 12px; margin-top: 15px; margin-bottom: 25px; border: 1px solid #dcdde1; box-shadow: 0px 5px 15px rgba(0,0,0,0.05);">\"\"\", unsafe_allow_html=True)
                     
                     st.markdown("### 📐 A. Cấu hình Kích thước Vật lý (Physical Dimension Parameters)")
                     col_k1, col_k2 = st.columns(2)
@@ -1304,14 +1295,14 @@ if df_data is not None:
                     bg_color = "#e8f8f5" if is_act else "#f9f9f9"
                     border_color = "#1abc9c" if is_act else "#ddd"
                     
-                    st.markdown(f"""
+                    st.markdown(f\"\"\"
                     <div style="background-color: {bg_color}; border: 1px solid {border_color}; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
                         <h4 style="margin: 0; color: #2c3e50;">{'⭐ (ĐANG HOẠT ĐỘNG) - ' if is_act else ''}{t['name']}</h4>
                         <p style="margin: 5px 0 0 0; font-size: 14px; color: #7f8c8d;">
                             🗓️ {t['start_date']} đến {t['end_date']} | 🎯 {'Quy mô Quốc Gia' if t['type']=='QGIA' else 'Quy mô Tỉnh/Thành'}
                         </p>
                     </div>
-                    """, unsafe_allow_html=True)
+                    \"\"\", unsafe_allow_html=True)
                     
                     c_btn1, c_btn2, c_btn3, _ = st.columns([2, 2, 2, 6])
                     with c_btn1:
@@ -1415,3 +1406,9 @@ if df_data is not None:
                     st.image("phoi_vdv.png", caption="Phôi VĐV hiện tại đang sử dụng", use_container_width=True)
                     
         else: st.error("❌ Bạn không có thẩm quyền cấu hình khu vực Admin.")
+"""
+
+with open("src/app.py", "w", encoding="utf-8") as f:
+    f.write(code_content)
+
+print("File src/app.py successfully generated!")}}
