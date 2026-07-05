@@ -660,11 +660,22 @@ for t in active_tourneys:
         is_registration_open = True
 
 danh_sach_thuc_the_cai_dat = []
-if df_data is not None:
-    ds_qg = df_data.get('Mã đơn vị', pd.Series(dtype=str)).dropna().astype(str).str.strip().str.upper().unique().tolist()
-    if "CAND" not in ds_qg: ds_qg.append("CAND")
-    if "QDOI" not in ds_qg: ds_qg.append("QDOI")
-    ds_ti = df_data.get('CLB/ Võ đường', pd.Series(dtype=str)).dropna().astype(str).str.strip().str.upper().unique().tolist()
+if df_data is not None and not df_data.empty:
+    if 'Mã đơn vị' in df_data.columns:
+        ds_qg = df_data['Mã đơn vị'].dropna().astype(str).str.strip().str.upper().unique().tolist()
+        if "CAND" not in ds_qg: ds_qg.append("CAND")
+        if "QDOI" not in ds_qg: ds_qg.append("QDOI")
+    else:
+        ds_qg = ["CAND", "QDOI"]
+        
+    if 'CLB/ Võ đường' in df_data.columns:
+        ds_ti = df_data['CLB/ Võ đường'].dropna().astype(str).str.strip().str.upper().unique().tolist()
+    else:
+        ds_ti = []
+        
+    danh_sach_thuc_the_cai_dat = sorted(list(set(ds_qg + ds_ti)))
+else:
+    danh_sach_thuc_the_cai_dat = ["CAND", "QDOI"]
     danh_sach_thuc_the_cai_dat = sorted(list(set(ds_qg + ds_ti)))
 
 # ==========================================
