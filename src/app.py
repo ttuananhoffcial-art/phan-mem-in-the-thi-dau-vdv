@@ -598,8 +598,8 @@ def init_data():
                     if col.lower().strip() == 'mã':
                         col_mapping[col] = 'Mã hội viên'
 
-            df.rename(columns=col_mapping, inplace=True)
-            
+           df.rename(columns=col_mapping, inplace=True)
+            df = df.loc[:, ~df.columns.duplicated(keep='last')] 
             for required_col in ['Mã hội viên', 'Họ và tên', 'Năm sinh', 'Mã đơn vị', 'CLB/ Võ đường', 'Đẳng cấp']:
                 if required_col not in df.columns:
                     df[required_col] = ""
