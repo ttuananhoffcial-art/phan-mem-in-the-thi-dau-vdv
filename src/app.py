@@ -135,6 +135,13 @@ def save_graphics_config(config):
     with open(CONFIG_GRAPHICS_FILE, "w", encoding="utf-8") as f:
         json.dump(config, f, indent=4, ensure_ascii=False)
 
+def extract_drive_id(url):
+    match = re.search(r'/d/([a-zA-Z0-9_-]+)', url)
+    if match: return match.group(1)
+    match = re.search(r'id=([a-zA-Z0-9_-]+)', url)
+    if match: return match.group(1)
+    return None
+
 def remove_accents(input_str):
     nfkd_form = unicodedata.normalize('NFKD', str(input_str))
     only_ascii = u"".join([c for c in nfkd_form if not unicodedata.combining(c)])
@@ -579,7 +586,7 @@ def export_reportlab_pdf(print_cards, g_cfg):
 def init_data():
     def clean_df(df):
         if df is not None and not df.empty:
-            df.columns = df.columns.str.replace('\n', ' ').str.replace('\r', '').str.strip()
+            df.columns = df.columns.astype(str).str.replace('\n', ' ').str.replace('\r', '').str.strip()
             df = df.loc[:, ~df.columns.duplicated()]
             
             col_mapping = {}
@@ -599,31 +606,39 @@ def init_data():
                     col_mapping[col] = 'Đẳng cấp'
             
             df.rename(columns=col_mapping, inplace=True)
+            df = df.loc[:, ~df.columns.duplicated()]
+            
             for required_col in ['Mã hội viên', 'Họ và tên', 'Năm sinh', 'Mã đơn vị', 'CLB/ Võ đường', 'Đẳng cấp']:
-                if required_col not in df.columns: df[required_col] = ""
-            df['Mã hội viên'] = df['Mã hội viên'].astype(str).str.strip()
+                if required_col not in df.columns:
+                    df[required_col] = ""
+                    
+            if 'Mã hội viên' in df.columns:
+                df['Mã hội viên'] = df['Mã hội viên'].astype(str).str.strip()
         return df
 
-    if os.path.exists("data/custom_database.csv"):
-        try:
-            df = pd.read_csv("data/custom_database.csv", dtype=str, encoding="utf-8-sig", on_bad_lines="skip").fillna("")
-            if len(df.columns) == 1 and ';' in df.columns[0]:
-                df = pd.read_csv("data/custom_database.csv", dtype=str, sep=";", encoding="utf-8-sig", on_bad_lines="skip").fillna("")
-            return clean_df(df)
-        except Exception:
+    try:
+        if os.path.exists("data/custom_database.csv"):
             try:
-                df = pd.read_csv("data/custom_database.csv", dtype=str, sep=";", encoding="cp1252", on_bad_lines="skip").fillna("")
+                df = pd.read_csv("data/custom_database.csv", dtype=str, encoding="utf-8-sig", on_bad_lines="skip").fillna("")
+                if len(df.columns) == 1 and ';' in df.columns[0]:
+                    df = pd.read_csv("data/custom_database.csv", dtype=str, sep=";", encoding="utf-8-sig", on_bad_lines="skip").fillna("")
+                return clean_df(df)
+            except Exception:
+                try:
+                    df = pd.read_csv("data/custom_database.csv", dtype=str, sep=";", encoding="cp1252", on_bad_lines="skip").fillna("")
+                    return clean_df(df)
+                except:
+                    pass
+        elif os.path.exists("data/custom_database.xlsx"):
+            try:
+                df = pd.read_excel("data/custom_database.xlsx", dtype=str).fillna("")
                 return clean_df(df)
             except:
-                return pd.DataFrame()
-    elif os.path.exists("data/custom_database.xlsx"):
-        try:
-            df = pd.read_excel("data/custom_database.xlsx", dtype=str).fillna("")
-            return clean_df(df)
-        except:
-            return pd.DataFrame()
-            
-    return pd.DataFrame()
+                pass
+        
+        return clean_df(load_data())
+    except:
+        return pd.DataFrame()
 
 df_data = init_data()
 settings_data = load_settings()
@@ -1002,7 +1017,7 @@ if df_data is not None:
                                 else:
                                     st.button("✏️ Sửa", key=f"e_{original_idx}", on_click=set_edit_mode, args=(original_idx,), use_container_width=True)
                             with c_a2: 
-                                if not is_registration_open and role != "ADMIN":
+                                if not is_registration_open habits and role != "ADMIN":
                                     st.button("🗑️ Xóa", key=f"d_{original_idx}", disabled=True, use_container_width=True)
                                 else:
                                     st.button("🗑️ Xóa", key=f"d_{original_idx}", on_click=delete_card, args=(original_idx,), use_container_width=True)
@@ -1027,7 +1042,7 @@ if df_data is not None:
                 st.button("⚙️ BẤM VÀO ĐÂY ĐỂ CẤU HÌNH THÔNG SỐ ĐỒ HỌA IN THẺ", on_click=toggle_settings, type="primary")
 
                 if st.session_state['show_settings']:
-                    st.markdown("""<div style="background-color: #f4f6f9; padding: 25px; border-radius: 12px; margin-top: 15px; margin-bottom: 25px; border: 1px solid #dcdde1; box-shadow: 0px 5px 15px rgba(0,0,0,0.05);">\"\"\", unsafe_allow_html=True)
+                    st.markdown(\"\"\"<div style="background-color: #f4f6f9; padding: 25px; border-radius: 12px; margin-top: 15px; margin-bottom: 25px; border: 1px solid #dcdde1; box-shadow: 0px 5px 15px rgba(0,0,0,0.05);">\"\"\", unsafe_allow_html=True)
                     
                     st.markdown("### 📐 A. Cấu hình Kích thước Vật lý (Physical Dimension Parameters)")
                     col_k1, col_k2 = st.columns(2)
