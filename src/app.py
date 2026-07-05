@@ -20,7 +20,11 @@ from reportlab.lib.units import cm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from database.excel_handler import load_data
+
+try:
+    from database.excel_handler import load_data
+except:
+    def load_data(): return pd.DataFrame()
 
 # ==========================================
 # CẤU HÌNH TRANG WEB & GIAO DIỆN CSS GLOBAL
@@ -28,33 +32,33 @@ from database.excel_handler import load_data
 st.set_page_config(page_title="Phần Mềm Quản Lý Thẻ Taekwondo", page_icon="🏆", layout="wide")
 
 st.markdown("""
-<style>
-input:disabled {
-    color: #000000 !important;
-    -webkit-text-fill-color: #000000 !important; 
-    font-weight: 600 !important; 
-    background-color: #f0f2f6 !important;
-}
-
-.card-container {
-    border: 1px solid #e0e0e0; border-radius: 12px; padding: 12px;
-    box-shadow: 2px 4px 12px rgba(0,0,0,0.08); background-color: #ffffff;
-    display: flex; flex-direction: column; height: 100%; transition: transform 0.2s;
-}
-.card-container:hover { transform: translateY(-5px); box-shadow: 2px 8px 15px rgba(0,0,0,0.15); }
-.card-img-wrapper {
-    width: 100%; height: 240px; border-radius: 8px; overflow: hidden; margin-bottom: 12px;
-    background-color: #f5f6fa; display: flex; align-items: center; justify-content: center;
-}
-.card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-.card-title { font-size: 18px; font-weight: 800; color: #2c3e50; margin-bottom: 8px; line-height: 1.3; text-transform: capitalize; }
-.card-text { font-size: 14px; margin: 0px 0px 5px 0px; color: #34495e; font-weight: 500; }
-.card-footer { font-size: 11px; color: #95a5a6; font-style: italic; margin-top: 10px; border-top: 1px dashed #ecf0f1; padding-top: 8px; }
-
-.stTabs [data-baseweb="tab-list"] { gap: 8px; }
-.stTabs [data-baseweb="tab"] { height: 50px; white-space: pre-wrap; background-color: #f8f9fa; border-radius: 4px 4px 0px 0px; gap: 1px; padding-top: 10px; padding-bottom: 10px; }
-.stTabs [aria-selected="true"] { background-color: #e0f7fa; color: #2980b9; font-weight: bold; border-bottom: 3px solid #2980b9; }
-</style>
+    <style>
+    input:disabled {
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important; 
+        font-weight: 600 !important; 
+        background-color: #f0f2f6 !important;
+    }
+    
+    .card-container {
+        border: 1px solid #e0e0e0; border-radius: 12px; padding: 12px;
+        box-shadow: 2px 4px 12px rgba(0,0,0,0.08); background-color: #ffffff;
+        display: flex; flex-direction: column; height: 100%; transition: transform 0.2s;
+    }
+    .card-container:hover { transform: translateY(-5px); box-shadow: 2px 8px 15px rgba(0,0,0,0.15); }
+    .card-img-wrapper {
+        width: 100%; height: 240px; border-radius: 8px; overflow: hidden; margin-bottom: 12px;
+        background-color: #f5f6fa; display: flex; align-items: center; justify-content: center;
+    }
+    .card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+    .card-title { font-size: 18px; font-weight: 800; color: #2c3e50; margin-bottom: 8px; line-height: 1.3; text-transform: capitalize; }
+    .card-text { font-size: 14px; margin: 0px 0px 5px 0px; color: #34495e; font-weight: 500; }
+    .card-footer { font-size: 11px; color: #95a5a6; font-style: italic; margin-top: 10px; border-top: 1px dashed #ecf0f1; padding-top: 8px; }
+    
+    .stTabs [data-baseweb="tab-list"] { gap: 8px; }
+    .stTabs [data-baseweb="tab"] { height: 50px; white-space: pre-wrap; background-color: #f8f9fa; border-radius: 4px 4px 0px 0px; gap: 1px; padding-top: 10px; padding-bottom: 10px; }
+    .stTabs [aria-selected="true"] { background-color: #e0f7fa; color: #2980b9; font-weight: bold; border-bottom: 3px solid #2980b9; }
+    </style>
 """, unsafe_allow_html=True)
 
 CLIENT_ID = "411175345765-cuchaq5flnk6a16eboeu5k51fod89j64.apps.googleusercontent.com"
@@ -132,13 +136,6 @@ def save_graphics_config(config):
     with open(CONFIG_GRAPHICS_FILE, "w", encoding="utf-8") as f:
         json.dump(config, f, indent=4, ensure_ascii=False)
 
-def extract_drive_id(url):
-    match = re.search(r'/d/([a-zA-Z0-9_-]+)', url)
-    if match: return match.group(1)
-    match = re.search(r'id=([a-zA-Z0-9_-]+)', url)
-    if match: return match.group(1)
-    return None
-
 def remove_accents(input_str):
     nfkd_form = unicodedata.normalize('NFKD', str(input_str))
     only_ascii = u"".join([c for c in nfkd_form if not unicodedata.combining(c)])
@@ -162,11 +159,10 @@ def load_settings():
             if "printed_status" not in data: data["printed_status"] = {}
             
             if "tournament_config" in data and data["tournament_config"].get("name"):
-             if not data["tournaments"]:
-                 old_t = data["tournament_config"]
-                 old_t["is_active"] = True
-                 if "type" not in old_t: old_t["type"] = "QGIA"
-                 data["tournaments"].append(old_t)
+                if not data["tournaments"]:
+                    old_t = data["tournament_config"]
+                    old_t["is_active"] = True
+                    data["tournaments"].append(old_t)
             return data
     except: return default_data
 
@@ -208,7 +204,7 @@ def delete_card(idx):
 def add_map():
     raw_text = st.session_state.map_email_input.lower()
     dv_moi = st.session_state.map_dv_select
-    email_list = re.split(r'[,\n\s]+', raw_text)
+    email_list = re.split(r'[, \n]+', raw_text)
     clean_emails = [e.strip() for e in email_list if "@gmail.com" in e.strip()]
     if clean_emails:
         cur = load_settings()
@@ -237,12 +233,6 @@ def upd_q(em, q):
 def del_q(em):
     cur = load_settings()
     if em in cur.get("permissions", {}): del cur["permissions"][em]; save_settings(cur); st.session_state.thong_bao_quyen = f"🗑️ Đã thu hồi toàn bộ quyền đặc biệt của {em}!"
-
-def save_dm():
-    cur = load_settings()
-    cur["lua_tuoi"] = [x.strip() for x in st.session_state.k_lt.split('\n') if x.strip()]
-    cur["noi_dung"] = [x.strip() for x in st.session_state.k_nd.split('\n') if x.strip()]
-    save_settings(cur); st.session_state.thong_bao_danhmuc = "✅ Đã cập nhật danh mục thi đấu mới thành công!"
 
 def toggle_settings(): st.session_state['show_settings'] = not st.session_state['show_settings']
 
@@ -583,33 +573,41 @@ def export_reportlab_pdf(print_cards, g_cfg):
 def init_data():
     def clean_df(df):
         if df is not None and not df.empty:
-            df.columns = df.columns.str.replace('\n', ' ').str.replace('\r', '').str.strip()
+            # Tự động gọt dũa file khổng lồ (bỏ dòng/cột rác)
+            df.dropna(how='all', inplace=True)
+            df.columns = df.columns.astype(str).str.replace('\n', ' ').str.replace('\r', '').str.strip()
             
-            col_mapping = {
-                'Mã hội viên ': 'Mã hội viên',
-                'Mã Hội Viên': 'Mã hội viên',
-                'Họ Tên': 'Họ và tên',
-                'Cấp / Đẳng': 'Đẳng cấp',
-                'Cấp/Đẳng': 'Đẳng cấp'
-            }
-            
+            # Bộ lọc nhận diện tên cột siêu thông minh
+            col_mapping = {}
             for col in df.columns:
-                if 'sinh' in col.lower() and 'nơi' not in col.lower():
+                col_lower = col.lower().strip()
+                if any(x in col_lower for x in ['mã hội viên', 'số thẻ', 'mã vđv', 'mã hv', 'mã số', 'mã định danh']):
+                    col_mapping[col] = 'Mã hội viên'
+                elif any(x in col_lower for x in ['họ tên', 'họ và tên']):
+                    col_mapping[col] = 'Họ và tên'
+                elif 'sinh' in col_lower and 'nơi' not in col_lower:
                     col_mapping[col] = 'Năm sinh'
-                    
+                elif any(x in col_lower for x in ['mã đơn vị', 'đơn vị tỉnh', 'đơn vị qg', 'mã tỉnh']):
+                    col_mapping[col] = 'Mã đơn vị'
+                elif any(x in col_lower for x in ['clb', 'võ đường', 'câu lạc bộ', 'cơ sở']):
+                    col_mapping[col] = 'CLB/ Võ đường'
+                elif any(x in col_lower for x in ['đẳng', 'cấp', 'đai']):
+                    col_mapping[col] = 'Đẳng cấp'
+            
+            if 'Mã hội viên' not in col_mapping.values():
+                for col in df.columns:
+                    if col.lower().strip() == 'mã':
+                        col_mapping[col] = 'Mã hội viên'
+
             df.rename(columns=col_mapping, inplace=True)
+            
             for required_col in ['Mã hội viên', 'Họ và tên', 'Năm sinh', 'Mã đơn vị', 'CLB/ Võ đường', 'Đẳng cấp']:
                 if required_col not in df.columns:
                     df[required_col] = ""
+                    
+            if 'Mã hội viên' in df.columns:
+                df['Mã hội viên'] = df['Mã hội viên'].astype(str).str.strip()
         return df
-
-    # TÍNH NĂNG MỚI: Đọc trực tiếp từ file nén ZIP siêu tốc
-    if os.path.exists("data/custom_database.zip"):
-        try:
-            df = pd.read_csv("data/custom_database.zip", compression='zip', dtype=str, encoding="utf-8-sig", on_bad_lines="skip").fillna("")
-            return clean_df(df)
-        except Exception as e:
-            pass
 
     if os.path.exists("data/custom_database.csv"):
         try:
@@ -693,7 +691,7 @@ if not st.session_state['logged_in']:
     auth_url = "https://accounts.google.com/o/oauth2/v2/auth"
     params = {"client_id": CLIENT_ID, "response_type": "code", "redirect_uri": REDIRECT_URI, "scope": "openid email profile", "prompt": "select_account"}
     login_url = f"{auth_url}?{urllib.parse.urlencode(params)}"
-    st.sidebar.markdown(f'<a href="{login_url}" target="_" style="text-decoration: none;"><div style="display: flex; align-items: center; justify-content: center; background-color: white; color: #3c4043; border: 1px solid #dadce0; border-radius: 4px; padding: 10px; font-weight: 500; cursor: pointer;"><img src="https://www.google.com/favicon.ico" style="width: 18px; margin-right: 12px;">Đăng nhập với Google</div></a>', unsafe_allow_html=True)
+    st.sidebar.markdown(f'<a href="{login_url}" target="_top" style="text-decoration: none;"><div style="display: flex; align-items: center; justify-content: center; background-color: white; color: #3c4043; border: 1px solid #dadce0; border-radius: 4px; padding: 10px; font-weight: 500; cursor: pointer;"><img src="https://www.google.com/favicon.ico" style="width: 18px; margin-right: 12px;">Đăng nhập với Google</div></a>', unsafe_allow_html=True)
     st.info("👈 Vui lòng đăng nhập ở thanh bên trái để sử dụng phần mềm.")
     st.stop() 
 
@@ -842,7 +840,8 @@ if df_data is not None:
                     ma_hoi_vien_col = df_data.get('Mã hội viên', pd.Series(dtype=str))
                     if not ma_hoi_vien_col.empty:
                         df_data['Mã_So_Sanh'] = ma_hoi_vien_col.astype(str).str.upper().str.replace(" ", "")
-                        hv = df_data[df_data['Mã_So_Sanh'] == ma_hv.upper().replace(" ", "")]
+                        ma_hv_clean = ma_hv.upper().replace(" ", "")
+                        hv = df_data[df_data['Mã_So_Sanh'] == ma_hv_clean]
                         
                         if not hv.empty:
                             hv_info = hv.iloc[0].to_dict()
@@ -1365,12 +1364,12 @@ if df_data is not None:
             st.subheader("3. Cài đặt Danh mục thi đấu")
             with st.form("form_danhmuc"):
                 cd1, cd2 = st.columns(2)
-                with cd1: k_lt = st.text_area("Lứa tuổi", value="\n".join(settings_data.get("lua_tuoi", [])), height=150)
-                with cd2: k_nd = st.text_area("Nội dung", value="\n".join(settings_data.get("noi_dung", [])), height=150)
+                with cd1: k_lt = st.text_area("Lứa tuổi", value="\\n".join(settings_data.get("lua_tuoi", [])), height=150)
+                with cd2: k_nd = st.text_area("Nội dung", value="\\n".join(settings_data.get("noi_dung", [])), height=150)
                 if st.form_submit_button("💾 Lưu Danh Mục Giải Đấu", type="primary"):
                     cur = load_settings()
-                    cur["lua_tuoi"] = [x.strip() for x in k_lt.split('\n') if x.strip()]
-                    cur["noi_dung"] = [x.strip() for x in k_nd.split('\n') if x.strip()]
+                    cur["lua_tuoi"] = [x.strip() for x in k_lt.split('\\n') if x.strip()]
+                    cur["noi_dung"] = [x.strip() for x in k_nd.split('\\n') if x.strip()]
                     save_settings(cur)
                     st.success("✅ Đã cập nhật danh mục thi đấu mới thành công!")
                     st.rerun()
