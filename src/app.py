@@ -1028,7 +1028,7 @@ if df_data is not None:
                 st.button("⚙️ BẤM VÀO ĐÂY ĐỂ CẤU HÌNH THÔNG SỐ ĐỒ HỌA IN THẺ", on_click=toggle_settings, type="primary")
 
                 if st.session_state['show_settings']:
-                    st.markdown(\"\"\"<div style="background-color: #f4f6f9; padding: 25px; border-radius: 12px; margin-top: 15px; margin-bottom: 25px; border: 1px solid #dcdde1; box-shadow: 0px 5px 15px rgba(0,0,0,0.05);">\"\"\", unsafe_allow_html=True)
+                    st.markdown("""<div style="background-color: #f4f6f9; padding: 25px; border-radius: 12px; margin-top: 15px; margin-bottom: 25px; border: 1px solid #dcdde1; box-shadow: 0px 5px 15px rgba(0,0,0,0.05);">""", unsafe_allow_html=True)
                     
                     st.markdown("### 📐 A. Cấu hình Kích thước Vật lý (Physical Dimension Parameters)")
                     col_k1, col_k2 = st.columns(2)
