@@ -572,11 +572,12 @@ def export_reportlab_pdf(print_cards, g_cfg):
 def init_data():
     def clean_df(df):
         if df is not None and not df.empty:
-            # Tự động gọt dũa file khổng lồ (bỏ dòng/cột rác)
             df.dropna(how='all', inplace=True)
             df.columns = df.columns.astype(str).str.replace('\n', ' ').str.replace('\r', '').str.strip()
             
-            # Bộ lọc nhận diện tên cột siêu thông minh
+            # Gỡ rối các cột trùng lặp
+            df = df.loc[:, ~df.columns.duplicated()]
+
             col_mapping = {}
             for col in df.columns:
                 col_lower = col.lower().strip()
@@ -598,10 +599,11 @@ def init_data():
                     if col.lower().strip() == 'mã':
                         col_mapping[col] = 'Mã hội viên'
 
-         df.rename(columns=col_mapping, inplace=True)
+            df.rename(columns=col_mapping, inplace=True)
             
-            df = df.loc[:, ~df.columns.duplicated(keep='last')]
-            
+            # Đảm bảo không có cột trùng lặp sau khi đổi tên
+            df = df.loc[:, ~df.columns.duplicated()]
+
             for required_col in ['Mã hội viên', 'Họ và tên', 'Năm sinh', 'Mã đơn vị', 'CLB/ Võ đường', 'Đẳng cấp']:
                 if required_col not in df.columns:
                     df[required_col] = ""
@@ -674,7 +676,6 @@ if not st.session_state['logged_in'] and "code" in st.query_params:
         token_url = "https://oauth2.googleapis.com/token"
         res = requests.post(token_url, data={"code": code, "client_id": CLIENT_ID, "client_secret": CLIENT_SECRET, "redirect_uri": REDIRECT_URI, "grant_type": "authorization_code"})
         
-        # Add a check to see if the request was successful
         if res.status_code == 200:
             access_token = res.json().get("access_token")
             user_info = requests.get("https://www.googleapis.com/oauth2/v1/userinfo", headers={"Authorization": f"Bearer {access_token}"}).json()
