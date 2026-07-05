@@ -693,7 +693,7 @@ if not st.session_state['logged_in']:
     auth_url = "https://accounts.google.com/o/oauth2/v2/auth"
     params = {"client_id": CLIENT_ID, "response_type": "code", "redirect_uri": REDIRECT_URI, "scope": "openid email profile", "prompt": "select_account"}
     login_url = f"{auth_url}?{urllib.parse.urlencode(params)}"
-    st.sidebar.markdown(f'<a href="{login_url}" target="_self" style="text-decoration: none;"><div style="display: flex; align-items: center; justify-content: center; background-color: white; color: #3c4043; border: 1px solid #dadce0; border-radius: 4px; padding: 10px; font-weight: 500; cursor: pointer;"><img src="https://www.google.com/favicon.ico" style="width: 18px; margin-right: 12px;">Đăng nhập với Google</div></a>', unsafe_allow_html=True)
+    st.sidebar.markdown(f'<a href="{login_url}" target="_" style="text-decoration: none;"><div style="display: flex; align-items: center; justify-content: center; background-color: white; color: #3c4043; border: 1px solid #dadce0; border-radius: 4px; padding: 10px; font-weight: 500; cursor: pointer;"><img src="https://www.google.com/favicon.ico" style="width: 18px; margin-right: 12px;">Đăng nhập với Google</div></a>', unsafe_allow_html=True)
     st.info("👈 Vui lòng đăng nhập ở thanh bên trái để sử dụng phần mềm.")
     st.stop() 
 
