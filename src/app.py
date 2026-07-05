@@ -624,13 +624,14 @@ def init_data():
                 return clean_df(df)
             except:
                 return clean_df(load_data())
-    elif os.path.exists("data/custom_database.xlsx"):
+   elif os.path.exists("data/custom_database.xlsx"):
         try:
             df = pd.read_excel("data/custom_database.xlsx", dtype=str).fillna("")
             return clean_df(df)
         except:
-            return clean_df(load_data())
-    return clean_df(load_data())
+            return pd.DataFrame()
+            
+    return pd.DataFrame()
 
 df_data = init_data()
 settings_data = load_settings()
