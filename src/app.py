@@ -572,16 +572,13 @@ def export_reportlab_pdf(print_cards, g_cfg):
 def init_data():
     def clean_df(df):
         if df is not None and not df.empty:
-            df.dropna(how='all', inplace=True)
-            df.columns = df.columns.astype(str).str.replace('\n', ' ').str.replace('\r', '').str.strip()
-            
-            # Gỡ rối các cột trùng lặp
+            df.columns = df.columns.str.replace('\n', ' ').str.replace('\r', '').str.strip()
             df = df.loc[:, ~df.columns.duplicated()]
-
+            
             col_mapping = {}
             for col in df.columns:
                 col_lower = col.lower().strip()
-                if any(x in col_lower for x in ['mã hội viên', 'số thẻ', 'mã vđv', 'mã hv', 'mã số', 'mã định danh']):
+                if any(x in col_lower for x in ['mã hội viên', 'số thẻ', 'mã vđv', 'mã hv', 'mã số']):
                     col_mapping[col] = 'Mã hội viên'
                 elif any(x in col_lower for x in ['họ tên', 'họ và tên']):
                     col_mapping[col] = 'Họ và tên'
@@ -589,29 +586,16 @@ def init_data():
                     col_mapping[col] = 'Năm sinh'
                 elif any(x in col_lower for x in ['mã đơn vị', 'đơn vị tỉnh', 'đơn vị qg', 'mã tỉnh']):
                     col_mapping[col] = 'Mã đơn vị'
-                elif any(x in col_lower for x in ['clb', 'võ đường', 'câu lạc bộ', 'cơ sở']):
+                elif any(x in col_lower for x in ['clb', 'võ đường', 'câu lạc bộ']):
                     col_mapping[col] = 'CLB/ Võ đường'
                 elif any(x in col_lower for x in ['đẳng', 'cấp', 'đai']):
                     col_mapping[col] = 'Đẳng cấp'
             
-            if 'Mã hội viên' not in col_mapping.values():
-                for col in df.columns:
-                    if col.lower().strip() == 'mã':
-                        col_mapping[col] = 'Mã hội viên'
-
             df.rename(columns=col_mapping, inplace=True)
-            
-            # Đảm bảo không có cột trùng lặp sau khi đổi tên
-            df = df.loc[:, ~df.columns.duplicated()]
-
             for required_col in ['Mã hội viên', 'Họ và tên', 'Năm sinh', 'Mã đơn vị', 'CLB/ Võ đường', 'Đẳng cấp']:
-                if required_col not in df.columns:
-                    df[required_col] = ""
-                    
-            if 'Mã hội viên' in df.columns:
-                df['Mã hội viên'] = df['Mã hội viên'].astype(str).str.strip()
+                if required_col not in df.columns: df[required_col] = ""
+            df['Mã hội viên'] = df['Mã hội viên'].astype(str).str.strip()
         return df
-
     if os.path.exists("data/custom_database.csv"):
         try:
             df = pd.read_csv("data/custom_database.csv", dtype=str, encoding="utf-8-sig", on_bad_lines="skip").fillna("")
