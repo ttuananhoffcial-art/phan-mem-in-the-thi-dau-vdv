@@ -148,16 +148,19 @@ def load_settings():
     if not os.path.exists("data"): os.makedirs("data")
     if not os.path.exists("data/settings.json"):
         with open("data/settings.json", "w", encoding="utf-8") as f: json.dump(default_data, f)
+        return default_data
     try:
         with open("data/settings.json", "r", encoding="utf-8") as f:
             data = json.load(f)
+            if not isinstance(data, dict):
+                return default_data
             for k in ["lua_tuoi", "noi_dung"]: 
-                if k not in data: data[k] = []
-            if "unit_mapping" not in data: data["unit_mapping"] = {}
-            if "tournaments" not in data: data["tournaments"] = []
-            if "printed_status" not in data: data["printed_status"] = {}
+                if k not in data or not isinstance(data[k], list): data[k] = []
+            if "unit_mapping" not in data or not isinstance(data["unit_mapping"], dict): data["unit_mapping"] = {}
+            if "tournaments" not in data or not isinstance(data["tournaments"], list): data["tournaments"] = []
+            if "printed_status" not in data or not isinstance(data["printed_status"], dict): data["printed_status"] = {}
             
-            if "tournament_config" in data and data["tournament_config"].get("name"):
+            if "tournament_config" in data and isinstance(data["tournament_config"], dict) and data["tournament_config"].get("name"):
                 if not data["tournaments"]:
                     old_t = data["tournament_config"]
                     old_t["is_active"] = True
