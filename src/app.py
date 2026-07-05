@@ -59,7 +59,7 @@ input:disabled {
 
 CLIENT_ID = "411175345765-cuchaq5flnk6a16eboeu5k51fod89j64.apps.googleusercontent.com"
 CLIENT_SECRET = "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"
-REDIRECT_URI = "[https://phan-mem-in-the-thi-dau-vdv.streamlit.app/](https://phan-mem-in-the-thi-dau-vdv.streamlit.app/)"
+REDIRECT_URI = "https://phan-mem-in-the-thi-dau-vdv.streamlit.app]"
 GAS_URL = "https://script.google.com/macros/s/AKfycbzfQgRjv469xPSE8TjSAN72K3VHGuELhNPvHPHGvfxbUCBIGrA71d2vzF4uDH-SqawzyA/exec"
 
 CARDS_FILE = "data/submitted_cards.json"
