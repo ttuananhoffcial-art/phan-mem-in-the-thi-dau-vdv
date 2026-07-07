@@ -1030,7 +1030,7 @@ if df_data is not None:
                 st.button("⚙️ BẤM VÀO ĐÂY ĐỂ CẤU HÌNH THÔNG SỐ ĐỒ HỌA IN THẺ", on_click=toggle_settings, type="primary")
 
                 if st.session_state['show_settings']:
-                    st.markdown(\"\"\"<div style="background-color: #f4f6f9; padding: 25px; border-radius: 12px; margin-top: 15px; margin-bottom: 25px; border: 1px solid #dcdde1; box-shadow: 0px 5px 15px rgba(0,0,0,0.05);">\"\"\", unsafe_allow_html=True)
+                    st.markdown("""<div style="background-color: #f4f6f9; padding: 25px; border-radius: 12px; margin-top: 15px; margin-bottom: 25px; border: 1px solid #dcdde1; box-shadow: 0px 5px 15px rgba(0,0,0,0.05);">""", unsafe_allow_html=True)
                     
                     st.markdown("### 📐 A. Cấu hình Kích thước Vật lý (Physical Dimension Parameters)")
                     col_k1, col_k2 = st.columns(2)
@@ -1298,14 +1298,14 @@ if df_data is not None:
                     bg_color = "#e8f8f5" if is_act else "#f9f9f9"
                     border_color = "#1abc9c" if is_act else "#ddd"
                     
-                    st.markdown(f\"\"\"
+                    st.markdown(f"""
                     <div style="background-color: {bg_color}; border: 1px solid {border_color}; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
                         <h4 style="margin: 0; color: #2c3e50;">{'⭐ (ĐANG HOẠT ĐỘNG) - ' if is_act else ''}{t['name']}</h4>
                         <p style="margin: 5px 0 0 0; font-size: 14px; color: #7f8c8d;">
                             🗓️ {t['start_date']} đến {t['end_date']} | 🎯 {'Quy mô Quốc Gia' if t['type']=='QGIA' else 'Quy mô Tỉnh/Thành'}
                         </p>
                     </div>
-                    \"\"\", unsafe_allow_html=True)
+                    """, unsafe_allow_html=True)
                     
                     c_btn1, c_btn2, c_btn3, _ = st.columns([2, 2, 2, 6])
                     with c_btn1:
