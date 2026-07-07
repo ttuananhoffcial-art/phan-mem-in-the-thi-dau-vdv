@@ -134,6 +134,13 @@ def save_graphics_config(config):
     with open(CONFIG_GRAPHICS_FILE, "w", encoding="utf-8") as f:
         json.dump(config, f, indent=4, ensure_ascii=False)
 
+def extract_drive_id(url):
+    match = re.search(r'/d/([a-zA-Z0-9_-]+)', url)
+    if match: return match.group(1)
+    match = re.search(r'id=([a-zA-Z0-9_-]+)', url)
+    if match: return match.group(1)
+    return None
+
 def remove_accents(input_str):
     nfkd_form = unicodedata.normalize('NFKD', str(input_str))
     only_ascii = u"".join([c for c in nfkd_form if not unicodedata.combining(c)])
@@ -586,7 +593,7 @@ def init_data():
                     col_mapping[col] = 'Mã hội viên'
                 elif any(x in col_lower for x in ['họ tên', 'họ và tên']):
                     col_mapping[col] = 'Họ và tên'
-                elif 'sinh' in col_lower and 'nơi' not in col_lower:
+                elif 'sinh' in col_lower and 'nơi' not in col.lower:
                     col_mapping[col] = 'Năm sinh'
                 elif any(x in col_lower for x in ['mã đơn vị', 'đơn vị tỉnh', 'đơn vị qg', 'mã tỉnh']):
                     col_mapping[col] = 'Mã đơn vị'
@@ -998,7 +1005,7 @@ if df_data is not None:
                                 else:
                                     st.button("✏️ Sửa", key=f"e_{original_idx}", on_click=set_edit_mode, args=(original_idx,), use_container_width=True)
                             with c_a2: 
-                               if not is_registration_open and role != "ADMIN":
+                                if not is_registration_open habits and role != "ADMIN":
                                     st.button("🗑️ Xóa", key=f"d_{original_idx}", disabled=True, use_container_width=True)
                                 else:
                                     st.button("🗑️ Xóa", key=f"d_{original_idx}", on_click=delete_card, args=(original_idx,), use_container_width=True)
