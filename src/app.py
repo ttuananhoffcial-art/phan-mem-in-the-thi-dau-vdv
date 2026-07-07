@@ -24,7 +24,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 try:
     def load_data(): return pd.DataFrame()
 except:
-    def load_data(): return pd.DataFrame()
+def load_data(): return pd.DataFrame()
 
 # ==========================================
 # CẤU HÌNH TRANG WEB & GIAO DIỆN CSS GLOBAL
