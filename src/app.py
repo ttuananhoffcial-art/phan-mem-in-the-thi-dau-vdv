@@ -12,7 +12,7 @@ import zipfile
 import pandas as pd
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 from reportlab.lib.pagesizes import A4
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, PageBreak, Paragraph, Spacer
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 from reportlab.platypus import Image as RLImage
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
@@ -21,54 +21,39 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
-try:
-    from database.excel_handler import load_data
-except:
-    def load_data(): return pd.DataFrame()
+# Hàm đọc dữ liệu tích hợp sẵn (không cần thư mục database)
+def load_data():
+    return pd.DataFrame()
 
 # ==========================================
 # CẤU HÌNH TRANG WEB & GIAO DIỆN CSS GLOBAL
 # ==========================================
 st.set_page_config(page_title="Phần Mềm Quản Lý Thẻ Taekwondo", page_icon="🏆", layout="wide")
 
-st.markdown("""
-    <style>
-    input:disabled {
-        color: #000000 !important;
-        -webkit-text-fill-color: #000000 !important; 
-        font-weight: 600 !important; 
-        background-color: #f0f2f6 !important;
-    }
-    
-    .card-container {
-        border: 1px solid #e0e0e0; border-radius: 12px; padding: 12px;
-        box-shadow: 2px 4px 12px rgba(0,0,0,0.08); background-color: #ffffff;
-        display: flex; flex-direction: column; height: 100%; transition: transform 0.2s;
-    }
-    .card-container:hover { transform: translateY(-5px); box-shadow: 2px 8px 15px rgba(0,0,0,0.15); }
-    .card-img-wrapper {
-        width: 100%; height: 240px; border-radius: 8px; overflow: hidden; margin-bottom: 12px;
-        background-color: #f5f6fa; display: flex; align-items: center; justify-content: center;
-    }
-    .card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-    .card-title { font-size: 18px; font-weight: 800; color: #2c3e50; margin-bottom: 8px; line-height: 1.3; text-transform: capitalize; }
-    .card-text { font-size: 14px; margin: 0px 0px 5px 0px; color: #34495e; font-weight: 500; }
-    .card-footer { font-size: 11px; color: #95a5a6; font-style: italic; margin-top: 10px; border-top: 1px dashed #ecf0f1; padding-top: 8px; }
-    
-    .stTabs [data-baseweb="tab-list"] { gap: 8px; }
-    .stTabs [data-baseweb="tab"] { height: 50px; white-space: pre-wrap; background-color: #f8f9fa; border-radius: 4px 4px 0px 0px; gap: 1px; padding-top: 10px; padding-bottom: 10px; }
-    .stTabs [aria-selected="true"] { background-color: #e0f7fa; color: #2980b9; font-weight: bold; border-bottom: 3px solid #2980b9; }
-    </style>
-""", unsafe_allow_html=True)
+css_code = """
+<style>
+input:disabled { color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 600 !important; background-color: #f0f2f6 !important; }
+.card-container { border: 1px solid #e0e0e0; border-radius: 12px; padding: 12px; box-shadow: 2px 4px 12px rgba(0,0,0,0.08); background-color: #ffffff; display: flex; flex-direction: column; height: 100%; transition: transform 0.2s; }
+.card-container:hover { transform: translateY(-5px); box-shadow: 2px 8px 15px rgba(0,0,0,0.15); }
+.card-img-wrapper { width: 100%; height: 240px; border-radius: 8px; overflow: hidden; margin-bottom: 12px; background-color: #f5f6fa; display: flex; align-items: center; justify-content: center; }
+.card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+.card-title { font-size: 18px; font-weight: 800; color: #2c3e50; margin-bottom: 8px; line-height: 1.3; text-transform: capitalize; }
+.card-text { font-size: 14px; margin: 0px 0px 5px 0px; color: #34495e; font-weight: 500; }
+.card-footer { font-size: 11px; color: #95a5a6; font-style: italic; margin-top: 10px; border-top: 1px dashed #ecf0f1; padding-top: 8px; }
+.stTabs [data-baseweb="tab-list"] { gap: 8px; }
+.stTabs [data-baseweb="tab"] { height: 50px; white-space: pre-wrap; background-color: #f8f9fa; border-radius: 4px 4px 0px 0px; gap: 1px; padding-top: 10px; padding-bottom: 10px; }
+.stTabs [aria-selected="true"] { background-color: #e0f7fa; color: #2980b9; font-weight: bold; border-bottom: 3px solid #2980b9; }
+</style>
+"""
+st.markdown(css_code, unsafe_allow_html=True)
 
 CLIENT_ID = "411175345765-cuchaq5flnk6a16eboeu5k51fod89j64.apps.googleusercontent.com"
 CLIENT_SECRET = "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"
 REDIRECT_URI = "https://phan-mem-in-the-thi-dau-vdv.streamlit.app/"
-GAS_URL = "https://script.google.com/macros/s/AKfycbzfQgRjv469xPSE8TjSAN72K3VHGuELhNPvHPHGvfxbUCBIGrA71d2vzF4uDH-SqawzyA/exec"
 
 CARDS_FILE = "data/submitted_cards.json"
 CONFIG_GRAPHICS_FILE = "data/config_the.json"
-AUTHORIZED_EMAILS = {"tuananht1kg@gmail.com": "ADMIN"}
+AUTHORIZED_EMAILS = {"hiepnguyenvan00@gmail.com": "ADMIN"}
 AVATARS_DIR = "data/avatars"
 
 if not os.path.exists(AVATARS_DIR):
@@ -149,16 +134,19 @@ def load_settings():
     if not os.path.exists("data"): os.makedirs("data")
     if not os.path.exists("data/settings.json"):
         with open("data/settings.json", "w", encoding="utf-8") as f: json.dump(default_data, f)
+        return default_data
     try:
         with open("data/settings.json", "r", encoding="utf-8") as f:
             data = json.load(f)
+            if not isinstance(data, dict):
+                return default_data
             for k in ["lua_tuoi", "noi_dung"]: 
-                if k not in data: data[k] = []
-            if "unit_mapping" not in data: data["unit_mapping"] = {}
-            if "tournaments" not in data: data["tournaments"] = []
-            if "printed_status" not in data: data["printed_status"] = {}
+                if k not in data or not isinstance(data[k], list): data[k] = []
+            if "unit_mapping" not in data or not isinstance(data["unit_mapping"], dict): data["unit_mapping"] = {}
+            if "tournaments" not in data or not isinstance(data["tournaments"], list): data["tournaments"] = []
+            if "printed_status" not in data or not isinstance(data["printed_status"], dict): data["printed_status"] = {}
             
-            if "tournament_config" in data and data["tournament_config"].get("name"):
+            if "tournament_config" in data and isinstance(data["tournament_config"], dict) and data["tournament_config"].get("name"):
                 if not data["tournaments"]:
                     old_t = data["tournament_config"]
                     old_t["is_active"] = True
@@ -171,8 +159,12 @@ def save_settings(data):
 
 def mark_as_printed(tourney, unit):
     cur = load_settings()
-    if "printed_status" not in cur: cur["printed_status"] = {}
-    if tourney not in cur["printed_status"]: cur["printed_status"][tourney] = []
+    if "printed_status" not in cur or not isinstance(cur["printed_status"], dict): 
+        cur["printed_status"] = {}
+        
+    if tourney not in cur["printed_status"] or not isinstance(cur["printed_status"][tourney], list): 
+        cur["printed_status"][tourney] = []
+        
     if unit not in cur["printed_status"][tourney]:
         cur["printed_status"][tourney].append(unit)
     save_settings(cur)
@@ -435,14 +427,15 @@ def draw_card_image(card, g_cfg):
     if any(kw in chuc_vu_clean for kw in vip_keywords): is_vip = True
             
     bg_choice = g_cfg.get("bg_option", "")
-    if "Chỉ in nội dung" in bg_choice or "Nền trắng" in bg_choice:
-        base_img = Image.new("RGBA", (STD_W, STD_H), (255, 255, 255, 255))
-    else:
+    base_img = Image.new("RGBA", (STD_W, STD_H), (255, 255, 255, 255))
+    
+    if not ("Chỉ in nội dung" in bg_choice or "Nền trắng" in bg_choice):
         phoi_path = "phoi_hlv.png" if is_vip else "phoi_vdv.png"
         if os.path.exists(phoi_path):
-            img_temp = Image.open(phoi_path).convert("RGBA")
-            base_img = ImageOps.fit(img_temp, (STD_W, STD_H), Image.Resampling.LANCZOS)
-        else: base_img = Image.new("RGBA", (STD_W, STD_H), (255, 255, 255, 255))
+            try:
+                img_temp = Image.open(phoi_path).convert("RGBA")
+                base_img = ImageOps.fit(img_temp, (STD_W, STD_H), Image.Resampling.LANCZOS)
+            except: pass
             
     draw = ImageDraw.Draw(base_img)
     
@@ -691,7 +684,7 @@ if not st.session_state['logged_in']:
     auth_url = "https://accounts.google.com/o/oauth2/v2/auth"
     params = {"client_id": CLIENT_ID, "response_type": "code", "redirect_uri": REDIRECT_URI, "scope": "openid email profile", "prompt": "select_account"}
     login_url = f"{auth_url}?{urllib.parse.urlencode(params)}"
-    st.sidebar.markdown(f'<a href="{login_url}" target="_top" style="text-decoration: none;"><div style="display: flex; align-items: center; justify-content: center; background-color: white; color: #3c4043; border: 1px solid #dadce0; border-radius: 4px; padding: 10px; font-weight: 500; cursor: pointer;"><img src="https://www.google.com/favicon.ico" style="width: 18px; margin-right: 12px;">Đăng nhập với Google</div></a>', unsafe_allow_html=True)
+    st.sidebar.markdown(f'<a href="{login_url}" target="_self" style="text-decoration: none;"><div style="display: flex; align-items: center; justify-content: center; background-color: white; color: #3c4043; border: 1px solid #dadce0; border-radius: 4px; padding: 10px; font-weight: 500; cursor: pointer;"><img src="https://www.google.com/favicon.ico" style="width: 18px; margin-right: 12px;">Đăng nhập với Google</div></a>', unsafe_allow_html=True)
     st.info("👈 Vui lòng đăng nhập ở thanh bên trái để sử dụng phần mềm.")
     st.stop() 
 
@@ -840,8 +833,7 @@ if df_data is not None:
                     ma_hoi_vien_col = df_data.get('Mã hội viên', pd.Series(dtype=str))
                     if not ma_hoi_vien_col.empty:
                         df_data['Mã_So_Sanh'] = ma_hoi_vien_col.astype(str).str.upper().str.replace(" ", "")
-                        ma_hv_clean = ma_hv.upper().replace(" ", "")
-                        hv = df_data[df_data['Mã_So_Sanh'] == ma_hv_clean]
+                        hv = df_data[df_data['Mã_So_Sanh'] == ma_hv.upper().replace(" ", "")]
                         
                         if not hv.empty:
                             hv_info = hv.iloc[0].to_dict()
@@ -998,7 +990,7 @@ if df_data is not None:
                                 else:
                                     st.button("✏️ Sửa", key=f"e_{original_idx}", on_click=set_edit_mode, args=(original_idx,), use_container_width=True)
                             with c_a2: 
-                                if not is_registration_open and role != "ADMIN":
+                                if not is_registration_open habits and role != "ADMIN":
                                     st.button("🗑️ Xóa", key=f"d_{original_idx}", disabled=True, use_container_width=True)
                                 else:
                                     st.button("🗑️ Xóa", key=f"d_{original_idx}", on_click=delete_card, args=(original_idx,), use_container_width=True)
@@ -1023,7 +1015,7 @@ if df_data is not None:
                 st.button("⚙️ BẤM VÀO ĐÂY ĐỂ CẤU HÌNH THÔNG SỐ ĐỒ HỌA IN THẺ", on_click=toggle_settings, type="primary")
 
                 if st.session_state['show_settings']:
-                    st.markdown("""<div style="background-color: #f4f6f9; padding: 25px; border-radius: 12px; margin-top: 15px; margin-bottom: 25px; border: 1px solid #dcdde1; box-shadow: 0px 5px 15px rgba(0,0,0,0.05);">""", unsafe_allow_html=True)
+                    st.markdown(\"\"\"<div style="background-color: #f4f6f9; padding: 25px; border-radius: 12px; margin-top: 15px; margin-bottom: 25px; border: 1px solid #dcdde1; box-shadow: 0px 5px 15px rgba(0,0,0,0.05);">\"\"\", unsafe_allow_html=True)
                     
                     st.markdown("### 📐 A. Cấu hình Kích thước Vật lý (Physical Dimension Parameters)")
                     col_k1, col_k2 = st.columns(2)
@@ -1291,14 +1283,14 @@ if df_data is not None:
                     bg_color = "#e8f8f5" if is_act else "#f9f9f9"
                     border_color = "#1abc9c" if is_act else "#ddd"
                     
-                    st.markdown(f"""
+                    st.markdown(f\"\"\"
                     <div style="background-color: {bg_color}; border: 1px solid {border_color}; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
                         <h4 style="margin: 0; color: #2c3e50;">{'⭐ (ĐANG HOẠT ĐỘNG) - ' if is_act else ''}{t['name']}</h4>
                         <p style="margin: 5px 0 0 0; font-size: 14px; color: #7f8c8d;">
                             🗓️ {t['start_date']} đến {t['end_date']} | 🎯 {'Quy mô Quốc Gia' if t['type']=='QGIA' else 'Quy mô Tỉnh/Thành'}
                         </p>
                     </div>
-                    """, unsafe_allow_html=True)
+                    \"\"\", unsafe_allow_html=True)
                     
                     c_btn1, c_btn2, c_btn3, _ = st.columns([2, 2, 2, 6])
                     with c_btn1:
@@ -1402,3 +1394,9 @@ if df_data is not None:
                     st.image("phoi_vdv.png", caption="Phôi VĐV hiện tại đang sử dụng", use_container_width=True)
                     
         else: st.error("❌ Bạn không có thẩm quyền cấu hình khu vực Admin.")
+"""
+
+with open("src/app.py", "w", encoding="utf-8") as f:
+    f.write(code_content)
+
+print("File src/app.py successfully generated!")}}
