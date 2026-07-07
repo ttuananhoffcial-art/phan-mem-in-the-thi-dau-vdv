@@ -64,6 +64,7 @@ st.markdown("""
 CLIENT_ID = "411175345765-cuchaq5flnk6a16eboeu5k51fod89j64.apps.googleusercontent.com"
 CLIENT_SECRET = "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"
 REDIRECT_URI = "https://phan-mem-in-the-thi-dau-vdv.streamlit.app/"
+GAS_URL = "https://script.google.com/macros/s/AKfycbzfQgRjv469xPSE8TjSAN72K3VHGuELhNPvHPHGvfxbUCBIGrA71d2vzF4uDH-SqawzyA/exec"
 
 CARDS_FILE = "data/submitted_cards.json"
 CONFIG_GRAPHICS_FILE = "data/config_the.json"
@@ -572,12 +573,11 @@ def export_reportlab_pdf(print_cards, g_cfg):
 def init_data():
     def clean_df(df):
         if df is not None and not df.empty:
+            # Tự động gọt dũa file khổng lồ (bỏ dòng/cột rác)
             df.dropna(how='all', inplace=True)
             df.columns = df.columns.astype(str).str.replace('\n', ' ').str.replace('\r', '').str.strip()
             
-            # Gỡ rối các cột trùng lặp
-            df = df.loc[:, ~df.columns.duplicated()]
-
+            # Bộ lọc nhận diện tên cột siêu thông minh
             col_mapping = {}
             for col in df.columns:
                 col_lower = col.lower().strip()
@@ -601,9 +601,6 @@ def init_data():
 
             df.rename(columns=col_mapping, inplace=True)
             
-            # Đảm bảo không có cột trùng lặp sau khi đổi tên
-            df = df.loc[:, ~df.columns.duplicated()]
-
             for required_col in ['Mã hội viên', 'Họ và tên', 'Năm sinh', 'Mã đơn vị', 'CLB/ Võ đường', 'Đẳng cấp']:
                 if required_col not in df.columns:
                     df[required_col] = ""
@@ -675,25 +672,19 @@ if not st.session_state['logged_in'] and "code" in st.query_params:
     try:
         token_url = "https://oauth2.googleapis.com/token"
         res = requests.post(token_url, data={"code": code, "client_id": CLIENT_ID, "client_secret": CLIENT_SECRET, "redirect_uri": REDIRECT_URI, "grant_type": "authorization_code"})
+        access_token = res.json().get("access_token")
+        user_info = requests.get("https://www.googleapis.com/oauth2/v1/userinfo", headers={"Authorization": f"Bearer {access_token}"}).json()
+        email_dang_nhap = user_info.get("email", "").strip().lower()
         
-        if res.status_code == 200:
-            access_token = res.json().get("access_token")
-            user_info = requests.get("https://www.googleapis.com/oauth2/v1/userinfo", headers={"Authorization": f"Bearer {access_token}"}).json()
-            email_dang_nhap = user_info.get("email", "").strip().lower()
-            
-            auth_emails_lower = {k.lower(): v for k, v in AUTHORIZED_EMAILS.items()}
-            unit_mapping_lower = {k.lower(): v for k, v in settings_data.get("unit_mapping", {}).items()}
-            perm_emails_lower = [e.lower() for e in settings_data.get("permissions", {}).keys()]
-            
-            if email_dang_nhap in auth_emails_lower: st.session_state.update({'logged_in': True, 'user_email': email_dang_nhap, 'user_role': "ADMIN", 'user_unit': ""}); st.query_params.clear(); st.rerun() 
-            elif email_dang_nhap in unit_mapping_lower: st.session_state.update({'logged_in': True, 'user_email': email_dang_nhap, 'user_role': "DON_VI", 'user_unit': unit_mapping_lower[email_dang_nhap]}); st.query_params.clear(); st.rerun() 
-            elif email_dang_nhap in perm_emails_lower: st.session_state.update({'logged_in': True, 'user_email': email_dang_nhap, 'user_role': "DON_VI_LE", 'user_unit': ""}); st.query_params.clear(); st.rerun()
-            else: st.sidebar.error(f"❌ Tài khoản {email_dang_nhap} chưa được cấp quyền!"); st.query_params.clear()
-        else:
-            st.sidebar.error("Lỗi xác thực: Vui lòng thử đăng nhập lại.")
-            st.query_params.clear()
-            
-    except Exception as e: st.sidebar.error(f"Có lỗi trong quá trình xác thực với Google: {e}")
+        auth_emails_lower = {k.lower(): v for k, v in AUTHORIZED_EMAILS.items()}
+        unit_mapping_lower = {k.lower(): v for k, v in settings_data.get("unit_mapping", {}).items()}
+        perm_emails_lower = [e.lower() for e in settings_data.get("permissions", {}).keys()]
+        
+        if email_dang_nhap in auth_emails_lower: st.session_state.update({'logged_in': True, 'user_email': email_dang_nhap, 'user_role': "ADMIN", 'user_unit': ""}); st.query_params.clear(); st.rerun() 
+        elif email_dang_nhap in unit_mapping_lower: st.session_state.update({'logged_in': True, 'user_email': email_dang_nhap, 'user_role': "DON_VI", 'user_unit': unit_mapping_lower[email_dang_nhap]}); st.query_params.clear(); st.rerun() 
+        elif email_dang_nhap in perm_emails_lower: st.session_state.update({'logged_in': True, 'user_email': email_dang_nhap, 'user_role': "DON_VI_LE", 'user_unit': ""}); st.query_params.clear(); st.rerun()
+        else: st.sidebar.error(f"❌ Tài khoản {email_dang_nhap} chưa được cấp quyền!"); st.query_params.clear()
+    except Exception as e: st.sidebar.error("Có lỗi trong quá trình xác thực với Google.")
 
 st.sidebar.title("🔐 Đăng nhập hệ thống")
 if not st.session_state['logged_in']:
