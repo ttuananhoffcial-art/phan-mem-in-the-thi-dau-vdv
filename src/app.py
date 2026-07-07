@@ -1411,5 +1411,3 @@ if df_data is not None:
                     st.image("phoi_vdv.png", caption="Phôi VĐV hiện tại đang sử dụng", use_container_width=True)
                     
         else: st.error("❌ Bạn không có thẩm quyền cấu hình khu vực Admin.")
-            if os.path.exists("data/settings.json"):
-    os.remove("data/settings.json")
