@@ -21,31 +21,45 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
-def load_data():
-    return pd.DataFrame()
+try:
+    from database.excel_handler import load_data
+except:
+    def load_data(): return pd.DataFrame()
 
 # ==========================================
 # CẤU HÌNH TRANG WEB & GIAO DIỆN CSS GLOBAL
 # ==========================================
 st.set_page_config(page_title="Phần Mềm Quản Lý Thẻ Taekwondo", page_icon="🏆", layout="wide")
 
-# (Đã sửa lại cách khai báo CSS để chống lỗi thụt lề khi copy)
-css_code = """
-<style>
-input:disabled { color: #000000 !important; -webkit-text-fill-color: #000000 !important; font-weight: 600 !important; background-color: #f0f2f6 !important; }
-.card-container { border: 1px solid #e0e0e0; border-radius: 12px; padding: 12px; box-shadow: 2px 4px 12px rgba(0,0,0,0.08); background-color: #ffffff; display: flex; flex-direction: column; height: 100%; transition: transform 0.2s; }
-.card-container:hover { transform: translateY(-5px); box-shadow: 2px 8px 15px rgba(0,0,0,0.15); }
-.card-img-wrapper { width: 100%; height: 240px; border-radius: 8px; overflow: hidden; margin-bottom: 12px; background-color: #f5f6fa; display: flex; align-items: center; justify-content: center; }
-.card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
-.card-title { font-size: 18px; font-weight: 800; color: #2c3e50; margin-bottom: 8px; line-height: 1.3; text-transform: capitalize; }
-.card-text { font-size: 14px; margin: 0px 0px 5px 0px; color: #34495e; font-weight: 500; }
-.card-footer { font-size: 11px; color: #95a5a6; font-style: italic; margin-top: 10px; border-top: 1px dashed #ecf0f1; padding-top: 8px; }
-.stTabs [data-baseweb="tab-list"] { gap: 8px; }
-.stTabs [data-baseweb="tab"] { height: 50px; white-space: pre-wrap; background-color: #f8f9fa; border-radius: 4px 4px 0px 0px; gap: 1px; padding-top: 10px; padding-bottom: 10px; }
-.stTabs [aria-selected="true"] { background-color: #e0f7fa; color: #2980b9; font-weight: bold; border-bottom: 3px solid #2980b9; }
-</style>
-"""
-st.markdown(css_code, unsafe_allow_html=True)
+st.markdown("""
+    <style>
+    input:disabled {
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important; 
+        font-weight: 600 !important; 
+        background-color: #f0f2f6 !important;
+    }
+    
+    .card-container {
+        border: 1px solid #e0e0e0; border-radius: 12px; padding: 12px;
+        box-shadow: 2px 4px 12px rgba(0,0,0,0.08); background-color: #ffffff;
+        display: flex; flex-direction: column; height: 100%; transition: transform 0.2s;
+    }
+    .card-container:hover { transform: translateY(-5px); box-shadow: 2px 8px 15px rgba(0,0,0,0.15); }
+    .card-img-wrapper {
+        width: 100%; height: 240px; border-radius: 8px; overflow: hidden; margin-bottom: 12px;
+        background-color: #f5f6fa; display: flex; align-items: center; justify-content: center;
+    }
+    .card-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+    .card-title { font-size: 18px; font-weight: 800; color: #2c3e50; margin-bottom: 8px; line-height: 1.3; text-transform: capitalize; }
+    .card-text { font-size: 14px; margin: 0px 0px 5px 0px; color: #34495e; font-weight: 500; }
+    .card-footer { font-size: 11px; color: #95a5a6; font-style: italic; margin-top: 10px; border-top: 1px dashed #ecf0f1; padding-top: 8px; }
+    
+    .stTabs [data-baseweb="tab-list"] { gap: 8px; }
+    .stTabs [data-baseweb="tab"] { height: 50px; white-space: pre-wrap; background-color: #f8f9fa; border-radius: 4px 4px 0px 0px; gap: 1px; padding-top: 10px; padding-bottom: 10px; }
+    .stTabs [aria-selected="true"] { background-color: #e0f7fa; color: #2980b9; font-weight: bold; border-bottom: 3px solid #2980b9; }
+    </style>
+""", unsafe_allow_html=True)
 
 CLIENT_ID = "411175345765-cuchaq5flnk6a16eboeu5k51fod89j64.apps.googleusercontent.com"
 CLIENT_SECRET = "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"
@@ -121,13 +135,6 @@ def save_graphics_config(config):
     with open(CONFIG_GRAPHICS_FILE, "w", encoding="utf-8") as f:
         json.dump(config, f, indent=4, ensure_ascii=False)
 
-def extract_drive_id(url):
-    match = re.search(r'/d/([a-zA-Z0-9_-]+)', url)
-    if match: return match.group(1)
-    match = re.search(r'id=([a-zA-Z0-9_-]+)', url)
-    if match: return match.group(1)
-    return None
-
 def remove_accents(input_str):
     nfkd_form = unicodedata.normalize('NFKD', str(input_str))
     only_ascii = u"".join([c for c in nfkd_form if not unicodedata.combining(c)])
@@ -141,19 +148,16 @@ def load_settings():
     if not os.path.exists("data"): os.makedirs("data")
     if not os.path.exists("data/settings.json"):
         with open("data/settings.json", "w", encoding="utf-8") as f: json.dump(default_data, f)
-        return default_data
     try:
         with open("data/settings.json", "r", encoding="utf-8") as f:
             data = json.load(f)
-            if not isinstance(data, dict):
-                return default_data
             for k in ["lua_tuoi", "noi_dung"]: 
-                if k not in data or not isinstance(data[k], list): data[k] = []
-            if "unit_mapping" not in data or not isinstance(data["unit_mapping"], dict): data["unit_mapping"] = {}
-            if "tournaments" not in data or not isinstance(data["tournaments"], list): data["tournaments"] = []
-            if "printed_status" not in data or not isinstance(data["printed_status"], dict): data["printed_status"] = {}
+                if k not in data: data[k] = []
+            if "unit_mapping" not in data: data["unit_mapping"] = {}
+            if "tournaments" not in data: data["tournaments"] = []
+            if "printed_status" not in data: data["printed_status"] = {}
             
-            if "tournament_config" in data and isinstance(data["tournament_config"], dict) and data["tournament_config"].get("name"):
+            if "tournament_config" in data and data["tournament_config"].get("name"):
                 if not data["tournaments"]:
                     old_t = data["tournament_config"]
                     old_t["is_active"] = True
@@ -166,12 +170,8 @@ def save_settings(data):
 
 def mark_as_printed(tourney, unit):
     cur = load_settings()
-    if "printed_status" not in cur or not isinstance(cur["printed_status"], dict): 
-        cur["printed_status"] = {}
-        
-    if tourney not in cur["printed_status"] or not isinstance(cur["printed_status"][tourney], list): 
-        cur["printed_status"][tourney] = []
-        
+    if "printed_status" not in cur: cur["printed_status"] = {}
+    if tourney not in cur["printed_status"]: cur["printed_status"][tourney] = []
     if unit not in cur["printed_status"][tourney]:
         cur["printed_status"][tourney].append(unit)
     save_settings(cur)
@@ -572,13 +572,16 @@ def export_reportlab_pdf(print_cards, g_cfg):
 def init_data():
     def clean_df(df):
         if df is not None and not df.empty:
+            df.dropna(how='all', inplace=True)
             df.columns = df.columns.astype(str).str.replace('\n', ' ').str.replace('\r', '').str.strip()
-            df = df.loc[:, ~df.columns.duplicated()]
             
+            # Gỡ rối các cột trùng lặp
+            df = df.loc[:, ~df.columns.duplicated()]
+
             col_mapping = {}
             for col in df.columns:
                 col_lower = col.lower().strip()
-                if any(x in col_lower for x in ['mã hội viên', 'số thẻ', 'mã vđv', 'mã hv', 'mã số']):
+                if any(x in col_lower for x in ['mã hội viên', 'số thẻ', 'mã vđv', 'mã hv', 'mã số', 'mã định danh']):
                     col_mapping[col] = 'Mã hội viên'
                 elif any(x in col_lower for x in ['họ tên', 'họ và tên']):
                     col_mapping[col] = 'Họ và tên'
@@ -586,14 +589,21 @@ def init_data():
                     col_mapping[col] = 'Năm sinh'
                 elif any(x in col_lower for x in ['mã đơn vị', 'đơn vị tỉnh', 'đơn vị qg', 'mã tỉnh']):
                     col_mapping[col] = 'Mã đơn vị'
-                elif any(x in col_lower for x in ['clb', 'võ đường', 'câu lạc bộ']):
+                elif any(x in col_lower for x in ['clb', 'võ đường', 'câu lạc bộ', 'cơ sở']):
                     col_mapping[col] = 'CLB/ Võ đường'
                 elif any(x in col_lower for x in ['đẳng', 'cấp', 'đai']):
                     col_mapping[col] = 'Đẳng cấp'
             
+            if 'Mã hội viên' not in col_mapping.values():
+                for col in df.columns:
+                    if col.lower().strip() == 'mã':
+                        col_mapping[col] = 'Mã hội viên'
+
             df.rename(columns=col_mapping, inplace=True)
-            df = df.loc[:, ~df.columns.duplicated()]
             
+            # Đảm bảo không có cột trùng lặp sau khi đổi tên
+            df = df.loc[:, ~df.columns.duplicated()]
+
             for required_col in ['Mã hội viên', 'Họ và tên', 'Năm sinh', 'Mã đơn vị', 'CLB/ Võ đường', 'Đẳng cấp']:
                 if required_col not in df.columns:
                     df[required_col] = ""
@@ -602,29 +612,25 @@ def init_data():
                 df['Mã hội viên'] = df['Mã hội viên'].astype(str).str.strip()
         return df
 
-    try:
-        if os.path.exists("data/custom_database.csv"):
+    if os.path.exists("data/custom_database.csv"):
+        try:
+            df = pd.read_csv("data/custom_database.csv", dtype=str, encoding="utf-8-sig", on_bad_lines="skip").fillna("")
+            if len(df.columns) == 1 and ';' in df.columns[0]:
+                df = pd.read_csv("data/custom_database.csv", dtype=str, sep=";", encoding="utf-8-sig", on_bad_lines="skip").fillna("")
+            return clean_df(df)
+        except Exception:
             try:
-                df = pd.read_csv("data/custom_database.csv", dtype=str, encoding="utf-8-sig", on_bad_lines="skip").fillna("")
-                if len(df.columns) == 1 and ';' in df.columns[0]:
-                    df = pd.read_csv("data/custom_database.csv", dtype=str, sep=";", encoding="utf-8-sig", on_bad_lines="skip").fillna("")
-                return clean_df(df)
-            except Exception:
-                try:
-                    df = pd.read_csv("data/custom_database.csv", dtype=str, sep=";", encoding="cp1252", on_bad_lines="skip").fillna("")
-                    return clean_df(df)
-                except:
-                    pass
-        elif os.path.exists("data/custom_database.xlsx"):
-            try:
-                df = pd.read_excel("data/custom_database.xlsx", dtype=str).fillna("")
+                df = pd.read_csv("data/custom_database.csv", dtype=str, sep=";", encoding="cp1252", on_bad_lines="skip").fillna("")
                 return clean_df(df)
             except:
-                pass
-        
-        return clean_df(load_data())
-    except:
-        return pd.DataFrame()
+                return clean_df(load_data())
+    elif os.path.exists("data/custom_database.xlsx"):
+        try:
+            df = pd.read_excel("data/custom_database.xlsx", dtype=str).fillna("")
+            return clean_df(df)
+        except:
+            return clean_df(load_data())
+    return clean_df(load_data())
 
 df_data = init_data()
 settings_data = load_settings()
@@ -654,14 +660,12 @@ for t in active_tourneys:
         is_registration_open = True
 
 danh_sach_thuc_the_cai_dat = []
-if df_data is not None and not df_data.empty:
+if df_data is not None:
     ds_qg = df_data.get('Mã đơn vị', pd.Series(dtype=str)).dropna().astype(str).str.strip().str.upper().unique().tolist()
     if "CAND" not in ds_qg: ds_qg.append("CAND")
     if "QDOI" not in ds_qg: ds_qg.append("QDOI")
     ds_ti = df_data.get('CLB/ Võ đường', pd.Series(dtype=str)).dropna().astype(str).str.strip().str.upper().unique().tolist()
     danh_sach_thuc_the_cai_dat = sorted(list(set(ds_qg + ds_ti)))
-else:
-    danh_sach_thuc_the_cai_dat = ["CAND", "QDOI"]
 
 # ==========================================
 # LOGIC XỬ LÝ ĐĂNG NHẬP GOOGLE OAUTH
@@ -1296,14 +1300,14 @@ if df_data is not None:
                     bg_color = "#e8f8f5" if is_act else "#f9f9f9"
                     border_color = "#1abc9c" if is_act else "#ddd"
                     
-                    st.markdown(f\"\"\"
+                    st.markdown(f"""
                     <div style="background-color: {bg_color}; border: 1px solid {border_color}; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
                         <h4 style="margin: 0; color: #2c3e50;">{'⭐ (ĐANG HOẠT ĐỘNG) - ' if is_act else ''}{t['name']}</h4>
                         <p style="margin: 5px 0 0 0; font-size: 14px; color: #7f8c8d;">
                             🗓️ {t['start_date']} đến {t['end_date']} | 🎯 {'Quy mô Quốc Gia' if t['type']=='QGIA' else 'Quy mô Tỉnh/Thành'}
                         </p>
                     </div>
-                    \"\"\", unsafe_allow_html=True)
+                    """, unsafe_allow_html=True)
                     
                     c_btn1, c_btn2, c_btn3, _ = st.columns([2, 2, 2, 6])
                     with c_btn1:
@@ -1407,9 +1411,3 @@ if df_data is not None:
                     st.image("phoi_vdv.png", caption="Phôi VĐV hiện tại đang sử dụng", use_container_width=True)
                     
         else: st.error("❌ Bạn không có thẩm quyền cấu hình khu vực Admin.")
-"""
-
-with open("src/app.py", "w", encoding="utf-8") as f:
-    f.write(code_content)
-
-print("File src/app.py successfully generated!")}}
