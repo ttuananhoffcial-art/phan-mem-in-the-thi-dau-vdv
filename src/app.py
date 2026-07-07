@@ -22,7 +22,8 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
 try:
-    from database.excel_handler import load_data
+    def load_data():
+    return pd.DataFrame()
 except:
     def load_data(): return pd.DataFrame()
 
