@@ -1,0 +1,1001 @@
+"STT
+,Mã hội viên,Họ và tên ,""Ngày tháng năm sinh"
+"dd/mm/yyyy"",""Giới tính"
+"(Nam/Nữ)"",Mã đơn vị,Mã CLB,CLB/ Võ đường ,Cấp / Đẳng"
+1,V25-008719,Thái Công Thành,01/02/2016,Nam,HCMI,CLB_00669,CLB Taekwondo Đông Hòa,Cấp 5
+2,V23-006092,Nguyễn Trương Việt,30/08/2002,Nam,HCMI,CLB_00669,CLB Taekwondo Đông Hòa,3 đẳng
+3,V24-080547,Trần Nguyễn Quỳnh Anh,19/11/2015,Nữ,HCMI,CLB_00669,CLB Taekwondo Đông Hòa,Cấp 5
+4,V23-120862,Nguyễn Thị Ngọc Huyền,02/10/2007,Nữ,HCMI,CLB_00669,CLB Taekwondo Đông Hòa,Cấp 1
+5,V24-015703,Nguyễn Hồ Yến Nhi,09/09/2012,Nữ,KHOA,CLB_01099,CLB Ninh Quang,Cấp 2
+6,V23-125644,Nguyễn Phú Hào,19/02/2012,Nam,KHOA,CLB_01365,CLB TH Vĩnh Nguyên 2,Cấp 1
+7,V23-032587,Nguyễn Thị Minh Châu,27/10/2007,Nữ,THUE,CLB_00282,CLB Phù Đổng,1 Đẳng
+8,V23-102240,Lê Trần Hữu Tuấn,07/07/2006,Nam,THUE,CLB_00282,CLB Phù Đổng,Cấp 1
+9,V24-067074,Hoàng Thị Thương,02/01/2007,Nữ,THUE,CLB_00282,CLB Phù Đổng,2 Đẳng
+10,V23-180122,Văng Minh Khôi,19/12/2015,Nam,AGIA,CLB_00301,CLB TT ĐT-HL-TĐ TDTT An Giang,1 Đẳng
+11,V23-161068,Phạm Bá Bảo Trân,21/12/2013,Nữ,AGIA,CLB_00301,CLB TT ĐT-HL-TĐ TDTT An Giang,1 Đẳng
+12,V23-004996,Phan Tuấn Kiệt,06/02/2008,Nam,AGIA,CLB_00301,CLB TT ĐT-HL-TĐ TDTT An Giang,1 Đẳng
+13,V23-002628,Lê Hoàng Bảo,02/06/2010,Nam,AGIA,CLB_00301,CLB TT ĐT-HL-TĐ TDTT An Giang,3 đẳng
+14,V23-015695,Thạch Hậu,11/09/2011,Nam,AGIA,CLB_00301,CLB TT ĐT-HL-TĐ TDTT An Giang,2 Đẳng
+15,V23-016787,Võ Trọng Phúc,02/08/2008,Nam,AGIA,CLB_00301,CLB TT ĐT-HL-TĐ TDTT An Giang,3 đẳng
+16,V23-007591,Lâm Gia Mẫn,10/11/2008,Nữ,AGIA,CLB_00301,CLB TT ĐT-HL-TĐ TDTT An Giang,3 đẳng
+17,V23-070400,Lê Bảo Việt,08/09/2015,Nam,AGIA,CLB_00301,CLB TT ĐT-HL-TĐ TDTT An Giang,Cấp 1
+18,V23-139334,Nguyễn Tân Châu,28/03/2016,Nam,AGIA,CLB_00301,CLB TT ĐT-HL-TĐ TDTT An Giang,1 Đẳng
+19,V23-057226,Nguyễn Duy Khoa,25/04/2011,Nam,DNAN,CLB_00345,CLB Trần Thị Lý,Cấp 1
+20,V24-067236,Nguyễn Cảnh Sáng,09/01/2007,Nam,HCMI,CLB_00121,CLB Hổ Kình(2),1 Đẳng
+21,V23-051226,Ngô Nguyễn Giang Sơn,07/06/2007,Nam,HCMI,CLB_00121,CLB Hổ Kình(2),1 Đẳng
+22,V24-069313,Hà Nguyễn Đức Duy,20/11/2011,Nam,DTHA,CLB_00726,CLB TTHĐ TTN Tỉnh Đồng Tháp,Cấp 3
+23,V23-158596,Lê Hồng Anh,17/04/2016,Nam,DTHA,CLB_00726,CLB TTHĐ TTN Tỉnh Đồng Tháp,Cấp 1
+24,V24-000156,Nguyễn Thị Tịnh Vân,24/07/1982,Nữ,HPHO,CLB_01675,CLB Vĩnh Bảo,2 Đẳng
+25,V23-060523,Lê Trần Nam,23/06/1999,Nam,HPHO,CLB_01675,CLB Vĩnh Bảo,2 Đẳng
+26,V23-073618,Nguyễn Anh Khoa,01/12/2006,Nam,THUE,CLB_00282,CLB Phù Đổng,3 đẳng
+27,V23-021295,Nguyễn Công Tiến,03/11/2010,Nam,THUE,CLB_00282,CLB Phù Đổng,2 Đẳng
+28,V23-073988,Trần Thị Cát Tường,10/04/2008,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 2
+29,V26-034834,Phạm Trần Thảo Nguyên,11/01/2013,Nữ,DNAI,CLB_01141,CLB Taekwondo Sông Ray,Cấp 10
+30,V26-034833,Nguyễn Trần Bảo Nam,21/09/2012,Nam,DNAI,CLB_01141,CLB Taekwondo Sông Ray,Cấp 10
+31,V26-034832,Nguyễn Thị Anh Thư,27/11/2011,Nữ,DNAI,CLB_01141,CLB Taekwondo Sông Ray,Cấp 10
+32,V26-034831,Nguyễn Minh Đức,03/07/2018,Nam,DNAI,CLB_01141,CLB Taekwondo Sông Ray,Cấp 10
+33,V23-091409,Trần Thị Thu Ngân,19/06/2009,Nữ,HCMI,CLB_00127,CLB Vũ Tuấn Khanh,Cấp 1
+34,V23-164796,Lê Trần Minh Nguyệt,05/12/2013,Nữ,HCMI,CLB_00026,CLB Khai Phong,Cấp 1
+35,V23-143484,Nguyễn Văn Sỹ Tài,05/02/2015,Nam,HCMI,CLB_00026,CLB Khai Phong,Cấp 1
+36,V26-005460,Nguyễn Lê Khả Hân,15/09/2019,Nữ,HCMI,CLB_00026,CLB Khai Phong,Cấp 9
+37,V26-034830,Ngô Gia Mẫn,07/12/2015,Nữ,KHOA,CLB_01099,CLB Ninh Quang,Cấp 10
+38,V26-034829,Võ Kế Đạt,10/11/2015,Nam,KHOA,CLB_01099,CLB Ninh Quang,Cấp 10
+39,V26-034828,Nguyễn Ngọc Tường Vy,01/12/2015,Nữ,KHOA,CLB_01099,CLB Ninh Quang,Cấp 10
+40,V26-034827,Nguyễn Ngọc Quỳnh Chi,28/10/2015,Nữ,KHOA,CLB_01099,CLB Ninh Quang,Cấp 10
+41,V26-034826,Nguyễn Ngọc Quỳnh My,30/09/2017,Nữ,KHOA,CLB_01099,CLB Ninh Quang,Cấp 10
+42,V23-089482,Nguyễn Thanh Sơn,10/11/2014,Nam,HCMI,CLB_00127,CLB Vũ Tuấn Khanh,Cấp 1
+43,V25-004673,Trần Thanh Tú,08/05/2011,Nam,DNAI,CLB_01605,CLB Taekwondo Lê Văn Tám,Cấp 4
+44,V26-034825,Trịnh Vinh Quang,01/08/2014,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+45,V26-034824,Trịnh Kiều Trinh,21/01/2019,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+46,V26-034823,Vũ Hoài Nam,21/04/2018,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+47,V26-034822,Lê Quốc Huy,20/08/2016,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+48,V26-034821,Lê Nhật Phát,21/04/2015,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+49,V26-034820,Triệu Đức Thiện,08/09/2015,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+50,V26-034819,Bùi Quang Nam,10/02/2015,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+51,V26-034818,Phạm Linh Anh,15/01/2016,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+52,V26-034817,Nguyễn Khánh Linh,17/09/2011,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+53,V26-034816,Nguyễn Ngọc Bảo Trân,11/11/2016,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+54,V26-034815,Nguyễn Tịnh Nghi,25/12/2012,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+55,V26-034814,Đặng Gia Ngân Khánh,16/07/2017,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+56,V26-034813,Hà Phạm Anh Kiệt,21/05/2016,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+57,V26-034812,Hà Phạm Bảo Long,26/10/2017,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+58,V26-034811,Nguyễn Ngọc Huyền,14/01/2019,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+59,V26-034810,Phạm Nhật Vy,14/06/2012,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+60,V26-034809,Chung Thị Anh Thư,08/12/2018,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+61,V26-034808,Nông Hoàng Bảo Ngọc,15/11/2017,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+62,V26-034807,Trần Tuệ Nhi,03/05/2019,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+63,V26-034806,Trần Tuệ Minh,21/10/2016,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+64,V26-034805,Bùi Quang Khải,19/01/2019,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+65,V26-034804,Huỳnh Thị Ngọc Tiên,16/12/2017,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+66,V26-034803,Huỳnh Ngọc Hải My,17/03/2017,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+67,V26-034802,Phạm Thảo My,23/08/2016,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+68,V26-034801,Trần Anh Thư,14/05/2013,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+69,V26-034800,Trần Thảo Ly,23/05/2013,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+70,V26-034799,Hồ Thanh Thuận,21/09/2017,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+71,V26-034798,Trần Bình Thiện,28/10/2018,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+72,V26-034797,Bùi Thiên Phước,17/07/2018,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+73,V26-034796,Nguyễn Hoàng Quân,01/02/2016,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+74,V26-034795,Trần Văn Tiến,27/04/2018,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+75,V26-034794,Ngô Trần Đức Anh,05/09/2014,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+76,V26-034793,Nguyễn Ngọc Bảo Yến,21/03/2014,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+77,V26-034792,Lê Hương Quỳnh,19/04/2014,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+78,V26-034791,Trần Ngọc Phương Vy,15/01/2006,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+79,V26-034790,Nguyễn Thanh Vân,26/07/2014,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+80,V26-034789,Đỗ Ngọc Hân,11/03/2016,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+81,V26-034788,Nguyễn Bảo Trâm,19/07/2016,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+82,V26-034787,Nguyễn Nhật Huy,03/01/2013,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+83,V26-034786,Nguyễn Trình Anh Khoa,17/03/2019,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+84,V26-034785,Cao Thiên Phong,30/09/2014,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+85,V26-034784,Phạm Thị Trà My,06/05/2015,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+86,V26-034783,Phạm Trịnh Duy Phú,01/05/2016,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+87,V26-034782,Thái Thị Minh Thư,22/07/2013,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+88,V26-034781,Hồ Chí Thiện,24/10/2013,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+89,V26-034780,Nguyễn Ngọc Nhi,22/10/2019,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+90,V26-034779,Nguyễn Hải Đăng,22/10/2019,Nam,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+91,V26-034778,Lê Trần Nhã An,29/05/2018,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+92,V26-034777,Thái Thị Ngọc An,13/06/2015,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+93,V26-034776,Nguyễn Ngọc Bảo Trâm,29/06/2012,Nữ,DNAI,CLB_00468,CLB Taekwondo Đồng Phú,Cấp 10
+94,V22-005838,Hồ Huỳnh Kim Thuận,24/02/2004,Nam,HCMI,CLB_00116,CLB MEGA,2 Đẳng
+95,V23-011294,Ngô Minh Đức,19/10/2010,Nam,HCMI,CLB_00116,CLB MEGA,Cấp 1
+96,V23-152307,Đỗ Phạm Duy Lộc,27/10/2011,Nam,HCMI,CLB_00116,CLB MEGA,Cấp 1
+97,V23-047738,Trần Phạm Khánh Nguyên,07/04/2013,Nữ,HCMI,CLB_00116,CLB MEGA,1 Đẳng
+98,V23-011322,Lê Dương Gia Nghi,24/10/2013,Nữ,HCMI,CLB_00116,CLB MEGA,Cấp 4
+99,V24-025627,Nguyễn Vũ Đan Thanh,12/12/2012,Nữ,HCMI,CLB_00116,CLB MEGA,Cấp 1
+100,V25-003841,Phạm Ngọc Ánh Tuyết,18/08/2012,Nữ,HCMI,CLB_00116,CLB MEGA,Cấp 3
+101,V24-045113,Lê Ngọc Kiều Anh,01/03/2015,Nữ,HCMI,CLB_00116,CLB MEGA,Cấp 1
+102,V24-045114,Lê Ngọc Anh Vy,22/07/2016,Nữ,HCMI,CLB_00116,CLB MEGA,Cấp 1
+103,V23-152305,Nguyễn Ngọc Thuý Hằng,13/09/2016,Nữ,HCMI,CLB_00116,CLB MEGA,1 Đẳng
+104,V25-052204,Trầm Quốc Việt,15/08/2015,Nam,DTHA,CLB_00430,CLB Nam Võ,Cấp 7
+105,V25-052203,Trầm Bùi Thiên Phúc,23/02/2017,Nữ,DTHA,CLB_00430,CLB Nam Võ,Cấp 7
+106,V25-029616,Lê Đức Trí,25/01/2019,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 6
+107,V26-034775,Đào Ngọc Minh Tâm,25/06/2019,Nữ,QNIN,CLB_00941,CLB Cung văn hoá TTN Quảng Ninh,Cấp 10
+108,V26-034774,Nguyễn Khánh Ngọc,03/02/2014,Nữ,QNIN,CLB_00941,CLB Cung văn hoá TTN Quảng Ninh,Cấp 10
+109,V26-034773,Nguyễn Bích Ngọc,26/06/2013,Nữ,QNIN,CLB_00941,CLB Cung văn hoá TTN Quảng Ninh,Cấp 10
+110,V26-034772,Trần An Khánh,20/08/2017,Nam,QNIN,CLB_00941,CLB Cung văn hoá TTN Quảng Ninh,Cấp 10
+111,V26-034771,Nguyễn Gia khiêm,18/08/2016,Nam,QNIN,CLB_00941,CLB Cung văn hoá TTN Quảng Ninh,Cấp 10
+112,V26-034770,Hoàng Minh Quang,31/10/2019,Nam,QNIN,CLB_00941,CLB Cung văn hoá TTN Quảng Ninh,Cấp 10
+113,V26-034769,Vũ Trịnh Quốc Bảo,13/07/2019,Nam,QNIN,CLB_00941,CLB Cung văn hoá TTN Quảng Ninh,Cấp 10
+114,V26-034768,Đặng Hà An,27/09/2017,Nữ,QNIN,CLB_00941,CLB Cung văn hoá TTN Quảng Ninh,Cấp 10
+115,V26-034767,Nguyễn Văn Bảo Lâm,31/05/2017,Nam,QNIN,CLB_00941,CLB Cung văn hoá TTN Quảng Ninh,Cấp 10
+116,V26-034766,Nguyễn Lê Quang Vinh,14/02/2019,Nam,QNIN,CLB_00941,CLB Cung văn hoá TTN Quảng Ninh,Cấp 10
+117,V26-034765,Phạm Minh Trí,18/06/2016,Nam,QNIN,CLB_00941,CLB Cung văn hoá TTN Quảng Ninh,Cấp 10
+118,V26-034764,Phạm Thục Chi,28/02/2016,Nữ,QNIN,CLB_00941,CLB Cung văn hoá TTN Quảng Ninh,Cấp 10
+119,V26-034763,Hà Nhật Minh,20/02/2017,Nam,QNIN,CLB_00941,CLB Cung văn hoá TTN Quảng Ninh,Cấp 10
+120,V26-034762,Đặng Ngọc Hân,16/11/2014,Nữ,QNIN,CLB_00941,CLB Cung văn hoá TTN Quảng Ninh,Cấp 10
+121,V23-038744,Lâm Kim Ngân,09/11/2011,Nữ,TNIN,CLB_00330,CLB Taekwondo TRẦN HIỀN,Cấp 7
+122,V25-029424,Trần Đan Thanh,08/10/2012,Nữ,VLON,CLB_01305,CLB Tiểu Cần,1 Đẳng
+123,V25-053893,Mai Xuân Bảo,11/12/2014,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 9
+124,V25-023165,Lâm Thiên Tân,17/08/2001,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 4
+125,V23-069748,Nguyễn Ngọc Ánh Dương,11/08/2007,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,2 Đẳng
+126,V23-015877,Phan Thụy Ngọc An,28/05/2011,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,1 Đẳng
+127,V23-015858,Phan Thụy Ngọc Ánh,01/12/2004,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,2 Đẳng
+128,V23-132044,Lý Kiến Quân,30/08/2007,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 3
+129,V24-058525,Nguyễn Kim Ngọc,17/03/2005,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 5
+130,V25-011960,Thái Huỳnh Bảo Hân,30/06/2018,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 3
+131,V24-073090,Dương Lưu Khánh Vinh,04/05/2018,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 3
+132,V25-011961,Phan Trần Bảo Thanh,15/07/2018,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 3
+133,V25-053891,Trần Phan Ngọc Danh,16/02/2013,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 7
+134,V25-074758,Trần Minh Tuyển,03/08/2006,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 8
+135,V25-022760,Dương Thái Hoàng,14/04/2012,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 5
+136,V25-021355,Nam Raoul,14/03/2010,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 4
+137,V23-085038,Nguyễn Quang,14/07/2018,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 9
+138,V23-015202,Trương Gia Nhi,05/10/2012,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 3
+139,V24-049124,Lê Thị Thanh Tiến,01/04/2001,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 2
+140,V25-008537,Ngô Quốc Vinh,28/04/2017,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 4
+141,V25-004683,Võ Trần Thùy Trâm,09/03/2018,Nữ,DNAI,CLB_01605,CLB Taekwondo Lê Văn Tám,Cấp 4
+142,V24-075660,Lê Quân Bảo,15/07/2011,Nam,DNAI,CLB_01605,CLB Taekwondo Lê Văn Tám,Cấp 5
+143,V24-055476,Nguyễn Hữu Phúc Thiện,12/08/2010,Nam,DNAI,CLB_01605,CLB Taekwondo Lê Văn Tám,Cấp 2
+144,V24-007758,Trương Hồng Vy,30/01/2012,Nữ,DNAI,CLB_01605,CLB Taekwondo Lê Văn Tám,Cấp 1
+145,V26-034761,Nguyễn Phúc An Nhiên,04/01/2020,Nữ,DTHA,CLB_00434,CLB Kim Sơn,Cấp 10
+146,V26-034760,Nguyễn Ngọc Anh Thư,26/09/2013,Nữ,DTHA,CLB_00434,CLB Kim Sơn,Cấp 10
+147,V26-034759,Phan Ngô Thanh Điền,04/04/2014,Nam,DTHA,CLB_00434,CLB Kim Sơn,Cấp 10
+148,V26-034758,Lê Trần Tài Lộc,01/03/2014,Nam,DTHA,CLB_00434,CLB Kim Sơn,Cấp 10
+149,V26-034757,Lê Hoàng Yến Ngọc,22/11/2016,Nữ,DTHA,CLB_00434,CLB Kim Sơn,Cấp 10
+150,V26-034756,Nguyễn Hoàng Gia,20/11/2017,Nam,DTHA,CLB_00434,CLB Kim Sơn,Cấp 10
+151,V26-034755,Trần Đỗ Như Ý,01/04/2009,Nữ,HCMI,CLB_01403,CLBTaekwondo Phường Tân Uyên,Cấp 10
+152,V26-034754,Hoàng Ngọc Bảo,27/12/2015,Nam,HCMI,CLB_01403,CLBTaekwondo Phường Tân Uyên,Cấp 10
+153,V26-034753,Hoàng Ngọc bảo Uyên,07/12/2017,Nữ,HCMI,CLB_01403,CLBTaekwondo Phường Tân Uyên,Cấp 10
+154,V26-034752,Nguyễn Minh Hiếu,30/09/2017,Nam,HCMI,CLB_01403,CLBTaekwondo Phường Tân Uyên,Cấp 10
+155,V26-034751,Lê Thị Ti Na,13/07/2016,Nữ,HCMI,CLB_01403,CLBTaekwondo Phường Tân Uyên,Cấp 10
+156,V26-034750,Nguyễn Phước An,04/12/2017,Nam,HCMI,CLB_01403,CLBTaekwondo Phường Tân Uyên,Cấp 10
+157,V26-034749,Mai Hoàng Tường Vi,07/02/2019,Nữ,HCMI,CLB_01403,CLBTaekwondo Phường Tân Uyên,Cấp 10
+158,V26-034748,Huỳnh Trúc My,15/08/2009,Nữ,HCMI,CLB_01403,CLBTaekwondo Phường Tân Uyên,Cấp 10
+159,V26-034747,Nguyễn Đặng Bảo An,17/11/2013,Nam,HCMI,CLB_01403,CLBTaekwondo Phường Tân Uyên,Cấp 10
+160,V26-034746,Hoàng Thị Quỳnh Anh,08/10/2013,Nữ,HCMI,CLB_01403,CLBTaekwondo Phường Tân Uyên,Cấp 10
+161,V26-034745,Hoàng Hồng Phúc,10/04/2018,Nam,HCMI,CLB_01403,CLBTaekwondo Phường Tân Uyên,Cấp 10
+162,V26-034744,Nguyễn Ngọc Phương Nhi,01/06/2016,Nữ,HCMI,CLB_01403,CLBTaekwondo Phường Tân Uyên,Cấp 10
+163,V26-034743,Trần Hạnh An,13/03/2014,Nữ,HPHO,CLB_00852,CLB Huyện đoàn Thuỷ Nguyên,Cấp 10
+164,V26-034742,Vũ Khải Lâm,26/11/2014,Nam,HPHO,CLB_00852,CLB Huyện đoàn Thuỷ Nguyên,Cấp 10
+165,V26-034741,Nguyễn Trần Nhật Nam,29/01/2019,Nam,HPHO,CLB_00852,CLB Huyện đoàn Thuỷ Nguyên,Cấp 10
+166,V26-034740,Nguyễn Thị Anh Thư,10/07/2014,Nữ,HPHO,CLB_00852,CLB Huyện đoàn Thuỷ Nguyên,Cấp 10
+167,V26-034739,Dương Khánh Uyên,23/01/2013,Nữ,DNAN,CLB_00664,CLB Thanh Niên,Cấp 10
+168,V26-034738,Đỗ Uyên Nhi,04/09/2013,Nữ,DNAN,CLB_00664,CLB Thanh Niên,Cấp 10
+169,V26-034737,Huỳnh Ngọc Ánh Dương,16/01/2013,Nữ,DNAN,CLB_00664,CLB Thanh Niên,Cấp 10
+170,V26-034736,Dương Ngọc Diễm,04/12/2013,Nữ,DNAN,CLB_00664,CLB Thanh Niên,Cấp 10
+171,V26-034735,Nguyễn Ngọc Hà,05/07/2011,Nữ,DNAN,CLB_00664,CLB Thanh Niên,Cấp 10
+172,V26-034734,Phan Văn Tùng Quân,28/09/2010,Nam,DNAN,CLB_00664,CLB Thanh Niên,Cấp 10
+173,V26-034733,Lê Ngọc Gia Hân,04/06/2018,Nữ,HCMI,CLB_00733,CLB Taekwondo An Tây,Cấp 10
+174,V26-034732,Phạm Dương Thiên Phúc,21/01/2018,Nam,HCMI,CLB_00733,CLB Taekwondo An Tây,Cấp 10
+175,V26-034731,Trần Gia Phú,14/04/2018,Nam,HCMI,CLB_00733,CLB Taekwondo An Tây,Cấp 10
+176,V26-034730,Nguyễn Chí Phong,11/08/2014,Nam,DLAK,CLB_00650,CLB Ea Bung,Cấp 10
+177,V26-034729,Nguyễn Lê Bảo Yến,10/12/2016,Nữ,DLAK,CLB_00530,CLB Taekwondo Hoà Phú,Cấp 10
+178,V26-034728,Nguyễn Quang Đức,15/03/2015,Nam,DLAK,CLB_00530,CLB Taekwondo Hoà Phú,Cấp 10
+179,V26-034727,Nguyễn Diệu Anh,15/08/2018,Nữ,DLAK,CLB_00530,CLB Taekwondo Hoà Phú,Cấp 10
+180,V26-034726,Nguyễn Anh Khôi,05/09/2018,Nam,DLAK,CLB_00530,CLB Taekwondo Hoà Phú,Cấp 10
+181,V26-034725,Vũ Hoàng Minh Hằng,23/10/2010,Nữ,DLAK,CLB_00530,CLB Taekwondo Hoà Phú,Cấp 10
+182,V26-034724,Lê Thiên Ân,08/08/2016,Nam,DLAK,CLB_00530,CLB Taekwondo Hoà Phú,Cấp 10
+183,V26-034723,Nguyễn Ngô Bảo Thy,06/03/2015,Nữ,DLAK,CLB_00530,CLB Taekwondo Hoà Phú,Cấp 10
+184,V26-034722,Hồ Sỹ Tuấn Kiệt,25/05/2013,Nam,DLAK,CLB_00530,CLB Taekwondo Hoà Phú,Cấp 10
+185,V26-034721,Đặng Lê Minh Dũng,01/01/2013,Nam,DLAK,CLB_00530,CLB Taekwondo Hoà Phú,Cấp 10
+186,V26-034720,Nguyễn Gia Long,21/06/2012,Nam,DLAK,CLB_00530,CLB Taekwondo Hoà Phú,Cấp 10
+187,V26-034719,Phạm Ngọc Bảo Nhi,23/01/2019,Nữ,DLAK,CLB_00530,CLB Taekwondo Hoà Phú,Cấp 10
+188,V26-034718,Nguyễn Đức Mạnh,19/06/2011,Nam,DLAK,CLB_00530,CLB Taekwondo Hoà Phú,Cấp 10
+189,V26-034717,Nguyễn Tấn Chấn Phong,03/05/2020,Nam,DLAK,CLB_00530,CLB Taekwondo Hoà Phú,Cấp 10
+190,V26-034716,Trần Lương Đạt,23/10/2010,Nam,DLAK,CLB_00530,CLB Taekwondo Hoà Phú,Cấp 10
+191,V26-034715,Trieu Thanh Lam,26/01/2012,Nữ,BKAN,CLB_00810,CLB Bắc Kạn,Cấp 10
+192,V26-034714,Ngo ly Bao An,01/08/2015,Nam,BKAN,CLB_00810,CLB Bắc Kạn,Cấp 10
+193,V26-034713,Đặng Nguyễn Mẫn Nhi,31/07/2018,Nữ,TNIN,CLB_00330,CLB Taekwondo TRẦN HIỀN,Cấp 10
+194,V26-034712,Nguyễn Thị Phương Nghi,13/10/2015,Nữ,TNIN,CLB_00330,CLB Taekwondo TRẦN HIỀN,Cấp 10
+195,V26-034711,Lê Thị Mộng Mơ,28/03/2016,Nữ,TNIN,CLB_00330,CLB Taekwondo TRẦN HIỀN,Cấp 10
+196,V26-034710,Nguyễn Lê Anh Thơ,11/02/2015,Nữ,TNIN,CLB_00330,CLB Taekwondo TRẦN HIỀN,Cấp 10
+197,V26-034709,Phan Thị Mộng Trinh,29/12/2015,Nữ,TNIN,CLB_00330,CLB Taekwondo TRẦN HIỀN,Cấp 10
+198,V26-034708,Tô Cẩm Hường,03/04/2016,Nữ,TNIN,CLB_00330,CLB Taekwondo TRẦN HIỀN,Cấp 10
+199,V26-034707,Ngô Bảo Châu,12/11/2019,Nữ,TNIN,CLB_00330,CLB Taekwondo TRẦN HIỀN,Cấp 10
+200,V26-034706,Nguyễn Thanh Hiếu,15/12/2015,Nam,TNIN,CLB_00330,CLB Taekwondo TRẦN HIỀN,Cấp 10
+201,V26-034705,Nguyễn Khôi Nguyên,10/04/2016,Nam,TNIN,CLB_00330,CLB Taekwondo TRẦN HIỀN,Cấp 10
+202,V26-034704,Phạm Lê Kim Cát,26/10/2017,Nữ,TNIN,CLB_00330,CLB Taekwondo TRẦN HIỀN,Cấp 10
+203,V26-034703,Phần Trần Quốc Kiệt,11/01/2014,Nam,TNIN,CLB_00330,CLB Taekwondo TRẦN HIỀN,Cấp 10
+204,V26-034702,Nguyễn Duy Tân,11/05/2016,Nam,TNIN,CLB_00330,CLB Taekwondo TRẦN HIỀN,Cấp 10
+205,V26-034701,Nguyễn Minh Đăng,02/12/2012,Nam,TNIN,CLB_00330,CLB Taekwondo TRẦN HIỀN,Cấp 10
+206,V26-034700,Hồ Thiên Phúc,03/12/2018,Nam,TNIN,CLB_00330,CLB Taekwondo TRẦN HIỀN,Cấp 10
+207,V26-034699,Lâm Hạo Nhân,19/05/2015,Nam,TNIN,CLB_00330,CLB Taekwondo TRẦN HIỀN,Cấp 10
+208,V23-001993,Trang Ngọc Thanh Bình,24/09/2009,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 1
+209,V22-006274,Hoàng Lê Vy,20/09/2014,Nữ,DTHA,CLB_00566,CLB Trần Thanh Phương,Cấp 6
+210,V24-025481,Vũ Hoàng Nam,06/06/2016,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 2
+211,V24-025491,Trịnh Phương Anh,23/02/2017,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 2
+212,V24-042622,Trần Thế Anh,19/11/2017,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 2
+213,V24-078953,Bùi Tuấn Lộc,07/05/2012,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 3
+214,V24-042625,Lê Đức Dũng,08/11/2015,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 4
+215,V24-042639,Hoàng Tuấn Long,21/07/2014,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 4
+216,V24-025484,Nguyễn Tùng Dương,12/07/2016,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 3
+217,V24-078957,Hà Trọng Phú,21/12/2012,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 5
+218,V24-042636,Nguyễn Hoàng Ngân,25/12/2013,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 5
+219,V25-010355,Nguyễn Thảo Linh,29/08/2018,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 5
+220,V24-042635,Nguyễn Bảo Anh,18/05/2016,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 5
+221,V25-029622,Lê Hải Long,08/03/2012,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 5
+222,V25-029618,Hoàng Phương Minh,19/01/2015,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 5
+223,V25-010344,Vũ Thảo Linh,26/04/2014,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 7
+224,V25-010354,Nguyễn Thảo Lam,26/10/2014,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 6
+225,V25-029619,Hoàng Minh Hương,03/03/2017,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 6
+226,V24-042665,Trần Hoàng Nam,25/03/2015,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 6
+227,V25-029610,Ngọ Nguyễn Minh Hoàng,27/05/2019,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 6
+228,V24-025480,Vũ Hoàng Việt,06/06/2016,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 2
+229,V25-080716,Bùi Xuân Phúc,02/12/2018,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 9
+230,V25-080719,Nguyễn Thảo Nhi,30/03/2016,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 9
+231,V25-080720,Nguyễn Mạnh Cường,27/05/2012,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 9
+232,V25-080702,Đỗ Duy Nhật,27/02/2019,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 9
+233,V25-030553,Bùi Hữu Cảnh,27/02/1992,Nam,QNIN,CLB_01204,Trung Tâm Taekwondo Hữu Cảnh,3 đẳng
+234,V25-044567,Quan Trung Hiếu,30/05/2019,Nam,HCMI,CLB_00107,CLB Thiếu Nhi Kick,Cấp 7
+235,V26-016283,Nguyễn Ngọc Khánh Ân,24/02/2020,Nữ,HCMI,CLB_00107,CLB Thiếu Nhi Kick,Cấp 9
+236,V24-063461,Ngô Thị Mỹ Nhân,08/12/2012,Nữ,VLON,CLB_01695,CLB TAEKWONDO TẬP NGÃI,Cấp 1
+237,V23-128969,Phan Minh Nhã,15/06/2013,Nam,VLON,CLB_01695,CLB TAEKWONDO TẬP NGÃI,Cấp 1
+238,V24-063449,Phạm Đăng Khoa,27/07/2014,Nam,VLON,CLB_01695,CLB TAEKWONDO TẬP NGÃI,Cấp 1
+239,V24-063456,Bùi Hoàng Khang,10/04/2015,Nam,VLON,CLB_01695,CLB TAEKWONDO TẬP NGÃI,Cấp 1
+240,V25-059606,Võ Quốc Thịnh,15/02/2016,Nam,AGIA,CLB_00979,CLB Taekwondo Hội An,Cấp 8
+241,V25-008140,Trần Phú Thịnh,17/01/2015,Nam,VLON,CLB_01116,CLB Cầu Ngang,Cấp 3
+242,V24-003060,Trần Thị Bảo Trân,06/11/2013,Nữ,VLON,CLB_01116,CLB Cầu Ngang,Cấp 1
+243,V25-026345,Võ Trúc Linh,08/10/2014,Nữ,AGIA,CLB_00979,CLB Taekwondo Hội An,Cấp 5
+244,V22-002483,Trần Đình Bích Duyên,09/07/1999,Nữ,CTHO,CLB_00222,CLB Năng Khiếu,Cấp 1
+245,V23-016777,Nguyễn Thị Kiều Tiên,31/01/2007,Nữ,HCMI,CLB_00020,CLB Hổ Kình,3 đẳng
+246,V23-007910,Phan Thị Thu Lan,21/06/2004,Nữ,HCMI,CLB_00020,CLB Hổ Kình,4 Đẳng
+247,V23-072698,Ngô Bảo Duyên,03/01/2015,Nam,CMAU,CLB_00682,CLB Trung tâm Huấn luyện tỉnh Cà Mau,Cấp 3
+248,V25-067346,Trương Minh Hoàng,01/05/2016,Nam,GLAI,CLB_00931,CLB Lion Quy Nhơn,Cấp 9
+249,V26-034635,Phan Thiên Khánh,07/09/2017,Nam,CTHO,CLB_00454,CLB Hoa Phượng,Cấp 10
+250,V26-034634,Phan Bùi Minh Khang,12/02/2017,Nam,CTHO,CLB_00454,CLB Hoa Phượng,Cấp 10
+251,V26-034633,Võ Ánh Loan,20/12/2017,Nữ,CTHO,CLB_00454,CLB Hoa Phượng,Cấp 10
+252,V26-034632,Nguyễn Hồ Gia Bảo,24/10/2012,Nam,CTHO,CLB_00454,CLB Hoa Phượng,Cấp 10
+253,V26-034631,Lê Quốc Anh,09/02/2014,Nam,CTHO,CLB_00454,CLB Hoa Phượng,Cấp 10
+254,V26-034630,Trương Thị Ngọc Yến,10/07/2012,Nữ,CTHO,CLB_00454,CLB Hoa Phượng,Cấp 10
+255,V26-034629,Đặng Hoàng Thiên Ân,01/06/2014,Nam,CTHO,CLB_00454,CLB Hoa Phượng,Cấp 10
+256,V26-034628,Dương Trần Ngọc Lan Khuê,29/10/2016,Nữ,CTHO,CLB_00454,CLB Hoa Phượng,Cấp 10
+257,V26-034627,Dương Trần Ngọc Phát,17/04/2015,Nam,CTHO,CLB_00454,CLB Hoa Phượng,Cấp 10
+258,V26-034626,Chung Ngọc Quỳnh,17/04/2016,Nữ,CTHO,CLB_00454,CLB Hoa Phượng,Cấp 10
+259,V26-034625,Trương Minh Anh Tuấn,02/08/2015,Nam,CTHO,CLB_00454,CLB Hoa Phượng,Cấp 10
+260,V26-034624,Triệu Lâm Mẫn Nhi,06/05/2017,Nữ,CTHO,CLB_00454,CLB Hoa Phượng,Cấp 10
+261,V26-034623,Lương Huỳnh Phương,21/06/2017,Nữ,CTHO,CLB_00454,CLB Hoa Phượng,Cấp 10
+262,V26-034622,Chương Hạo Thiên,20/04/2014,Nam,CTHO,CLB_00454,CLB Hoa Phượng,Cấp 10
+263,V26-034621,Nguyễn Thảo Vy,20/11/2017,Nữ,CTHO,CLB_00454,CLB Hoa Phượng,Cấp 10
+264,V26-034620,Trương Tú Ngọc,20/08/2019,Nữ,CTHO,CLB_00454,CLB Hoa Phượng,Cấp 10
+265,V26-034619,Nguyễn Minh Khang,22/02/2018,Nam,LDON,CLB_00975,CLB Taekwondo Đức Mạnh,Cấp 10
+266,V26-034618,Nguyễn Thành Duyệt,06/01/2017,Nam,LDON,CLB_00975,CLB Taekwondo Đức Mạnh,Cấp 10
+267,V26-034617,Nguyễn Phạm Hải Băng,01/01/2019,Nữ,LDON,CLB_00975,CLB Taekwondo Đức Mạnh,Cấp 10
+268,V26-034616,Phạm Thiên Phú,14/07/2018,Nam,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+269,V26-034615,Bùi Khôi Vỹ,05/06/2015,Nam,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+270,V26-034614,Nguyễn Ngọc Gia Bảo,20/12/2012,Nam,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+271,V26-034613,Mai Thanh Tuấn,03/09/2014,Nam,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+272,V26-034612,Nguyễn Thị Kim Ý,11/03/2014,Nữ,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+273,V26-034611,Hàng An Phúc,08/07/2019,Nam,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+274,V26-034610,Phạm Bảo Lộc,18/02/2013,Nam,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+275,V26-034609,Phan Đình Trọng Trí,04/12/2013,Nam,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+276,V26-034608,Nguyễn Huỳnh Anh Thư,29/08/2009,Nữ,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+277,V26-034607,Dương Huỳnh Nhất Tường,27/07/2019,Nam,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+278,V26-034606,Trần Nguyễn Gia Hưng,04/07/2018,Nam,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+279,V26-034605,Huỳnh Trung Cường,08/09/2014,Nam,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+280,V26-034604,Lê Ngọc Quỳnh,28/11/2011,Nữ,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+281,V26-034603,Đào Thị Ngọc Bích,18/11/2015,Nữ,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+282,V26-034602,Lê Nhật Châu,07/05/2013,Nam,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+283,V26-034601,Hàng Thiên Phúc,07/11/2016,Nam,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+284,V26-034600,Bùi Tấn Nam,09/11/2013,Nam,DLAK,CLB_01146,CLB Taekwondo THPT Trần Bình Trọng,Cấp 10
+285,V26-034599,Nguyễn Thị Ngọc Thảo,11/11/2018,Nữ,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+286,V26-034598,Nguyễn Nhã Phương,19/06/2017,Nữ,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+287,V26-034597,Lê Thị Kiều Mỹ,01/05/2019,Nữ,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+288,V26-034596,Nguyễn Ngọc Thiên Phú,02/02/2014,Nam,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+290,V26-034594,Nguyễn Quốc Bảo,10/01/2017,Nam,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+289,V26-034595,Lê Anh Tuấn,04/07/2017,Nam,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+291,V26-034593,Cao Thị Ngọc Diệp,13/06/2012,Nữ,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+292,V26-034592,Huỳnh Tuấn Anh,16/12/2013,Nam,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+293,V26-034591,Phạm Minh Thư,17/04/2015,Nữ,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+294,V26-034590,Võ Hạo Nam,15/06/2016,Nam,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+295,V26-034589,Võ Thị Bảo Nghi,13/02/2012,Nữ,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+296,V26-034588,Nguyễn Hoàng Gia Bảo,29/09/2014,Nam,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+297,V26-034587,Nguyễn Gia Khánh,25/08/2017,Nam,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+298,V26-034586,Nguyễn Ngọc Anh Thư,26/08/2012,Nữ,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+299,V26-034585,Trần Thị Hồng Thắm,20/03/2013,Nữ,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+300,V26-034584,Phan Ngọc Thúy Vy,09/10/2013,Nữ,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+301,V26-034583,Phan Thị Xuân Mai,13/02/2012,Nữ,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+302,V26-034582,Nguyễn Ngọc Hân,23/12/2015,Nữ,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+303,V26-034581,Ngô Thị Kim Thơ,09/04/2015,Nữ,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+304,V26-034580,Nguyễn Thị Ngọc Hạ,20/03/2020,Nữ,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+305,V26-034579,Nguyễn Ngọc Thiện,06/01/2011,Nam,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+306,V26-034578,Phan Nhật Hoài,19/12/2012,Nam,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+308,V26-034576,Elizaveta Golovkova,12/09/2014,Nữ,KHOA,CLB_01572,CLB NKT Training Center,Cấp 10
+307,V26-034577,Ngô Văn Trí Thức,21/08/2018,Nam,CTHO,CLB_00378,CLB Cờ Đỏ,Cấp 10
+309,V26-034575,Lưu Gia An,10/01/2017,Nữ,KHOA,CLB_01572,CLB NKT Training Center,Cấp 10
+310,V26-034574,Nguyễn Hải Vân Thanh,10/04/1992,Nữ,KHOA,CLB_01572,CLB NKT Training Center,Cấp 10
+311,V26-034573,Bùi Hà Trang,05/02/2014,Nữ,KHOA,CLB_01572,CLB NKT Training Center,Cấp 10
+312,V26-034572,Võ Như Ý,11/10/2013,Nữ,KHOA,CLB_01572,CLB NKT Training Center,Cấp 10
+313,V26-034571,Võ Ngọc Bảo Trâm,22/09/2018,Nữ,KHOA,CLB_01572,CLB NKT Training Center,Cấp 10
+314,V26-034570,Trần Thanh Ngân,01/05/2012,Nam,KHOA,CLB_01572,CLB NKT Training Center,Cấp 10
+315,V26-034569,Nguyễn Khánh Ngọc,12/07/2013,Nữ,KHOA,CLB_01572,CLB NKT Training Center,Cấp 10
+316,V26-034568,Nguyễn Phúc Hoàng Khôi,11/10/2016,Nam,KHOA,CLB_01572,CLB NKT Training Center,Cấp 10
+317,V26-034567,Nguyễn Phúc Hoàng Khang,28/12/2009,Nam,KHOA,CLB_01572,CLB NKT Training Center,Cấp 10
+318,V26-034566,Huỳnh Đức Quý,29/02/2016,Nam,DNAI,CLB_00493,CLB Phi Đoàn 2,Cấp 10
+319,V26-034565,Ngô Quang Thiên Phát,01/07/2017,Nam,DNAI,CLB_00493,CLB Phi Đoàn 2,Cấp 10
+320,V26-034564,Lý Ích Phong,24/02/2020,Nam,DNAI,CLB_00493,CLB Phi Đoàn 2,Cấp 10
+321,V26-034563,Nguyễn Minh Hoàng,21/09/2018,Nam,DNAI,CLB_00493,CLB Phi Đoàn 2,Cấp 10
+322,V26-034562,Trần Thị Ngọc Trâm,04/03/2026,Nữ,DNAI,CLB_01136,CLB Phi Đoàn1,Cấp 10
+323,V26-034561,Bùi Minh Hoàng,12/04/2016,Nam,DNAI,CLB_01136,CLB Phi Đoàn1,Cấp 10
+324,V26-034560,Trần Ngọc Gia Hân,12/12/2013,Nữ,DNAI,CLB_01136,CLB Phi Đoàn1,Cấp 10
+325,V26-034559,Lâm Thanh Nhàn,08/08/2016,Nữ,HCMI,CLB_00054,CLB ĐHSP TDTT TP.HCM,Cấp 10
+326,V26-034558,Trần Ngọc Yến Nhi,25/10/2005,Nữ,TNIN,CLB_01117,CLB Nhà thiếu nhi Tân Biên,Cấp 10
+327,V26-034557,Lâm Khang,01/05/2004,Nam,TNIN,CLB_01117,CLB Nhà thiếu nhi Tân Biên,Cấp 10
+328,V26-034556,Nguyễn Quang Dũng,12/12/2011,Nam,TNIN,CLB_01117,CLB Nhà thiếu nhi Tân Biên,Cấp 10
+329,V26-034555,Trần Lê Khang,20/07/2018,Nam,TNIN,CLB_01117,CLB Nhà thiếu nhi Tân Biên,Cấp 10
+330,V26-034554,Nguyễn Tuấn Kiệt,13/03/2018,Nam,TNIN,CLB_01117,CLB Nhà thiếu nhi Tân Biên,Cấp 10
+331,V26-034553,Hoàng Bảo Long,27/12/2016,Nam,TNIN,CLB_01117,CLB Nhà thiếu nhi Tân Biên,Cấp 10
+332,V26-034552,Cao Thuỳ Linh,15/12/2018,Nữ,TNIN,CLB_01117,CLB Nhà thiếu nhi Tân Biên,Cấp 10
+333,V26-034551,Nguyễn Khánh My,21/04/2017,Nữ,TNIN,CLB_01117,CLB Nhà thiếu nhi Tân Biên,Cấp 10
+334,V26-034550,Nguyễn Xuân Vy,01/01/2016,Nữ,TNIN,CLB_01117,CLB Nhà thiếu nhi Tân Biên,Cấp 10
+335,V26-034549,Nguyễn Khánh Vy,01/01/2016,Nữ,TNIN,CLB_01117,CLB Nhà thiếu nhi Tân Biên,Cấp 10
+336,V26-034548,Đinh Nguyễn Đông Trà,30/11/2018,Nữ,TNIN,CLB_01117,CLB Nhà thiếu nhi Tân Biên,Cấp 10
+337,V26-034547,Lô Thị Trà My,11/08/2016,Nữ,TNIN,CLB_01117,CLB Nhà thiếu nhi Tân Biên,Cấp 10
+338,V26-034546,Đỗ Ngọc Thảo Dương,18/11/2018,Nữ,TNIN,CLB_01117,CLB Nhà thiếu nhi Tân Biên,Cấp 10
+339,V26-034545,Lê Thị Như Ý,20/11/2018,Nữ,TNIN,CLB_01117,CLB Nhà thiếu nhi Tân Biên,Cấp 10
+340,V26-034544,Đỗ Thành Đạt,01/11/2018,Nam,TNIN,CLB_01117,CLB Nhà thiếu nhi Tân Biên,Cấp 10
+341,V26-034543,Phan Quốc Huy,21/04/2015,Nam,TNIN,CLB_01117,CLB Nhà thiếu nhi Tân Biên,Cấp 10
+342,V26-034542,Nguyễn Vũ Hải Phúc,29/05/2020,Nam,QDOI,CLB_01498,CLB Quân Khu 7,Cấp 10
+343,V26-034541,Phạm Nguyễn Trí Đức,16/11/2015,Nam,HCMI,CLB_01541,CLB Taekwondo Duy Tâm,Cấp 10
+344,V26-034540,Nguyễn Minh Đức,11/05/2012,Nam,HCMI,CLB_01541,CLB Taekwondo Duy Tâm,Cấp 10
+345,V26-034539,Huỳnh Bảo Long,29/01/2012,Nam,HCMI,CLB_01541,CLB Taekwondo Duy Tâm,Cấp 10
+346,V26-034538,Nguyễn Tường Vi,18/10/2015,Nữ,HCMI,CLB_01541,CLB Taekwondo Duy Tâm,Cấp 10
+347,V26-034537,Bùi Gia Bảo,02/10/2017,Nam,HCMI,CLB_01541,CLB Taekwondo Duy Tâm,Cấp 10
+348,V26-034536,Bùi Huy Hoàng,20/03/2019,Nam,HCMI,CLB_01541,CLB Taekwondo Duy Tâm,Cấp 10
+349,V26-034535,Nguyễn Bảo Trân,11/02/2018,Nữ,HCMI,CLB_01541,CLB Taekwondo Duy Tâm,Cấp 10
+350,V26-034534,Trần Ngọc Khánh Vy,09/10/2013,Nữ,HCMI,CLB_01541,CLB Taekwondo Duy Tâm,Cấp 10
+351,V26-034533,Huỳnh Ngọc,26/07/2019,Nữ,HCMI,CLB_01541,CLB Taekwondo Duy Tâm,Cấp 10
+352,V26-034532,Đoàn Phương Thảo,18/06/2014,Nữ,HCMI,CLB_01541,CLB Taekwondo Duy Tâm,Cấp 10
+353,V26-034531,Đoàn Phương Ngọc,18/08/2016,Nữ,HCMI,CLB_01541,CLB Taekwondo Duy Tâm,Cấp 10
+354,V26-034530,Lâm Vũ Huy Hoàng,31/05/2020,Nam,HCMI,CLB_01541,CLB Taekwondo Duy Tâm,Cấp 10
+355,V26-034529,Nguyễn Cảnh Đăng Anh,28/10/2016,Nam,HCMI,CLB_01541,CLB Taekwondo Duy Tâm,Cấp 10
+356,V26-034528,Phan Thiên Phước,14/10/2017,Nam,HCMI,CLB_01541,CLB Taekwondo Duy Tâm,Cấp 10
+357,V26-034527,Hà Đào Thanh Sang,30/06/2018,Nam,HCMI,CLB_01541,CLB Taekwondo Duy Tâm,Cấp 10
+358,V26-034526,Trầm Thu Tiền,18/12/2018,Nữ,VLON,CLB_01140,CLB NT The Golden Cat ARBT,Cấp 10
+359,V26-034525,Trần Huế Chi,27/05/2015,Nữ,VLON,CLB_01140,CLB NT The Golden Cat ARBT,Cấp 10
+360,V26-034524,Đinh Thị Hồng Trang,07/12/2014,Nữ,VLON,CLB_01140,CLB NT The Golden Cat ARBT,Cấp 10
+361,V26-034523,Nguyễn Thị Ngọc Thúy,01/01/2014,Nữ,VLON,CLB_01140,CLB NT The Golden Cat ARBT,Cấp 10
+362,V26-034522,Trầm Thu Giao,22/06/2013,Nữ,VLON,CLB_01140,CLB NT The Golden Cat ARBT,Cấp 10
+363,V26-034521,Nguyễn Thị Ngọc Hạnh,31/03/2014,Nữ,AGIA,CLB_00979,CLB Taekwondo Hội An,Cấp 10
+364,V26-034520,Lê Thị Ngọc Dung,13/02/2014,Nữ,AGIA,CLB_00979,CLB Taekwondo Hội An,Cấp 10
+365,V26-034519,Nguyễn Thế Đức Minh,13/11/2014,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+366,V26-034518,Trương Tuấn Hùng,15/11/2012,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+367,V26-034517,Bùi Đăng Khánh,30/04/2015,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+368,V26-034516,Phạm Tuấn Phong,18/05/2010,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+369,V26-034515,Nguyễn Tuấn Kiệt,12/06/2013,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+370,V26-034514,Phạm Văn Sâm,18/12/2001,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+371,V26-034513,Nguyễn Tiến Khoa,14/03/2015,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+372,V26-034512,Thái Hiểu Hân,04/04/2011,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+373,V26-034511,Nguyễn Gia Hưng,19/12/2018,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+374,V26-034510,Đặng Thị Nhã Đan,22/09/2010,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+375,V26-034509,Phạm Tùng Lâm,18/09/2013,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+376,V26-034508,Nguyễn Hà Phương,03/05/2018,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+377,V26-034507,Nguyễn Bảo Nam,11/10/2019,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+378,V26-034506,Nguyễn Hoàng Tùng,11/11/2020,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+379,V26-034505,Trần Đức Phúc,12/01/2013,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+380,V26-034504,Mai Ngọc Diệp,14/04/2014,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+381,V26-034503,Đoàn Hương Thuỷ,04/02/2014,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+382,V26-034502,Nguyễn Hoàng Bảo Anh,30/01/2016,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+383,V26-034501,Trần Đức Phát,12/01/2013,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+384,V26-034500,Phạm Đức Phúc,10/09/2020,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+385,V26-034499,Nguyễn Nhật Huy,02/05/2020,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+386,V26-034498,Nguyễn Quang Phát,02/11/2020,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+387,V26-034497,Bùi Viết Hưng,18/11/2016,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+388,V26-034496,Vương Tuấn Minh,26/02/2018,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+389,V26-034495,Nguyễn Minh Ngọc,16/09/2016,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+390,V26-034494,Nguyễn Minh Hưng,11/05/2009,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+391,V26-034493,Nguyễn Minh Tùng,26/08/2013,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+392,V26-034492,Nguyễn Phương Linh,23/02/2010,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+393,V26-034491,Nguyễn Minh Thu,21/11/2016,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+394,V26-034490,Tống Ngọc Hoa,02/07/2013,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+395,V26-034489,Nguyễn Hoàng Lân,05/11/2014,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+396,V26-034488,Trần Hoàng Bách,06/03/2019,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+397,V26-034487,Trần Hoàng An,06/03/2019,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+398,V26-034486,Trần Hoàng Phúc,06/03/2019,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+399,V26-034485,Đỗ Sơn Tùng,17/11/2014,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+400,V26-034484,Lê Đức An,19/07/2017,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+401,V26-034483,Bùi Quỳnh Anh,12/12/2015,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+402,V26-034482,Nguyễn Trần Đức Duy,02/04/2013,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+403,V26-034481,Nguyễn Minh Khôi,05/10/2019,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+404,V26-034480,Đỗ Quốc Hưng,31/05/2015,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+405,V26-034479,Đỗ Hùng Anh,05/12/2014,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+406,V26-034478,Phạm Minh Tuấn,03/01/2013,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+407,V26-034477,Nguyễn Huy Tuấn,18/06/2013,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+408,V26-034476,Khiếu Đình Dũng,21/01/2013,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+409,V26-034475,Phạm Ngọc Linh,08/10/2016,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+410,V26-034474,Nguyễn Gia Hưng,07/04/2015,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+412,V26-034472,Bùi Hoàng Gia Huy,18/10/2018,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+411,V26-034473,Vũ Bảo An,27/04/2016,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+413,V26-034471,Dương Diệu Anh,07/09/2016,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+414,V26-034470,Lê Tú Anh,27/02/2016,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+415,V26-034469,Vũ Tiến Đạt,10/01/2018,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+416,V26-034468,Vũ Cát Tường,14/01/2018,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+417,V26-034467,Cao Diệp Vy,27/10/2016,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+418,V26-034466,Vũ Cát Tường,10/03/2013,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+419,V26-034465,Nguyễn Nhã Uyên,05/04/2013,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+420,V26-034464,Lê Tuệ Nhi,10/06/2017,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+421,V26-034463,Phạm Khánh Vy,09/04/2012,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+422,V26-034462,Phạm Hương Giang,11/04/2012,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+423,V26-034461,Nguyễn Tuấn Đạt,06/07/2015,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+424,V26-034460,Hoàng Ngọc Minh Quân,20/11/2019,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+425,V26-034459,Giáp Minh Huy,10/04/2018,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+426,V26-034458,Lê Bảo Ngọc,30/01/2013,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+427,V26-034457,Nguyễn Bảo Trâm,25/09/2015,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+428,V26-034456,Vũ Thành Nam,06/03/2015,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+429,V26-034455,Nguyễn Hồng Phong,24/06/2015,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+430,V26-034454,Từ Chủ Quyền,29/10/2015,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+431,V26-034453,Đoàn Minh Thắng,11/09/2015,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+432,V26-034452,Nguyễn Hoàng Phúc,12/06/2020,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+433,V26-034451,Lại Lê Bảo Quyên,24/08/2013,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+434,V26-034450,Vũ Đăng Khôi,07/08/2017,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+435,V26-034449,Nguyễn Bảo Trang,18/10/2016,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+436,V26-034448,Nguyễn Khánh Hân,04/12/2013,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+438,V26-034446,Nguyễn Phúc Lâm,30/12/2020,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+437,V26-034447,Tịnh Thanh Tâm,30/05/2010,Nữ,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+439,V26-034445,Đào Đăng Khoa,03/03/2018,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+440,V26-034444,Đào Minh Khôi,12/05/2019,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+441,V26-034443,Đào Vĩ Minh,06/10/2016,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+442,V26-034442,Phạm Đình Anh,01/03/2017,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+443,V26-034441,Nguyễn Trần Gia Hưng,01/09/2017,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+444,V26-034440,Hoàng Thanh Lâm,19/07/2018,Nam,QNIN,CLB_00583,CLB Taekwondo Star,Cấp 10
+445,V26-034439,Nguyễn Quỳnh Anh,29/07/2013,Nữ,HPHO,CLB_01675,CLB Vĩnh Bảo,Cấp 10
+446,V26-034438,Nguyễn Hải Nam,01/02/2016,Nam,HPHO,CLB_01675,CLB Vĩnh Bảo,Cấp 10
+447,V26-034437,Phạm Uyên Nhi,01/08/2015,Nam,HPHO,CLB_01675,CLB Vĩnh Bảo,Cấp 10
+448,V26-034436,Phạm Phúc Vinh,02/02/2020,Nam,HPHO,CLB_01675,CLB Vĩnh Bảo,Cấp 10
+449,V26-034435,Vũ Ngọc Bảo Anh,08/09/2013,Nữ,HPHO,CLB_01675,CLB Vĩnh Bảo,Cấp 10
+450,V26-034434,Phạm Anh Trúc,12/01/2018,Nữ,HPHO,CLB_01675,CLB Vĩnh Bảo,Cấp 10
+451,V26-034433,Phạm Tâm Anh,04/02/2020,Nữ,HPHO,CLB_01675,CLB Vĩnh Bảo,Cấp 10
+452,V26-034432,Lê Nhật Nam,17/06/2015,Nam,HPHO,CLB_01675,CLB Vĩnh Bảo,Cấp 10
+453,V26-034431,Phạm Nguyên Khôi,28/02/2019,Nam,HPHO,CLB_01675,CLB Vĩnh Bảo,Cấp 10
+454,V26-034430,Đỗ Thanh Vân,03/09/2019,Nữ,HPHO,CLB_01675,CLB Vĩnh Bảo,Cấp 10
+455,V26-034429,Đỗ Kiến Nam,26/12/2015,Nam,HPHO,CLB_01675,CLB Vĩnh Bảo,Cấp 10
+456,V26-034428,Phạm Minh Quân,18/12/2016,Nam,HPHO,CLB_01675,CLB Vĩnh Bảo,Cấp 10
+457,V26-034427,Phạm Minh Châu,06/05/2015,Nữ,HPHO,CLB_01675,CLB Vĩnh Bảo,Cấp 10
+458,V26-034426,Bùi Đăng Khôi,17/06/2017,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+459,V26-034425,Lê Hũu Tình,31/08/2018,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+460,V26-034424,Nguyễn Hoàng Hải Đăng,27/01/2016,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+461,V26-034423,Trần Gia Khánh,14/11/2017,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+462,V26-034422,Cao Minh Khôi,07/07/2017,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+463,V26-034421,Lê Hũu Thiện,24/11/2015,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+464,V26-034420,Hồ Hữu Lộc,02/05/2017,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+465,V26-034419,Võ Chu Bin,18/09/2014,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+466,V26-034418,Nguyễn Trần Đình Phi,18/11/2016,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+467,V26-034417,Nguyễn Hiền Hòa,15/08/2015,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+468,V26-034416,Phan Cao Tín,09/04/2018,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+469,V26-034415,Nguyễn Nhật Nam,30/06/2019,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+470,V26-034414,Võ Nguyễn Hoài Anh,07/01/2017,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+471,V26-034413,Đỗ Khánh Luân,20/02/2017,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+472,V26-034412,Nguyễn Huỳnh Minh Khải,15/06/2016,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+473,V26-034411,Lý Nhật Hào,29/01/2016,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+474,V26-034410,La Hải Đăng,05/02/2017,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+475,V26-034409,Hồ Minh Tiến,03/04/2012,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+476,V26-034408,Đặng Quốc Huỳnh,09/02/2015,Nam,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+477,V26-034407,Phạm Thị Diễm My,14/03/2019,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+478,V26-034406,Huỳnh Nguyễn Ngọc Hân,21/11/2015,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+479,V26-034405,Nguyễn Lý Thảo Nguyên,05/05/2015,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+480,V26-034404,Nguyễn Ngọc Thúy,08/08/2018,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+481,V26-034403,Nguyễn Ngọc Bích Phương,07/02/2018,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+482,V26-034402,Tống Thị Kim Yến,26/10/2017,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+483,V26-034401,Võ Nguyễn Kim Thùy,07/12/2015,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+484,V26-034400,Huỳnh Gia Linh,25/07/2017,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+485,V26-034399,Phan Khánh Hà,10/05/2018,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+486,V26-034398,Nguyễn Ngọc Huỳnh Hoa,09/06/2018,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+487,V26-034397,Nguyễn Thị Bích Trâm,02/06/2017,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+488,V26-034396,Trần Khả Hân,20/09/2016,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+489,V26-034395,Lê Thị Cẩm Ly,23/01/2015,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+490,V26-034394,Lê Nguyễn Phương Uyên,15/09/2015,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+491,V26-034393,Nguyễn Tường Vy,02/07/2016,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+492,V26-034392,Phan Cao Hoàng Lan,19/02/2015,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+493,V26-034391,Nguyễn Thị Hồng Đào,29/12/2017,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+494,V26-034390,Nguyễn Phương Nhi,11/01/2015,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+495,V26-034389,Nguyễn Thị Ngọc Lan,08/01/2015,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+496,V26-034388,Trần Thị Như Ý,25/03/2018,Nữ,AGIA,CLB_00308,CLB Hoàng Kim,Cấp 10
+497,V26-033008,Nguyễn Trọng Sơn,26/09/2014,Nam,DNAN,CLB_00395,CLB Hồng Trí Dũng,Cấp 10
+498,V25-007697,Nguyễn Tấn Phát,28/03/2017,Nam,HCMI,CLB_00021,CLB Taekwondo Hồng Đức,Cấp 4
+499,V26-033756,Phếch Mong,20/09/2010,Nữ,TNIN,CLB_00291,CLB Trẻ Châu Thành,Cấp 10
+500,V26-033757,Nguyễn Thị Khánh Linh,24/05/2012,Nữ,TNIN,CLB_00291,CLB Trẻ Châu Thành,Cấp 10
+501,V23-017145,Kim Minh Đức,06/11/2010,Nam,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 5
+502,V24-084375,Đàm Đăng Quang,22/12/2015,Nam,HPHO,CLB_01675,CLB Vĩnh Bảo,Cấp 6
+503,V24-059798,Trần Phương Trường Vi,10/10/2011,Nữ,KHOA,CLB_00363,CLB NTĐ huyện Vạn Ninh,Cấp 3
+504,V25-057748,Đặng Gia Tường,16/06/2009,Nam,KHOA,CLB_00363,CLB NTĐ huyện Vạn Ninh,Cấp 7
+505,V26-034141,Trương Thị Thủy Tiên,16/11/2012,Nữ,CMAU,CLB_00682,CLB Trung tâm Huấn luyện tỉnh Cà Mau,Cấp 10
+506,V26-034140,Nguyễn Lâm Kim Tuyền,04/08/2012,Nữ,CMAU,CLB_00682,CLB Trung tâm Huấn luyện tỉnh Cà Mau,Cấp 10
+507,V26-034139,Quách Dương Khả Bình,04/05/2017,Nam,CMAU,CLB_00682,CLB Trung tâm Huấn luyện tỉnh Cà Mau,Cấp 10
+508,V26-034138,Dương Triệu Vy,14/05/2012,Nữ,CMAU,CLB_00682,CLB Trung tâm Huấn luyện tỉnh Cà Mau,Cấp 10
+509,V26-034137,Dương Ngọc Hân,15/02/2014,Nữ,CMAU,CLB_00682,CLB Trung tâm Huấn luyện tỉnh Cà Mau,Cấp 10
+510,V26-034136,Trương Anh Tuấn,28/04/2016,Nam,CMAU,CLB_00682,CLB Trung tâm Huấn luyện tỉnh Cà Mau,Cấp 10
+511,V26-034135,Phạm Hồ Thanh Ngọc,15/04/2017,Nữ,CMAU,CLB_00682,CLB Trung tâm Huấn luyện tỉnh Cà Mau,Cấp 10
+512,V26-034134,Huỳnh Ngọc Minh Phúc,10/12/2018,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+513,V26-034133,Hoàng Cát An Thy,12/01/2018,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+514,V26-034132,Tăng Châu Bảo Long,23/10/2017,Nam,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+515,V26-034131,Nguyễn Đức Nhật Vinh,09/01/2020,Nam,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+516,V26-034130,Phan Yến Nhi,15/11/2011,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+517,V26-034129,Phạm Hoàng Ái Thư,19/10/2013,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+518,V26-034128,Phạm Quốc Tú,03/03/2011,Nam,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+519,V26-034127,Nguyễn Thị Quỳnh Giang,29/04/2012,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+520,V26-034126,Đinh Trần Ý Nhi,30/11/2013,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+521,V26-034125,Nguyễn Huyền Chi,26/02/2015,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+522,V26-034124,Nguyễn Khánh Hà,14/10/2011,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+523,V26-034123,Lê Nguyễn Ngọc Bảo,29/10/2016,Nam,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+524,V26-034122,Lê Nguyễn Bảo Ngọc,05/03/2015,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+525,V26-034121,Phạm Thị Thuỷ Tiên,06/05/2017,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+526,V26-034120,Nguyễn Lưu Thiên Mỹ,09/03/2017,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+527,V26-034119,Nguyễn Lưu Thục Trinh,08/03/2015,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+528,V26-034118,Trần Thanh Phúc,11/08/2018,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+529,V26-034117,Trần Thanh Nguyên,23/04/2016,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+530,V26-034116,Trần Thanh Hà,07/12/2012,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+531,V26-034115,Nguyễn Văn Chí Dũng,07/04/2017,Nam,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+532,V26-034114,Phạm Thiên Phúc,07/01/2015,Nam,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+533,V26-034113,Nguyễn Thị Cẩm Tú,18/10/2013,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+534,V26-034112,Lê Nguyễn Gia Hoàng,20/11/2016,Nam,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+535,V26-034111,Lê Nguyễn Gia Huy,21/08/2014,Nam,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+536,V26-034110,Ngô Phúc Thịnh,08/06/2017,Nam,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+537,V26-034109,Võ Hoàng Minh,28/04/2013,Nam,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+538,V26-034108,Nguyễn Hữu Khánh Tâm,28/06/2002,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+539,V26-034107,Trần Quốc Khánh,30/03/2013,Nam,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+540,V26-034106,Trương Ngân Khánh,04/06/2013,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+541,V26-034105,Nguyễn Võ Minh Nhi,11/05/2012,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+542,V26-034104,Đặng Ngọc Hoàng Phúc,22/03/2020,Nam,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+543,V26-034103,Đặng Ngọc Quỳnh Như,30/03/2018,Nữ,DNAN,CLB_01495,CLB Kid Stars,Cấp 10
+544,V26-034102,Nguyễn Ngọc Khánh Đơn,21/06/2018,Nam,DNAI,CLB_01540,CLB Suối Cao,Cấp 10
+545,V26-034101,Quách Huyền My,19/12/2018,Nữ,DNAI,CLB_01540,CLB Suối Cao,Cấp 10
+546,V26-034100,Nguyễn Hoàng Phú Nguyên,24/06/2014,Nam,DNAI,CLB_01343,CLB Suối nho,Cấp 10
+547,V26-034099,Đặng Minh Quân,14/10/2014,Nam,DNAI,CLB_01343,CLB Suối nho,Cấp 10
+548,V26-034098,Phạm Tuấn Kiệt,06/01/2008,Nam,DNAI,CLB_01343,CLB Suối nho,Cấp 10
+549,V26-034097,Ngô Anh Phát,02/05/2011,Nam,DNAI,CLB_01343,CLB Suối nho,Cấp 10
+550,V26-034096,Lê Ngọc Phương Vy,15/06/2016,Nữ,DNAI,CLB_01343,CLB Suối nho,Cấp 10
+551,V26-034095,Nguyễn Cao Lộc,19/05/2018,Nam,DNAI,CLB_01376,CLB La Ngà,Cấp 10
+552,V26-034094,Đặng Bá Danh,09/08/2013,Nam,DNAI,CLB_01376,CLB La Ngà,Cấp 10
+553,V26-034093,Nguyễn Trần Tố Linh,30/09/2012,Nữ,DNAI,CLB_01376,CLB La Ngà,Cấp 10
+554,V26-034092,Nguyễn Trần Đăng Khôi,05/02/2015,Nam,DNAI,CLB_01376,CLB La Ngà,Cấp 10
+555,V26-034091,Trần Quốc Việt,14/06/2018,Nam,DNAI,CLB_01376,CLB La Ngà,Cấp 10
+556,V26-034090,Phan Thị Hà My,17/10/2019,Nữ,DNAI,CLB_01376,CLB La Ngà,Cấp 10
+557,V26-034089,Phan Quang Huy,25/04/2018,Nam,DNAI,CLB_01376,CLB La Ngà,Cấp 10
+558,V26-034088,Hoàng Thị Yến Nhi,10/09/2012,Nữ,DNAI,CLB_01376,CLB La Ngà,Cấp 10
+559,V26-034087,Hoàng Ngọc Quế Trâm,11/01/2012,Nữ,DNAI,CLB_01376,CLB La Ngà,Cấp 10
+560,V26-034086,Mai Ngọc Diễm Quỳnh,02/01/2012,Nữ,DNAI,CLB_01376,CLB La Ngà,Cấp 10
+561,V26-034085,Nguyễn Hoài Nam,26/10/2019,Nam,DNAI,CLB_01376,CLB La Ngà,Cấp 10
+562,V26-034084,Nguyễn Hoài Khang,20/05/2016,Nam,DNAI,CLB_01376,CLB La Ngà,Cấp 10
+563,V26-034083,Nguyễn Hữu Lộc,26/06/2014,Nam,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+564,V26-034082,Võ Minh Khôi,20/05/2015,Nam,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+565,V26-034081,Nguyễn Phước Thọ,07/06/2015,Nam,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+566,V26-034080,Lê Phúc Đạt,13/08/2016,Nam,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+567,V26-034079,Phạm Minh Đăng,07/10/2016,Nam,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+568,V26-034078,Phạm Quang Khải,14/09/2017,Nam,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+569,V26-034077,Nguyễn Thái Bảo,13/11/2017,Nam,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+570,V26-034076,Trịnh Đình Bảo An,27/01/2018,Nam,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+571,V26-034075,Phạm Huy Phú,11/03/2018,Nam,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+572,V26-034074,Ngô Quang Duy Khải,28/03/2018,Nam,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+573,V26-034073,Lê Trần Đăng Khôi,28/05/2018,Nam,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+574,V26-034072,Phạm Lâm Hùng,11/09/2018,Nam,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+575,V26-034071,Huỳnh Công Danh,03/11/2018,Nam,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+576,V26-034070,Nguyễn Trọng Danh,26/02/2020,Nam,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+577,V26-034069,Nguyễn Thị Quỳnh Như,25/10/2012,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+578,V26-034068,Nguyễn Thị Minh Thư,15/02/2013,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+579,V26-034067,Nguyễn Ngọc Kiều Vy,02/09/2014,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+580,V26-034066,Lê Minh Thùy,11/10/2014,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+581,V26-034065,Nguyễn Hoàng Minh Minh,11/01/2016,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+582,V26-034064,Phạm Thị Cẩm Tiên,02/05/2016,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+583,V26-034063,Nguyễn Ngọc Yến Như,11/07/2016,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+584,V26-034062,Trần Ngọc Bảo Anh,22/07/2017,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+585,V26-034061,Võ Ngọc Trúc Phương,24/07/2017,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+586,V26-034060,Nguyễn Ngọc Lam Khuê,10/01/2018,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+587,V26-034059,Nguyễn Cát Tường Vy,09/03/2018,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+588,V26-034058,Trần Nguyễn Hạnh Tiên,30/09/2018,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+589,V26-034057,Nguyễn Ngọc Uyên Thư,03/11/2018,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+590,V26-034056,Nguyễn Huỳnh Ngọc Anh,24/11/2018,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+591,V26-034055,Ngô Minh Thư,13/03/2019,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+592,V26-034054,Phan Ngọc Mẫn Nhi,08/07/2019,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+593,V26-034053,Dương Khánh Hân,19/11/2019,Nữ,VLON,CLB_00564,CLB Bình Đại,Cấp 10
+594,V26-034052,Nguyễn Hải Lâm,16/01/2017,Nam,DNAN,CLB_00676,CLB Taekwondo Hanul Đà Nẵng,Cấp 10
+595,V26-034051,Nguyễn Thành Vinh,26/07/2015,Nam,DNAN,CLB_00676,CLB Taekwondo Hanul Đà Nẵng,Cấp 10
+596,V26-034050,Lê Ngọc Bảo Hân,04/08/2017,Nữ,DNAN,CLB_00676,CLB Taekwondo Hanul Đà Nẵng,Cấp 10
+597,V26-034049,Vương Minh Anh,05/02/2017,Nữ,DNAN,CLB_00676,CLB Taekwondo Hanul Đà Nẵng,Cấp 10
+598,V26-034048,Nguyễn Ngọc Thiên Phúc,17/02/2018,Nam,DNAN,CLB_00676,CLB Taekwondo Hanul Đà Nẵng,Cấp 10
+599,V26-034047,Bùi Quốc Gia Phúc,24/02/2018,Nam,DNAN,CLB_00676,CLB Taekwondo Hanul Đà Nẵng,Cấp 10
+600,V26-034046,Phan Anh Vũ,24/07/2013,Nam,DNAN,CLB_00676,CLB Taekwondo Hanul Đà Nẵng,Cấp 10
+601,V26-034045,Phạm Thị Anh Thư,01/01/2012,Nữ,DNAN,CLB_00676,CLB Taekwondo Hanul Đà Nẵng,Cấp 10
+602,V26-034044,Phạm Gia Minh,05/08/2015,Nam,DNAN,CLB_00676,CLB Taekwondo Hanul Đà Nẵng,Cấp 10
+604,V26-034042,Lê Mạnh Hùng,02/11/2018,Nam,CMAU,CLB_01464,CLB Khí Điện Đạm,Cấp 10
+603,V26-034043,Đỗ Thiên Bảo Ngọc,22/05/2017,Nữ,DNAN,CLB_00676,CLB Taekwondo Hanul Đà Nẵng,Cấp 10
+605,V26-034041,Lê Bảo Duy,01/09/2015,Nam,CMAU,CLB_01464,CLB Khí Điện Đạm,Cấp 10
+606,V26-034040,Hồ Đức Trí,20/03/2010,Nam,CMAU,CLB_01464,CLB Khí Điện Đạm,Cấp 10
+607,V26-034039,Hoàng Ngô Thảo Nguyên,19/02/2017,Nữ,CMAU,CLB_01464,CLB Khí Điện Đạm,Cấp 10
+608,V26-034038,Nguyễn Đào Anh Thư,18/09/2018,Nữ,CMAU,CLB_01464,CLB Khí Điện Đạm,Cấp 10
+609,V26-034037,Nguyễn Mỹ Liên,14/09/2016,Nữ,CMAU,CLB_01464,CLB Khí Điện Đạm,Cấp 10
+610,V26-034036,Võ Kiều Phiên,12/07/2016,Nữ,CMAU,CLB_01464,CLB Khí Điện Đạm,Cấp 10
+611,V26-034035,Trần Anh Kiệt,12/08/2014,Nam,QNGA,CLB_01159,CLB Taekwondo Khải Hoàn,Cấp 10
+612,V26-034034,Trương Đình Khải,26/03/2014,Nam,QNGA,CLB_01159,CLB Taekwondo Khải Hoàn,Cấp 10
+613,V26-034033,Dương Ngọc Bảo Linh,22/04/2014,Nữ,QNGA,CLB_01159,CLB Taekwondo Khải Hoàn,Cấp 10
+614,V26-034032,Đỗ Thị Như Ý,20/02/2014,Nữ,QNGA,CLB_01159,CLB Taekwondo Khải Hoàn,Cấp 10
+615,V26-034031,Tạ Khánh Hà,01/07/2011,Nữ,QNGA,CLB_01159,CLB Taekwondo Khải Hoàn,Cấp 10
+616,V26-034030,Trương Đình Kha,25/10/2015,Nam,QNGA,CLB_01159,CLB Taekwondo Khải Hoàn,Cấp 10
+617,V26-034029,Phạm Võ Gia Huy,06/09/2013,Nam,QNGA,CLB_01159,CLB Taekwondo Khải Hoàn,Cấp 10
+618,V26-034028,Dương Thị Quỳnh Như,16/03/2013,Nữ,QNGA,CLB_01159,CLB Taekwondo Khải Hoàn,Cấp 10
+619,V26-034027,Phạm Vương Vĩnh Xuân,19/02/2017,Nữ,QNGA,CLB_01159,CLB Taekwondo Khải Hoàn,Cấp 10
+620,V26-034026,Lâm Minh Trí,10/04/2011,Nam,QNGA,CLB_01159,CLB Taekwondo Khải Hoàn,Cấp 10
+621,V26-034025,Ngô Minh Kỳ,15/12/2014,Nam,QNGA,CLB_01159,CLB Taekwondo Khải Hoàn,Cấp 10
+622,V26-034024,Nguyễn Ngọc Bảo Hân,04/09/2011,Nữ,QNGA,CLB_01159,CLB Taekwondo Khải Hoàn,Cấp 10
+623,V26-034023,Lê Cao Bảo Nghi,30/06/2011,Nữ,QNGA,CLB_01159,CLB Taekwondo Khải Hoàn,Cấp 10
+624,V26-034022,Lâm Phúc Hào,04/08/2017,Nam,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+625,V26-034021,Lâm Nhã Trân,09/09/2015,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+626,V26-034020,Nguyễn Thị Ngọc Vàng,21/12/2010,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+627,V26-034019,Phan Thị Ngọc Trân,27/12/2016,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+628,V26-034018,Phan Văn Tường,24/03/2015,Nam,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+629,V26-034017,Thạch Thị Khả Hân,03/05/2014,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+630,V26-034016,Thạch Kiên Gia Nghi,11/03/2013,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+631,V26-034015,Thạch Kiên Di Hân,15/12/2011,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+632,V26-034014,Thạch Hồ Khánh Vy,28/04/2015,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+633,V26-034013,Võ Minh Thư,26/10/2015,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+634,V26-034012,Đặng Châu Bảo Châu,27/06/2016,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+635,V26-034011,Thạch Oanh Na Ra,21/07/2018,Nam,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+636,V26-034010,Vương Gia Thịnh,18/04/2018,Nam,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+637,V26-034009,Nhan Bảo Anh,27/08/2015,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+638,V26-034008,Thạch Thị Như Ý,25/12/2011,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+639,V26-034007,Võ Tuấn Khang,29/07/2011,Nam,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+640,V26-034006,Trần Hoàng Phụng Ái,02/06/2016,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+641,V26-034005,Kim Khánh Ngọc,29/10/2018,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+642,V26-034004,Nguyễn Kim Minh Đạt,07/10/2012,Nam,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+643,V26-034003,Ngô Trần Huy Hoàng,06/10/2012,Nam,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+644,V26-034002,Huỳnh Như Quỳnh,22/09/2015,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+645,V26-034001,Trần Nguyễn Anh Quí,19/08/2015,Nam,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+646,V26-034000,Hứa Gia Huy,19/06/2017,Nam,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+647,V26-033999,Hứa Băng Băng,28/01/2015,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+648,V26-033998,Nguyễn Kim Thị Hương,11/08/2014,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+649,V26-033997,Nguyễn Thị Kim Khánh,02/01/2011,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+650,V26-033996,Diệp Nguyễn Vân Anh,22/05/2018,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+651,V26-033995,Nguyễn Đặng Khả Ái,02/12/2016,Nữ,VLON,CLB_00209,CLB Phương Đạt TV,Cấp 10
+652,V26-033994,Đinh Nhật Huy,10/11/2010,Nam,DNAI,CLB_01038,CLB Xuân Tâm,Cấp 10
+653,V26-033993,Nguyễn Cao Phương Anh,10/09/2012,Nữ,DNAI,CLB_01038,CLB Xuân Tâm,Cấp 10
+654,V26-033992,Đinh Nhật Hải,25/12/2012,Nam,DNAI,CLB_01038,CLB Xuân Tâm,Cấp 10
+655,V26-033991,Nguyên Duy Minh,15/03/2017,Nam,DNAI,CLB_01038,CLB Xuân Tâm,Cấp 10
+656,V26-033990,Hồ Nguyễn Hoàng Nhã,25/04/2015,Nữ,DNAI,CLB_01038,CLB Xuân Tâm,Cấp 10
+657,V26-033989,Nguyễn Trần Thiên Ân,16/03/2016,Nam,DNAI,CLB_01038,CLB Xuân Tâm,Cấp 10
+658,V26-033988,Hoàng Gia Bảo,05/12/2015,Nam,LDON,CLB_00631,CLB Taekwondo Đức Thuận,Cấp 10
+659,V26-033987,Lâm Thị Tuyết Như,13/05/2019,Nữ,LDON,CLB_00631,CLB Taekwondo Đức Thuận,Cấp 10
+660,V26-033986,Hà Huy Dũng,14/08/2015,Nam,LDON,CLB_00631,CLB Taekwondo Đức Thuận,Cấp 10
+661,V26-033985,Lê Trung Quyền,28/03/2018,Nam,LDON,CLB_00631,CLB Taekwondo Đức Thuận,Cấp 10
+662,V26-033984,Đặng Hoàng Mẫn Nghi,20/03/2018,Nữ,LDON,CLB_00631,CLB Taekwondo Đức Thuận,Cấp 10
+663,V26-033983,Trương Thị Thanh Bình,11/12/2014,Nữ,LDON,CLB_00631,CLB Taekwondo Đức Thuận,Cấp 10
+664,V26-033982,Nguyễn Lê Thảo Linh,30/09/2013,Nữ,LDON,CLB_00631,CLB Taekwondo Đức Thuận,Cấp 10
+665,V26-033981,Lê Nguyễn Ánh Linh,24/05/2018,Nữ,LDON,CLB_00631,CLB Taekwondo Đức Thuận,Cấp 10
+666,V26-033980,Lê Duy Khoa,27/11/2018,Nam,LDON,CLB_00631,CLB Taekwondo Đức Thuận,Cấp 10
+667,V26-033979,Nguyễn Thị Huỳnh Trân,16/02/2015,Nữ,LDON,CLB_00631,CLB Taekwondo Đức Thuận,Cấp 10
+668,V26-033978,Trần Thị Trâm,09/07/2016,Nữ,LDON,CLB_00631,CLB Taekwondo Đức Thuận,Cấp 10
+669,V26-033977,Đỗ Mai Thanh Hà,24/06/2018,Nữ,LDON,CLB_00631,CLB Taekwondo Đức Thuận,Cấp 10
+670,V26-033976,Phạm Nguyễn Tú Linh,11/09/2019,Nữ,LDON,CLB_00631,CLB Taekwondo Đức Thuận,Cấp 10
+671,V26-033975,Trần Lộc Nguyên,09/03/2014,Nam,HCMI,CLB_00107,CLB Thiếu Nhi Kick,Cấp 10
+672,V26-033974,Phạm Tiến Đạt,20/05/2015,Nam,HCMI,CLB_00107,CLB Thiếu Nhi Kick,Cấp 10
+673,V26-033973,Hồ Lê Minh Nhân,10/10/2015,Nam,HCMI,CLB_00107,CLB Thiếu Nhi Kick,Cấp 10
+674,V26-033972,Hồ Lê Minh Nhật,04/02/2014,Nam,HCMI,CLB_00107,CLB Thiếu Nhi Kick,Cấp 10
+675,V26-033971,Trần Thanh Duy,11/01/2019,Nam,HCMI,CLB_00107,CLB Thiếu Nhi Kick,Cấp 10
+676,V26-033970,Trần Nguyễn Phương Nghi,19/08/2020,Nữ,HCMI,CLB_00107,CLB Thiếu Nhi Kick,Cấp 10
+677,V26-033969,Hà Gia Thành,19/05/2020,Nam,HCMI,CLB_00107,CLB Thiếu Nhi Kick,Cấp 10
+678,V26-033968,Hồ Lê Minh Hằng,19/01/2018,Nữ,HCMI,CLB_00107,CLB Thiếu Nhi Kick,Cấp 10
+679,V26-033967,Trần Huỳnh Minh Châu,08/09/2020,Nữ,HCMI,CLB_00107,CLB Thiếu Nhi Kick,Cấp 10
+680,V26-033966,Trần Huỳnh Minh Ngọc,08/09/2020,Nữ,HCMI,CLB_00107,CLB Thiếu Nhi Kick,Cấp 10
+681,V26-033965,Nguyễn Bảo Ngọc,30/10/2016,Nữ,VLON,CLB_00992,Câu Lạc Bộ Xã Long Hồ,Cấp 10
+682,V26-033964,Nguyễn Đan Như,18/10/2012,Nữ,VLON,CLB_00992,Câu Lạc Bộ Xã Long Hồ,Cấp 10
+683,V26-033963,Lê Trần Bá Thiên,16/06/2015,Nam,VLON,CLB_00992,Câu Lạc Bộ Xã Long Hồ,Cấp 10
+684,V26-033962,Phạm Nhật Trường,05/10/2014,Nam,VLON,CLB_00992,Câu Lạc Bộ Xã Long Hồ,Cấp 10
+685,V26-033961,Trương Trần Nguyên Khôi,08/02/2018,Nam,VLON,CLB_00992,Câu Lạc Bộ Xã Long Hồ,Cấp 10
+686,V26-033960,Cái Hồ Thúy Vy,03/07/2017,Nữ,VLON,CLB_00992,Câu Lạc Bộ Xã Long Hồ,Cấp 10
+687,V26-033959,Hồ Thị Ngọc Hân,28/01/2016,Nữ,VLON,CLB_00992,Câu Lạc Bộ Xã Long Hồ,Cấp 10
+688,V26-033958,Hồ Ngọc Nhi,27/07/2018,Nữ,VLON,CLB_00992,Câu Lạc Bộ Xã Long Hồ,Cấp 10
+689,V26-033957,Nguyễn Ngọc Kim Ngân,23/05/2015,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+690,V26-033956,Nguyễn Nhã Uyên,24/03/2019,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+691,V26-033955,Lê Huỳnh Tùng Anh,17/12/2019,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+692,V26-033954,Phan Minh Quân,07/03/2016,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+693,V26-033953,Phan Minh Nghĩa,13/04/2014,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+694,V26-033952,Nguyễn Tuấn Hưng,07/11/2012,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+695,V26-033951,Phạm Minh Khuê,23/01/2016,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+696,V26-033950,Lê Minh Triết,23/06/2007,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+697,V26-033949,Trần Thanh Thảo,04/11/2005,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+698,V26-033948,Phạm Nguyễn Kim Ngân,24/05/2007,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+699,V26-033947,Châu Nhã Phong,03/11/2016,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+700,V26-033946,Cao Thiên Phong,28/06/2018,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+701,V26-033945,Lê Tuấn Phong,20/10/2017,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+702,V26-033944,Bùi Khánh Huy,12/06/2015,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+703,V26-033943,Huỳnh Hoàng Thiên,26/05/2016,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+704,V26-033942,Cao Quang Huy,17/12/2017,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+705,V26-033941,Chúc Trịnh Mẫn,27/03/2010,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+706,V26-033940,Nguyễn Lê Hoàng Phúc,01/11/2015,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+707,V26-033939,Mai Phước Lộc,15/03/2018,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+708,V26-033938,Nguyễn Phước Lộc,31/08/2017,Nam,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+709,V26-033937,Lâm Ái My,22/07/2014,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+710,V26-033936,Đinh Quỳnh Phương,17/12/2019,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+711,V26-033935,Ngô Mỹ Anh,09/11/2015,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+712,V26-033934,Ngô Mỹ Hoa,06/11/2019,Nữ,HCMI,CLB_00076,Trung tâm Cung ứng Dịch vụ Công Phường Bình Thới,Cấp 10
+713,V26-033933,Đặng Minh Thông,08/08/2019,Nam,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+714,V26-033932,Nguyễn Thị Vàng,07/10/2017,Nữ,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+715,V26-033931,Đỗ Gia Phát,19/07/2019,Nam,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+716,V26-033930,Lê Minh Khôi,25/04/2016,Nam,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+717,V26-033929,Đằng Thị Khả Thy,24/10/2016,Nữ,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+718,V26-033928,Nguyễn Huy Hoàng,16/02/2018,Nam,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+719,V26-033927,Nguyễn Trường Giang,18/11/2014,Nam,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+720,V26-033926,Nguyễn Hoàng Thành,28/08/2017,Nam,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+721,V26-033925,Lê Nguyễn Hữu Kỳ,29/07/2014,Nữ,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+722,V26-033924,Lê Nguyễn Kim Phụng,12/03/2010,Nữ,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+723,V26-033923,Huỳnh Gia Hân,28/12/2017,Nữ,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+724,V26-033922,Huỳnh Khánh Vy,14/11/2019,Nữ,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+725,V26-033921,Đỗ Dạ Hương,20/05/2017,Nữ,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+726,V26-033920,Huỳnh Văn Quốc Huy,11/05/2013,Nam,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+727,V26-033919,Đoàn Thị Tường Vi,18/09/2014,Nữ,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+728,V26-033918,Trần Huỳnh Minh Quân,04/05/2014,Nam,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+729,V26-033917,Trần Phúc Thịnh,02/12/2020,Nam,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+730,V26-033916,Trần Ngọc Thư Nhã,23/06/2020,Nữ,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+731,V26-033915,Trần Ngọc Phương Nghi,10/01/2019,Nữ,DTHA,CLB_01494,CLB Hoàng Phương,Cấp 10
+732,V26-033914,Võ Huỳnh Thiên Phú,13/04/2018,Nam,DTHA,CLB_00389,CLB Lê Hoàng,Cấp 10
+733,V26-033913,Lê Quốc Huy,12/02/2016,Nam,DTHA,CLB_00389,CLB Lê Hoàng,Cấp 10
+734,V26-033912,Lê Ngọc Thanh Thảo,30/07/2015,Nữ,DTHA,CLB_00389,CLB Lê Hoàng,Cấp 10
+735,V26-033911,Đinh Ngọc Như Ý,07/02/2015,Nữ,DTHA,CLB_00389,CLB Lê Hoàng,Cấp 10
+736,V26-033910,Võ Nguyễn An Nhiên,04/08/2017,Nữ,DTHA,CLB_00389,CLB Lê Hoàng,Cấp 10
+737,V26-033909,Đoàn Duy Bằng,01/08/2012,Nam,DTHA,CLB_00389,CLB Lê Hoàng,Cấp 10
+738,V26-033908,Dương Hiếu Nghĩa,03/05/2016,Nam,DTHA,CLB_00389,CLB Lê Hoàng,Cấp 10
+739,V26-033907,Nguyễn Trần Hạo Thiên,25/07/2016,Nam,DTHA,CLB_00389,CLB Lê Hoàng,Cấp 10
+740,V26-033906,Nguyễn Văn Vũ,04/01/2008,Nam,DTHA,CLB_00742,CLB Thành Tài,Cấp 10
+741,V26-033905,Nguyễn Phát Lộc,19/07/2019,Nam,DTHA,CLB_00742,CLB Thành Tài,Cấp 10
+742,V26-033904,Trần Minh Khôi,12/02/2020,Nam,QNIN,CLB_00665,CLB Kids Việt Nam,Cấp 10
+743,V26-033903,Phạm Quỳnh Anh,29/11/2013,Nữ,QNIN,CLB_00665,CLB Kids Việt Nam,Cấp 10
+744,V26-033902,Hoàng Nam Khánh,26/10/2012,Nam,QNIN,CLB_00665,CLB Kids Việt Nam,Cấp 10
+745,V26-033901,Đinh Hải Yến,09/09/2014,Nữ,QNIN,CLB_00665,CLB Kids Việt Nam,Cấp 10
+746,V26-033900,Trần Trung Kiên,21/09/2013,Nam,QNIN,CLB_00665,CLB Kids Việt Nam,Cấp 10
+747,V26-033899,Lương Bảo Ngọc,05/08/2015,Nữ,QNIN,CLB_00665,CLB Kids Việt Nam,Cấp 10
+748,V26-033898,Nguyễn Lâm Tử Lân,01/08/2014,Nam,QNIN,CLB_00665,CLB Kids Việt Nam,Cấp 10
+749,V26-033897,Nguyễn Lâm Tử Kỳ,01/08/2014,Nam,QNIN,CLB_00665,CLB Kids Việt Nam,Cấp 10
+750,V26-033896,Nguyễn Thị Nguyệt Nhu,29/10/2013,Nữ,HCMI,CLB_00021,CLB Taekwondo Hồng Đức,Cấp 10
+751,V26-033895,Nguyễn Trịnh Thảo Nhi,04/02/2014,Nữ,HCMI,CLB_00021,CLB Taekwondo Hồng Đức,Cấp 10
+752,V26-033894,Lê Minh Nhật,10/11/2017,Nam,HCMI,CLB_00021,CLB Taekwondo Hồng Đức,Cấp 10
+753,V26-033893,Chiêu Bảo Quỳnh,23/07/2012,Nữ,HCMI,CLB_00021,CLB Taekwondo Hồng Đức,Cấp 10
+754,V26-033892,Danh Khưu Thanh An,17/04/2015,Nam,HCMI,CLB_00021,CLB Taekwondo Hồng Đức,Cấp 10
+755,V26-033891,Nguyễn Đình Phong,06/02/2015,Nam,HCMI,CLB_00021,CLB Taekwondo Hồng Đức,Cấp 10
+756,V26-033890,Lê Nhật Minh,09/02/2018,Nam,HCMI,CLB_00021,CLB Taekwondo Hồng Đức,Cấp 10
+757,V26-033889,Nguyễn Anh Quân,09/06/2020,Nam,HCMI,CLB_00021,CLB Taekwondo Hồng Đức,Cấp 10
+758,V26-033888,Đặng Minh Khang,12/12/2014,Nam,HCMI,CLB_00021,CLB Taekwondo Hồng Đức,Cấp 10
+759,V26-033887,Nguyễn Gia Khang,28/04/2020,Nam,HCMI,CLB_00021,CLB Taekwondo Hồng Đức,Cấp 10
+760,V26-033886,Lê Quang Hào,11/12/2018,Nam,LDON,CLB_01456,CLB Taekwondo Bắc Ruộng,Cấp 10
+761,V26-033885,Lê Võ Trọng Vũ,15/01/2019,Nam,LDON,CLB_01456,CLB Taekwondo Bắc Ruộng,Cấp 10
+762,V26-033884,Đặng Hữu Minh,06/04/2017,Nam,LDON,CLB_01456,CLB Taekwondo Bắc Ruộng,Cấp 10
+763,V26-033883,Mai Võ Gia Long,17/03/2020,Nam,LDON,CLB_01456,CLB Taekwondo Bắc Ruộng,Cấp 10
+764,V26-033882,Lê Minh Thiện Nhân,24/06/2020,Nam,LDON,CLB_01456,CLB Taekwondo Bắc Ruộng,Cấp 10
+765,V26-033881,Lê Văn Phục,05/01/2019,Nam,LDON,CLB_01456,CLB Taekwondo Bắc Ruộng,Cấp 10
+766,V26-033880,Lê Nho Chinh,20/10/2017,Nam,LDON,CLB_01456,CLB Taekwondo Bắc Ruộng,Cấp 10
+767,V26-033879,Trần Văn Huy,13/11/2016,Nam,LDON,CLB_01456,CLB Taekwondo Bắc Ruộng,Cấp 10
+768,V23-020873,Nguyễn Đình Nhựt,20/09/2010,Nam,VLON,CLB_00257,CLB Nhị Long Phú,Cấp 1
+769,V26-033187,Nguyễn Mỹ Ngọc,30/04/2014,Nữ,VLON,CLB_00998,CLB Taekwondo Phú Đức,Cấp 10
+770,V26-033186,Đinh Thanh Như,06/08/2018,Nữ,VLON,CLB_00998,CLB Taekwondo Phú Đức,Cấp 10
+771,V26-033188,Hồ Nguyễn Ngọc Anh Thư,04/10/2013,Nữ,VLON,CLB_00998,CLB Taekwondo Phú Đức,Cấp 10
+772,V26-033189,Chương Nguyễn Ngọc Liên,17/05/2011,Nữ,VLON,CLB_00998,CLB Taekwondo Phú Đức,Cấp 10
+773,V25-056357,Cao Hoàng Kim Ngân,06/08/2017,Nữ,GLAI,CLB_00987,CLB Nhà Thi Đấu Đức Cơ,Cấp 7
+774,V23-002564,Nguyễn Tiến Phát,31/01/2013,Nam,GLAI,CLB_00931,CLB Lion Quy Nhơn,Cấp 5
+775,V26-033878,Lê Trung Gia Kiệt,19/02/2016,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+776,V26-033877,Lê Văn Phúc,04/06/2018,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+778,V26-033875,Lê Khánh Thy,03/01/2016,Nữ,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+777,V26-033876,Nguyễn Xuân Gia Huy,29/01/2018,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+779,V26-033874,Nguyễn Huỳnh Khả Vy,12/05/2018,Nữ,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+780,V26-033873,Nguyễn Tiến Viễn,08/08/2018,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+781,V26-033872,Võ Lê Quốc Anh,27/09/2016,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+782,V26-033871,Nguyễn Linh Nhi,03/03/2014,Nữ,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+783,V26-033870,Nguyễn Văn Minh Tú,28/07/2015,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+784,V26-033869,Nguyễn Hoàng Mỹ Anh,08/08/2013,Nữ,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+785,V26-033868,Lê Trần Khánh Hưng,28/08/2017,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+786,V26-033867,Lê Duy Khôi,15/12/2016,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+787,V26-033866,Hà Duy Nhật,10/09/2019,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+788,V26-033865,Hồ Trần Gia Thịnh,12/08/2017,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+789,V26-033864,Châu Dương Thiên Phát,15/08/2020,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+790,V26-033863,Châu Dương Thiên Phúc,21/06/2016,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+791,V26-033862,Lê Nguyễn Việt Quân,10/11/2016,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+792,V26-033861,Đoàn Ngọc Bảo Thy,08/09/2016,Nữ,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+793,V26-033860,Nguyễn Nhã Thy,20/06/2016,Nữ,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+794,V26-033859,Nguyễn Đình Minh Tâm,03/05/2016,Nữ,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+795,V26-033858,Nguyễn Phương Linh,31/10/2019,Nữ,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+796,V26-033857,Lê Ngọc Minh Khuê,07/11/2018,Nữ,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+797,V26-033856,Huỳnh Trí Nguyên,21/09/2014,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+798,V26-033855,Lê Hoàng Anh Khang,01/07/2015,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+799,V26-033854,Trương Quỳnh Nhã Uyên,23/04/2018,Nữ,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+800,V26-033853,Trương Quỳnh Nhã Phương,07/12/2016,Nữ,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+801,V26-033852,Nguyễn Minh Quân,05/09/2015,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+802,V26-033851,Trần Công Phú,08/02/2017,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+803,V26-033850,Lê Cao Bảo Nam,22/01/2019,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+804,V26-033849,Đoàn Thế Hoàng,06/10/2019,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+805,V26-033848,Trà Phú Thổ,21/03/2020,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+806,V26-033847,Trà Phú Trung,30/05/2016,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+807,V26-033846,Nguyễn Đức Tùng Lâm,04/12/2019,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+808,V26-033845,Hồ Mạnh Quân,01/12/2019,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+810,V26-033843,Đinh Bảo Nhi,15/01/2020,Nữ,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+809,V26-033844,Nguyễn Thị Quỳnh Anh,04/05/2009,Nữ,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+811,V26-033842,Nguyễn Hữu Thành Đạt,23/09/2017,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+812,V26-033841,Đào Huy Khánh,13/08/2016,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+813,V26-033840,Võ Văn Vinh,31/07/2019,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+814,V26-033839,Nguyễn Thị Thanh Trúc,15/12/2012,Nữ,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+815,V26-033838,Phùng Nguyễn Gia Huy,06/05/2020,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+816,V26-033837,Lê Võ Khả Hân,10/07/2018,Nữ,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+817,V26-033836,Trần Phước Thành,09/03/2019,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+818,V26-033835,Lê Thị Bảo Linh,26/04/2016,Nữ,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+819,V26-033834,Nguyễn Hoàng Gia Bảo,30/05/2017,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+820,V26-033833,Nguyễn Hữu Trường Hưng,11/08/2019,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+821,V26-033832,Nguyễn Đình Lê Khang,17/11/2020,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+822,V26-033831,Ngô Hoàng Trọng Hiếu,07/08/2019,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+823,V26-033830,Ngô Hoàng Xuân Bách,05/08/2017,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+824,V26-033829,Phan Đức Quốc Đạt,25/09/2020,Nam,DNAN,CLB_01477,CLB Taekwondo Đức Việt,Cấp 10
+825,V26-033828,Lê Nguyễn Minh Anh,05/04/2016,Nữ,CMAU,CLB_00761,CLB Ánh Dương,Cấp 10
+826,V26-033827,Nguyễn Lê Phúc Ngọc,14/09/2013,Nữ,CMAU,CLB_00761,CLB Ánh Dương,Cấp 10
+827,V26-033826,Nguyễn Khả Ái,08/09/2016,Nữ,CMAU,CLB_00761,CLB Ánh Dương,Cấp 10
+828,V26-033825,Nguyễn Ngọc Tâm Đan,04/11/2016,Nữ,CMAU,CLB_00761,CLB Ánh Dương,Cấp 10
+829,V26-033824,Lâm Bích Soàn,15/05/2015,Nữ,CMAU,CLB_00761,CLB Ánh Dương,Cấp 10
+830,V26-033823,Lê Hoài Bảo Ngọc,07/03/2014,Nữ,QNGA,CLB_01163,CLB Taekwondo Bình Mỹ,Cấp 10
+831,V26-033822,Nguyễn Cao Phú Quý,18/11/2017,Nam,QNGA,CLB_01163,CLB Taekwondo Bình Mỹ,Cấp 10
+832,V26-033821,Huỳnh Thanh Hưng,08/11/2017,Nam,QNGA,CLB_01163,CLB Taekwondo Bình Mỹ,Cấp 10
+833,V26-033820,Đinh Hy Ha Ni,22/04/2014,Nữ,QNGA,CLB_01346,CLB Taekwondo Việt Hàn - Minh Long,Cấp 10
+834,V26-033819,Nguyễn Hoàng Phúc,01/01/2019,Nam,VLON,CLB_00993,CLB Taekwondo Phường Phước Hậu,Cấp 10
+835,V26-033818,Võ Minh Bảo Lâm,03/03/2016,Nam,VLON,CLB_00993,CLB Taekwondo Phường Phước Hậu,Cấp 10
+836,V26-033817,Nguyễn Khánh Huyền,16/08/2005,Nam,VLON,CLB_00993,CLB Taekwondo Phường Phước Hậu,Cấp 10
+837,V26-033816,Võ Thanh Khiêm,26/01/2004,Nam,VLON,CLB_00993,CLB Taekwondo Phường Phước Hậu,Cấp 10
+838,V26-033815,Nguyễn Thiên Phú,20/11/2011,Nam,VLON,CLB_00993,CLB Taekwondo Phường Phước Hậu,Cấp 10
+839,V26-033814,Phạm Đức Duy,24/01/2016,Nam,VLON,CLB_00993,CLB Taekwondo Phường Phước Hậu,Cấp 10
+840,V26-033813,Phan Cao Thắng,02/10/2016,Nam,VLON,CLB_00993,CLB Taekwondo Phường Phước Hậu,Cấp 10
+841,V26-033812,Phạm Đức Hải,26/11/2017,Nam,VLON,CLB_00993,CLB Taekwondo Phường Phước Hậu,Cấp 10
+842,V26-033811,Hồ Bảo Long,06/03/2019,Nam,VLON,CLB_00993,CLB Taekwondo Phường Phước Hậu,Cấp 10
+843,V26-033810,Dương Thanh Trúc,27/11/2011,Nữ,VLON,CLB_00993,CLB Taekwondo Phường Phước Hậu,Cấp 10
+844,V26-033809,Nguyễn Bảo Anh,14/02/2015,Nữ,VLON,CLB_00993,CLB Taekwondo Phường Phước Hậu,Cấp 10
+845,V26-033808,Phan Gia Nghi,20/04/2015,Nữ,VLON,CLB_00993,CLB Taekwondo Phường Phước Hậu,Cấp 10
+846,V26-033807,Trương Trần Minh Thư,19/03/2018,Nữ,VLON,CLB_00993,CLB Taekwondo Phường Phước Hậu,Cấp 10
+847,V26-033806,Bùi Kim Bảo Ngọc,04/09/2018,Nữ,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+848,V26-033805,Chu Gia Hân,06/12/2015,Nữ,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+849,V26-033804,Nguyễn Đức Thành Đạt,10/05/2016,Nam,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+850,V26-033803,Trần Hoàng Anh,03/12/2010,Nam,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+851,V26-033802,Trần Thanh Thùy,02/10/2012,Nữ,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+852,V26-033801,Nguyễn Ngọc Như Ý,02/04/2012,Nữ,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+853,V26-033800,Võ Ngọc Bảo Long,25/12/2012,Nam,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+854,V26-033799,Đặng Thiên Ân,16/01/2019,Nam,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+855,V26-033798,Đặng Thành Nhân,24/12/2013,Nam,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+856,V26-033797,Nguyễn Ngọc Diệu Linh,04/04/2017,Nữ,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+857,V26-033796,Nguyễn Thị Yến Nhi,06/09/2012,Nữ,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+858,V26-033795,Huỳnh Thanh Huy Hoàng,19/11/2014,Nam,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+859,V26-033794,Trương Quỳnh Như,20/02/2017,Nữ,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+860,V26-033793,Trương Phương Thảo,18/07/2014,Nữ,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+861,V26-033792,Nguyễn Lâm,24/11/2019,Nam,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+862,V26-033791,Nguyễn Trần Gia Hân,17/07/2017,Nữ,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+863,V26-033790,Trần Nguyễn Anh Thư,25/10/2014,Nữ,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+864,V26-033789,Lê Tuấn Phú Vinh,11/04/2012,Nam,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+865,V26-033788,Mai Văn Minh,10/08/2015,Nam,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+866,V26-033787,Lê Hoàng Phương Uyên,11/04/2012,Nữ,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+867,V26-033786,Phan Minh Anh,31/08/2019,Nam,HCMI,CLB_01259,CLB Taekwondo Trần Trung,Cấp 10
+868,V26-033785,Nguyễn Quân,28/03/2019,Nam,DLAK,CLB_00558,CLB Taekwondo Victory,Cấp 10
+869,V26-033784,Nguyễn Ngọc Khả Hân,01/12/2016,Nữ,DLAK,CLB_00558,CLB Taekwondo Victory,Cấp 10
+870,V26-033783,Ngô Diễm Như,27/05/2012,Nữ,DLAK,CLB_00558,CLB Taekwondo Victory,Cấp 10
+871,V26-033782,Trần Thị Hoài Thương,19/12/2009,Nữ,VLON,CLB_01404,Câu lạc bộ Taekwondo Long Châu,Cấp 10
+872,V26-033781,Nguyễn Hoàng Khang,31/12/2018,Nam,VLON,CLB_01404,Câu lạc bộ Taekwondo Long Châu,Cấp 10
+873,V26-033780,Trần Lê Bảo Anh,31/10/2014,Nữ,VLON,CLB_01404,Câu lạc bộ Taekwondo Long Châu,Cấp 10
+874,V26-033779,Trần Lê Thiên Phúc,27/06/2017,Nam,VLON,CLB_01404,Câu lạc bộ Taekwondo Long Châu,Cấp 10
+875,V26-033778,Nguyễn Thị Hoài Mỹ,15/08/2011,Nữ,DNAN,CLB_01101,CLB Taekwondo Phi Long,Cấp 10
+876,V26-033777,Nguyễn Bá Khang,30/11/2015,Nam,DNAN,CLB_01101,CLB Taekwondo Phi Long,Cấp 10
+877,V26-033776,Nguyễn Phạm Hoài Như,12/10/2013,Nữ,DNAN,CLB_01101,CLB Taekwondo Phi Long,Cấp 10
+878,V26-033775,Phạm Ninh Khang,04/09/2017,Nam,DNAN,CLB_01101,CLB Taekwondo Phi Long,Cấp 10
+879,V26-033774,Phạm Quốc Hưng,27/10/2014,Nam,DNAN,CLB_01101,CLB Taekwondo Phi Long,Cấp 10
+880,V26-033773,Phạm Quang Khải,22/10/2017,Nam,DNAN,CLB_01101,CLB Taekwondo Phi Long,Cấp 10
+881,V26-033772,Hà Văn Thịnh,13/07/2010,Nam,PTHO,CLB_00204,Bộ môn Taekwondo Phú Thọ,Cấp 10
+882,V26-033771,Đinh Tố Châm,27/09/2012,Nam,PTHO,CLB_00204,Bộ môn Taekwondo Phú Thọ,Cấp 10
+883,V26-033770,Nguyễn Thu Hà,19/08/2017,Nam,PTHO,CLB_00204,Bộ môn Taekwondo Phú Thọ,Cấp 10
+884,V26-033769,Trịnh Việt Dũng,14/01/2016,Nam,PTHO,CLB_00204,Bộ môn Taekwondo Phú Thọ,Cấp 10
+885,V26-033768,Trịnh Xuân Phúc,31/03/2017,Nam,PTHO,CLB_00204,Bộ môn Taekwondo Phú Thọ,Cấp 10
+886,V26-033767,Vũ Nguyễn Gia Khánh,06/01/2014,Nam,PTHO,CLB_00204,Bộ môn Taekwondo Phú Thọ,Cấp 10
+887,V26-033766,Vũ Thị Khánh Nhàn,30/08/2012,Nam,PTHO,CLB_00204,Bộ môn Taekwondo Phú Thọ,Cấp 10
+888,V26-033765,Nguyễn Thị Ngọc Hà,20/08/2009,Nam,PTHO,CLB_00204,Bộ môn Taekwondo Phú Thọ,Cấp 10
+889,V26-033764,Nguyễn Quốc An,24/10/2014,Nam,PTHO,CLB_00204,Bộ môn Taekwondo Phú Thọ,Cấp 10
+890,V26-033763,Đỗ Duy Phúc,05/01/2016,Nam,PTHO,CLB_00204,Bộ môn Taekwondo Phú Thọ,Cấp 10
+891,V23-161642,Lê Thùy Trang,20/06/2014,Nữ,QNIN,CLB_00206,Trung tâm Thanh Phong,Cấp 3
+892,V23-095079,Đinh Trần Gia Hân,15/10/2007,Nữ,CMAU,CLB_00831,CLB Biển Bạch,2 Đẳng
+893,V23-095081,Đinh Trọng Phước,25/11/2012,Nam,CMAU,CLB_00831,CLB Biển Bạch,1 Đẳng
+894,V23-052305,Lê Thu Quỳnh,30/10/2013,Nữ,CMAU,CLB_00668,CLB Nguyễn Trãi,Cấp 4
+895,V26-003903,Tiêu Quang Long,03/08/2013,Nam,CMAU,CLB_00682,CLB Trung tâm Huấn luyện tỉnh Cà Mau,Cấp 9
+896,V23-004394,Trần Thanh Nhả,27/05/2008,Nam,AGIA,CLB_00245,Lê Hồng Phong - Thới Sơn - An Giang,1 Đẳng
+897,V26-030870,Nguyễn Lâm Anh Quân,27/10/2018,Nam,VLON,CLB_01035,CLB Vĩnh Xuân,Cấp 10
+898,V26-030866,Phạm Ngọc Trân,03/01/2016,Nữ,VLON,CLB_01035,CLB Vĩnh Xuân,Cấp 10
+899,V23-146161,Nguyễn Hoàng Minh Khiết,29/12/2016,Nam,CTHO,CLB_00315,CLB Phong Điền,Cấp 3
+900,V24-055560,Lê Minh Tiến,27/10/2017,Nam,DNAI,CLB_01145,CLB Taekwondo Tân Phú Lâm,Cấp 3
+901,V25-077221,Nguyễn Hồ Đan Thy,08/01/2014,Nữ,TNIN,CLB_01377,Trung tâm HL và TĐ TT tỉnh Tây Ninh,Cấp 5
+902,V26-031645,Lý Huỳnh Thiên Di,22/03/2012,Nữ,TNIN,CLB_01377,Trung tâm HL và TĐ TT tỉnh Tây Ninh,Cấp 5
+903,V26-033762,Trần Hoàng Khang,22/05/2019,Nam,HCMI,CLB_00052,CLB Tam Hổ,Cấp 10
+904,V26-033761,Võ Trần Gia Huân,16/02/2018,Nam,HCMI,CLB_00052,CLB Tam Hổ,Cấp 10
+905,V26-033760,Nguyễn Gia Bình,29/09/2018,Nam,HCMI,CLB_00052,CLB Tam Hổ,Cấp 10
+906,V26-033759,Đinh Thuỵ Bảo Hân,10/09/2012,Nữ,HCMI,CLB_00052,CLB Tam Hổ,Cấp 10
+907,V26-033758,Võ Hoàng Yến Khuê,07/11/2019,Nữ,HCMI,CLB_00052,CLB Tam Hổ,Cấp 10
+908,V26-033755,Đoàn Gia Huy,26/07/2019,Nam,TNIN,CLB_00291,CLB Trẻ Châu Thành,Cấp 10
+909,V26-033754,Phạm Minh Triết,13/12/2016,Nam,TNIN,CLB_00291,CLB Trẻ Châu Thành,Cấp 10
+910,V26-033753,Phạm Nguyễn Minh Trọng,17/07/2014,Nam,TNIN,CLB_00291,CLB Trẻ Châu Thành,Cấp 10
+911,V26-033752,Đinh Phúc Lộc,08/05/2016,Nam,TNIN,CLB_00291,CLB Trẻ Châu Thành,Cấp 10
+912,V26-033751,Huỳnh Nhã Uyên,28/12/2019,Nữ,TNIN,CLB_00291,CLB Trẻ Châu Thành,Cấp 10
+913,V26-033750,Đoàn Gia Huy,26/07/2019,Nam,TNIN,CLB_00291,CLB Trẻ Châu Thành,Cấp 10
+914,V26-033749,Đoàn Trúc Phương,07/03/2016,Nữ,DNAI,CLB_01239,CLB Taekwondo Huy Khánh,Cấp 10
+916,V26-033748,Nguyễn Đức Hải,09/04/2012,Nam,DNAI,CLB_01239,CLB Taekwondo Huy Khánh,Cấp 10
+915,V26-033747,Nguyễn Ngọc Vân Anh,14/10/2015,Nữ,DNAI,CLB_01239,CLB Taekwondo Huy Khánh,Cấp 10
+917,V26-033746,Nguyễn Khánh Đạt,31/03/2014,Nam,DNAI,CLB_01239,CLB Taekwondo Huy Khánh,Cấp 10
+918,V26-033745,Huỳnh Lê Ngọc Hân,09/01/2020,Nữ,DNAI,CLB_01239,CLB Taekwondo Huy Khánh,Cấp 10
+919,V26-033744,Phạm Cao Duy,16/08/2017,Nam,DNAI,CLB_01239,CLB Taekwondo Huy Khánh,Cấp 10
+920,V26-033743,Phan Đức Thuận,24/09/2019,Nam,DNAI,CLB_01239,CLB Taekwondo Huy Khánh,Cấp 10
+921,V26-033742,Huỳnh Thị Hoài An,22/08/2015,Nữ,DNAI,CLB_01239,CLB Taekwondo Huy Khánh,Cấp 10
+922,V26-033741,Lương Võ Thanh Trúc,25/05/2015,Nữ,DNAI,CLB_01239,CLB Taekwondo Huy Khánh,Cấp 10
+923,V26-033740,Bùi Duy Khang,26/12/2010,Nam,DNAI,CLB_01239,CLB Taekwondo Huy Khánh,Cấp 10
+924,V26-033739,Trần Thành Kiên,31/07/2015,Nam,DNAI,CLB_01239,CLB Taekwondo Huy Khánh,Cấp 10
+925,V26-033738,Lê Thúy Vân,22/09/2015,Nữ,DNAI,CLB_01239,CLB Taekwondo Huy Khánh,Cấp 10
+926,V26-033737,Nguyễn Võ Phương Vy,01/05/2015,Nữ,VLON,CLB_00469,CLB Giồng Trôm,Cấp 10
+927,V26-033736,Lê Thiên Phú,04/01/2018,Nam,VLON,CLB_00469,CLB Giồng Trôm,Cấp 10
+928,V26-033735,Nguyễn Đức Thịnh,12/10/2016,Nam,VLON,CLB_00469,CLB Giồng Trôm,Cấp 10
+929,V26-033734,Nguyễn Hoàng Tuấn Anh,12/05/2013,Nam,VLON,CLB_00469,CLB Giồng Trôm,Cấp 10
+930,V26-033733,Trịnh Trần Phú Trọng,19/06/2016,Nam,VLON,CLB_00469,CLB Giồng Trôm,Cấp 10
+931,V26-033732,Huỳnh Nguyễn Bảo Ngọc,01/10/2017,Nữ,VLON,CLB_00469,CLB Giồng Trôm,Cấp 10
+932,V26-033731,Ngô Minh Thư,09/03/2013,Nữ,VLON,CLB_00469,CLB Giồng Trôm,Cấp 10
+933,V26-033730,Phan Xuân An,12/05/2016,Nữ,VLON,CLB_00469,CLB Giồng Trôm,Cấp 10
+934,V26-033729,Dương Thuý Nhã,20/06/2016,Nữ,VLON,CLB_00469,CLB Giồng Trôm,Cấp 10
+935,V26-033728,Trịnh Công Minh Tú,26/08/2012,Nam,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+936,V26-033727,Nguyễn Ngọc Tuệ Mẫn,20/05/2019,Nữ,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+937,V26-033726,Đỗ Nguyễn Như Ngọc,07/11/2013,Nữ,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+938,V26-033725,Bùi Bảo Hân,16/09/2018,Nữ,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+939,V26-033724,Trần Ngọc Anh Quân,05/10/2018,Nam,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+940,V26-033723,Trương Anh Khôi,06/01/2018,Nam,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+941,V26-033722,Nguyễn Võ Bảo Nam,11/11/2018,Nam,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+942,V26-033721,Trần Minh Hằng,02/03/2014,Nữ,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+943,V26-033720,Trần Gia Hân,25/02/2011,Nữ,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+944,V26-033719,Trần Hữu Trí,08/01/2015,Nam,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+945,V26-033718,Nguyễn Hồ Như Quỳnh,18/02/2015,Nữ,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+946,V26-033717,Trần Minh Thiên Bảo,27/04/2019,Nam,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+947,V26-033716,Nguyễn Trần Gia Huy,06/04/2017,Nam,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+948,V26-033715,Hồ Nguyên Chi,15/09/2015,Nữ,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+949,V26-033714,Hồ Nguyễn Thảo,06/06/2011,Nữ,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+950,V26-033713,Võ Văn Việt,20/01/2011,Nam,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+951,V26-033712,Lê Nhật Quang,16/11/2018,Nam,LDON,CLB_00325,CLB Phúc Huy,Cấp 10
+952,V26-033711,Trần Ngọc Quỳnh Như,02/11/2015,Nữ,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+953,V26-033710,Nguyễn Duy Mạnh,28/08/2017,Nam,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+954,V26-033709,Nguyễn Trà My,28/03/2011,Nữ,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+955,V26-033708,Nguyễn Thị Bảo Yến,18/02/2014,Nữ,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+956,V26-033707,Nguyễn Quốc Huy,06/02/2016,Nam,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+957,V26-033706,Nguyễn Duy Khoa,14/03/2014,Nam,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+958,V26-033705,Huỳnh Nam Trung,21/11/2012,Nam,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+959,V26-033704,Phạm Minh Thư,21/05/2016,Nữ,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+960,V26-033703,Trần Ngọc Hân,01/05/2015,Nữ,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+961,V26-033702,Lê Tường Lam,19/05/2015,Nữ,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+962,V26-033701,Trương Thảo Vy,09/04/2014,Nữ,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+963,V26-033700,Phan Như Bích Ngọc,03/11/2013,Nữ,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+964,V26-033699,Nguyễn Tỷ Phú,01/05/2016,Nam,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+965,V26-033698,Trần Hoàng Tiến,30/04/2016,Nam,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+966,V26-033697,Phạm Quốc Anh,28/12/2014,Nam,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+967,V26-033696,Cao Thành Phi,05/05/2013,Nam,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+968,V26-033695,Hồ Gia Huy,20/01/2011,Nam,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+969,V26-033694,Phạm Minh Quân,17/09/2017,Nam,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+970,V26-033693,LÝ ĐỨC THIỆN,11/04/2014,Nam,AGIA,CLB_01197,CLB Cái Dầu,Cấp 10
+971,V26-033692,Nguyễn Hiến Kiên,27/03/2017,Nam,KHOA,CLB_00870,CLB Nhơn Hải,Cấp 10
+972,V26-033691,Trần Gia Phát,12/02/2019,Nam,KHOA,CLB_00870,CLB Nhơn Hải,Cấp 10
+973,V26-033690,Phạm Nguyễn Thu Hằng,21/09/2018,Nữ,KHOA,CLB_00870,CLB Nhơn Hải,Cấp 10
+974,V26-033689,Bùi Nguyễn Thiên Tú,13/01/2019,Nam,KHOA,CLB_00867,CLB Trần Thi,Cấp 10
+975,V26-033688,Nguyễn Thành Phát,11/04/2017,Nam,KHOA,CLB_00867,CLB Trần Thi,Cấp 10
+976,V26-033687,Ngô Đức Bảo Lâm,02/11/2017,Nam,KHOA,CLB_00867,CLB Trần Thi,Cấp 10
+977,V26-033686,Trần Anh Tùng,11/03/2012,Nam,KHOA,CLB_00867,CLB Trần Thi,Cấp 10
+978,V26-033685,Trần Hữu Hiệp,15/02/2012,Nam,KHOA,CLB_00867,CLB Trần Thi,Cấp 10
+979,V26-033684,Lê Hoàng Mỹ Duyên,18/04/2016,Nữ,KHOA,CLB_00867,CLB Trần Thi,Cấp 10
+980,V26-033683,Ngô Ngọc Khánh Vy,19/01/2017,Nữ,KHOA,CLB_00867,CLB Trần Thi,Cấp 10
+981,V26-033682,Nguyễn Thành Đạt,26/04/2015,Nam,KHOA,CLB_00867,CLB Trần Thi,Cấp 10
+982,V26-033681,Vũ Phước Lộc,31/12/2015,Nam,KHOA,CLB_01183,CLB NTN Ninh Hòa,Cấp 10
+983,V26-033680,Nguyễn Thanh Ngân,05/12/2017,Nữ,KHOA,CLB_01183,CLB NTN Ninh Hòa,Cấp 10
+984,V26-033679,Hồ Thanh Tuấn,14/07/2016,Nam,KHOA,CLB_01183,CLB NTN Ninh Hòa,Cấp 10
+985,V26-033678,Nguyễn Quốc Khang,06/08/2018,Nam,KHOA,CLB_01183,CLB NTN Ninh Hòa,Cấp 10
+986,V26-033677,Nguyễn Quốc Bảo,13/08/2015,Nam,KHOA,CLB_01183,CLB NTN Ninh Hòa,Cấp 10
+987,V26-033676,Nguyễn Quỳnh Anh,18/08/2017,Nữ,KHOA,CLB_01183,CLB NTN Ninh Hòa,Cấp 10
+988,V26-033675,Nguyễn Quỳnh Mai,16/04/2016,Nữ,KHOA,CLB_01183,CLB NTN Ninh Hòa,Cấp 10
+989,V26-033674,Nguyễn Hà Triệu Vy,02/09/2016,Nữ,KHOA,CLB_01183,CLB NTN Ninh Hòa,Cấp 10
+990,V26-033673,Lê Tú Anh,14/08/2014,Nữ,KHOA,CLB_01183,CLB NTN Ninh Hòa,Cấp 10
+991,V26-033672,Lê Tú An,25/04/2016,Nữ,KHOA,CLB_01183,CLB NTN Ninh Hòa,Cấp 10
+992,V26-033671,Nguyễn Hoàng Thiên Phúc,15/10/2017,Nam,KHOA,CLB_00868,CLB Ninh Hải,Cấp 10
+993,V26-033670,Từ Phương Mỹ Diêm,23/02/2014,Nữ,KHOA,CLB_00868,CLB Ninh Hải,Cấp 10
+994,V26-033669,Nguyễn Trung Hiếu,28/04/2014,Nam,KHOA,CLB_00868,CLB Ninh Hải,Cấp 10
+995,V26-033668,Phạm Hà Hải My,19/06/2013,Nữ,KHOA,CLB_00868,CLB Ninh Hải,Cấp 10
+996,V26-033667,Nguyễn Hoàng Kim Anh,05/10/2014,Nữ,KHOA,CLB_00863,CLB Taekid,Cấp 10
+997,V26-033666,Lâm Minh Huy,30/06/2012,Nam,KHOA,CLB_00863,CLB Taekid,Cấp 10
