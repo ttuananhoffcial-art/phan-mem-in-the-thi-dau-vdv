@@ -62,7 +62,7 @@ REDIRECT_URI = "https://phan-mem-in-the-thi-dau-vdv.streamlit.app/"
 
 CARDS_FILE = "data/submitted_cards.json"
 CONFIG_GRAPHICS_FILE = "data/config_the.json"
-AUTHORIZED_EMAILS = {"hiepnguyenvan00@gmail.com": "ADMIN"}
+AUTHORIZED_EMAILS = {"tuananht1kg@gmail.com": "ADMIN"}
 AVATARS_DIR = "data/avatars"
 
 if not os.path.exists(AVATARS_DIR):
