@@ -8,6 +8,7 @@ import io
 import datetime
 import zipfile
 import hashlib
+import urllib.request
 import pandas as pd
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 from reportlab.lib.pagesizes import A4
@@ -19,6 +20,19 @@ from reportlab.lib.units import cm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+
+# ==========================================
+# TỰ ĐỘNG TẢI PHÔNG CHỮ CHUẨN CHO LINUX CLOUD
+# ==========================================
+def download_fonts():
+    try:
+        if not os.path.exists("arial.ttf"):
+            urllib.request.urlretrieve("https://raw.githubusercontent.com/matomo-org/travis-scripts/master/fonts/Arial.ttf", "arial.ttf")
+        if not os.path.exists("arialbd.ttf"):
+            urllib.request.urlretrieve("https://raw.githubusercontent.com/matomo-org/travis-scripts/master/fonts/Arial_Bold.ttf", "arialbd.ttf")
+    except:
+        pass
+download_fonts()
 
 # ==========================================
 # CẤU HÌNH TRANG WEB & GIAO DIỆN CSS GLOBAL
@@ -450,19 +464,28 @@ def draw_card_image(card, g_cfg):
         rgb_color = tuple(int(hex_color[j:j+2], 16) for j in (0, 2, 4))
         
         is_bold = line_cfg.get("is_bold", True)
+        
+        # SỬA LỖI FONT TRÊN CLOUD
         font_file = font_map.get(font_family, font_map["Arial"])["bold" if is_bold else "regular"]
-        if not os.path.exists(font_file): font_file = "arial.ttf"
+        if not os.path.exists(font_file): 
+            font_file = "arialbd.ttf" if is_bold else "arial.ttf"
 
         current_size = line_cfg["initial_size"]
         selected_font = None
         
         while current_size >= 20:
-            try: selected_font = ImageFont.truetype(font_file, current_size)
-            except: selected_font = ImageFont.load_default()
+            try: 
+                selected_font = ImageFont.truetype(font_file, current_size)
+            except: 
+                try:
+                    selected_font = ImageFont.truetype("arial.ttf", current_size)
+                except:
+                    selected_font = ImageFont.load_default()
+                    break
             
             bbox = draw.textbbox((0, 0), text_processed, font=selected_font)
             text_w = bbox[2] - bbox[0]
-            if text_w <= max_safe_width or current_size == 20: break
+            if text_w <= max_safe_width or selected_font == ImageFont.load_default(): break
             current_size -= 2
             
         bbox = draw.textbbox((0, 0), text_processed, font=selected_font)
