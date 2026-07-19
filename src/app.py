@@ -411,7 +411,7 @@ def tao_file_zip_xuat_du_lieu(danh_sach_the, ten_don_vi):
 def draw_card_image(card, g_cfg):
     STD_W = 2480
     w_cm = float(g_cfg.get("w_card_cm", 10.0))
-    if w_cm <= 0: w_cm = 10.0 # Khiên bảo vệ lỗi chia cho 0
+    if w_cm <= 0: w_cm = 10.0 
     h_cm = float(g_cfg.get("h_card_cm", 14.0))
     if h_cm <= 0: h_cm = 14.0
     
@@ -451,8 +451,14 @@ def draw_card_image(card, g_cfg):
         
     if avatar:
         try:
-            avatar = ImageOps.fit(avatar, (g_cfg["img_w"], g_cfg["img_h"]), Image.Resampling.LANCZOS)
-            base_img.paste(avatar, (g_cfg["img_x"], g_cfg["img_y"]), avatar)
+            w_img = max(1, int(g_cfg.get("img_w", 586)))
+            h_img = max(1, int(g_cfg.get("img_h", 800)))
+            x_img = int(g_cfg.get("img_x", 116))
+            y_img = int(g_cfg.get("img_y", 1380))
+            
+            avatar = avatar.convert("RGB")
+            avatar = ImageOps.fit(avatar, (w_img, h_img), Image.Resampling.LANCZOS)
+            base_img.paste(avatar, (x_img, y_img))
         except: pass
         
     font_family = g_cfg.get("font_choice", "Arial")
@@ -493,7 +499,9 @@ def draw_card_image(card, g_cfg):
         if not os.path.exists(font_file): 
             font_file = "arialbd.ttf" if is_bold else "arial.ttf"
 
-        current_size = line_cfg["initial_size"]
+        current_size = int(line_cfg.get("initial_size", 100))
+        if current_size <= 0: current_size = 100
+        
         selected_font = None
         
         while current_size >= 20:
@@ -514,8 +522,8 @@ def draw_card_image(card, g_cfg):
             
         bbox = draw.textbbox((0, 0), text_processed, font=selected_font)
         text_w = bbox[2] - bbox[0]
-        draw_x = line_cfg["l_x"] - (text_w // 2)
-        draw_y = line_cfg["l_y"]
+        draw_x = int(line_cfg.get("l_x", 1243)) - (text_w // 2)
+        draw_y = int(line_cfg.get("l_y", 1800))
         
         draw.text((draw_x, draw_y), text_processed, fill=rgb_color, font=selected_font)
         
@@ -663,11 +671,12 @@ def init_session_config():
         
         st.session_state.cfg_loaded = True
 
-# KHỞI TRÌNH QUẢN LÝ COOKIE (24H LOGIN) - FIX LỖI BẮT ĐĂNG NHẬP LẠI
+# KHỞI TRÌNH QUẢN LÝ COOKIE (24H LOGIN) - TRÁNH LỖI MẤT KẾT NỐI
 cookie_manager = None
 if HAS_STX:
     cookie_manager = stx.CookieManager(key="auth_cm")
     
+    # Tạo nhịp dừng 0.3s lần đầu tiên để trình duyệt truyền Cookie
     if not st.session_state['cookie_fetched']:
         st.session_state['cookie_fetched'] = True
         time.sleep(0.3)
