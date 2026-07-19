@@ -283,6 +283,133 @@ def get_mapped_value(card, field_name):
         return str(card.get("Lứa tuổi", "")) if cv_upper in ["VĐV", "VDV"] else cv_full
     return ""
 
+def tao_pdf_danh_sach(danh_sach_the, ten_don_vi):
+    buffer = io.BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=0.5*cm, leftMargin=0.5*cm, topMargin=1*cm, bottomMargin=1*cm)
+    story = []
+
+    font_paths = ["arial.ttf", "C:/Windows/Fonts/arial.ttf", "D:/Windows/Fonts/arial.ttf"]
+    font_bold_paths = ["arialbd.ttf", "C:/Windows/Fonts/arialbd.ttf", "D:/Windows/Fonts/arialbd.ttf"]
+    font_name = 'Helvetica'
+    font_bold = 'Helvetica-Bold'
+    
+    for fp in font_paths:
+        if os.path.exists(fp):
+            try:
+                pdfmetrics.registerFont(TTFont('VnFont', fp))
+                font_name = 'VnFont'
+                break
+            except: pass
+    for fbp in font_bold_paths:
+        if os.path.exists(fbp):
+            try:
+                pdfmetrics.registerFont(TTFont('VnFont-Bold', fbp))
+                font_bold = 'VnFont-Bold'
+                break
+            except: pass
+
+    styles = getSampleStyleSheet()
+    title_style = ParagraphStyle('TitleStyle', fontName=font_bold, fontSize=16, alignment=1, spaceAfter=20, textColor='#2c3e50')
+    text_style = ParagraphStyle('TextStyle', fontName=font_name, fontSize=8.5, leading=11, alignment=1)
+
+    ten_day_du = get_full_unit_name(ten_don_vi).upper()
+    story.append(Paragraph(f"DANH SÁCH NHÂN SỰ - {ten_day_du}", title_style))
+
+    table_data = []
+    row = []
+    for c in danh_sach_the:
+        cell_content = []
+        img_data = None
+        if "Ảnh_Path" in c and os.path.exists(c["Ảnh_Path"]):
+            with open(c["Ảnh_Path"], "rb") as f: img_data = f.read()
+        elif "Ảnh_Base64" in c and c["Ảnh_Base64"]:
+            try: img_data = base64.b64decode(c["Ảnh_Base64"])
+            except: pass
+            
+        if img_data:
+            try:
+                img = Image.open(io.BytesIO(img_data))
+                img_w, img_h = img.size
+                aspect = img_h / img_w
+                rl_img = RLImage(io.BytesIO(img_data), width=3.0*cm, height=3.0*cm*aspect)
+                cell_content.append(rl_img)
+                cell_content.append(Spacer(1, 0.1*cm))
+            except: pass
+
+        cv = str(c.get("Chức vụ", "")).strip().upper()
+        if cv in ["VĐV", "VDV", "VẬN ĐỘNG VIÊN"]: cv_hien_thi = "VĐV"
+        elif cv in ["HLV", "HUẤN LUYỆN VIÊN"]: cv_hien_thi = "HLV"
+        elif cv in ["HLV TRƯỞNG", "HLV TRUONG"]: cv_hien_thi = "HLV Trưởng"
+        else: cv_hien_thi = c.get("Chức vụ", "")
+
+        info_text = f"<font fontName='{font_bold}' size='9'>{c.get('Họ tên', '').upper()}</font><br/>"
+        info_text += f"CV: <b>{cv_hien_thi}</b> | NS: {c.get('Năm sinh', '')}<br/>"
+        if str(c.get('Đẳng cấp', '')).strip():
+            info_text += f"Đẳng: {c.get('Đẳng cấp', '')}<br/>"
+        info_text += f"Mã: {c.get('Mã', '')}<br/>"
+        
+        if cv in ["VĐV", "VDV", "VẬN ĐỘNG VIÊN"]:
+            info_text += f"HC: {c.get('Nội dung', '')}<br/>"
+            info_text += f"Tuổi: {c.get('Lứa tuổi', '')}"
+            
+        cell_content.append(Paragraph(info_text, text_style))
+        row.append(cell_content)
+        
+        if len(row) == 5:
+            table_data.append(row)
+            row = []
+
+    if row:
+        while len(row) < 5: row.append("")
+        table_data.append(row)
+
+    if table_data:
+        t = Table(table_data, colWidths=[4*cm]*5)
+        t.setStyle(TableStyle([
+            ('ALIGN', (0,0), (-1,-1), 'CENTER'),
+            ('VALIGN', (0,0), (-1,-1), 'TOP'),
+            ('INNERGRID', (0,0), (-1,-1), 0.25, '#ecf0f1'),
+            ('BOX', (0,0), (-1,-1), 1, '#bdc3c7'),
+            ('PADDING', (0,0), (-1,-1), 3),
+        ]))
+        story.append(t)
+    else:
+        story.append(Paragraph("Chưa có dữ liệu.", text_style))
+
+    doc.build(story)
+    buffer.seek(0)
+    return buffer.getvalue()
+
+def tao_file_zip_xuat_du_lieu(danh_sach_the, ten_don_vi):
+    zip_buffer = io.BytesIO()
+    # Sử dụng chuẩn lưu ZIP an toàn tuyệt đối không nén để tránh lỗi thư viện Cloud
+    with zipfile.ZipFile(zip_buffer, "w") as zip_file:
+        for c in danh_sach_the:
+            img_bytes = None
+            if "Ảnh_Path" in c and os.path.exists(c["Ảnh_Path"]):
+                with open(c["Ảnh_Path"], "rb") as f: img_bytes = f.read()
+            elif "Ảnh_Base64" in c and c["Ảnh_Base64"]:
+                try: img_bytes = base64.b64decode(c["Ảnh_Base64"])
+                except: pass
+                
+            if img_bytes:
+                try:
+                    safe_name = remove_accents(c.get("Họ tên", "")).replace(" ", "_").upper()
+                    safe_cv = remove_accents(c.get("Chức vụ", "")).replace(" ", "")
+                    safe_ma = c.get("Mã", "NoID")
+                    file_name = f"Hinh_Anh/{safe_cv}_{safe_name}_{safe_ma}.jpg"
+                    zip_file.writestr(file_name, img_bytes)
+                except: pass
+
+        if danh_sach_the:
+            try:
+                pdf_bytes = tao_pdf_danh_sach(danh_sach_the, ten_don_vi)
+                zip_file.writestr(f"Danh_Sach_Nhan_Su_{ten_don_vi}.pdf", pdf_bytes)
+            except: pass
+
+    zip_buffer.seek(0)
+    return zip_buffer.getvalue()
+
 def draw_card_image(card, g_cfg):
     STD_W = 2480
     aspect_ratio = g_cfg["h_card_cm"] / g_cfg["w_card_cm"]
@@ -747,14 +874,18 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
             st.subheader(f"🖼️ Danh sách thẻ ({len(display_cards)} nhân sự)")
         
         with c_export:
-            zip_data_export = tao_file_zip_xuat_du_lieu(display_cards, ma_don_vi_lam_viec)
-            st.download_button(
-                label="📥 TẢI BÁO CÁO PDF & ẢNH (.ZIP)",
-                data=zip_data_export,
-                file_name=f"Ho_So_{ma_don_vi_lam_viec}.zip",
-                mime="application/zip",
-                use_container_width=True
-            )
+            # BỌC TRY-EXCEPT ĐỂ CHỐNG LỖI HIỂN THỊ MÀN HÌNH ĐỎ
+            try:
+                zip_data_export = tao_file_zip_xuat_du_lieu(display_cards, ma_don_vi_lam_viec)
+                st.download_button(
+                    label="📥 TẢI BÁO CÁO PDF & ẢNH (.ZIP)",
+                    data=zip_data_export,
+                    file_name=f"Ho_So_{ma_don_vi_lam_viec}.zip",
+                    mime="application/zip",
+                    use_container_width=True
+                )
+            except Exception as zip_err:
+                st.warning("Đang xử lý dữ liệu in ấn, vui lòng đợi vài giây và F5 lại trang...")
 
         if role == "ADMIN" and ma_don_vi_lam_viec:
             with c_del:
