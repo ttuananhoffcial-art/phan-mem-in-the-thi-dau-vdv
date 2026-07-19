@@ -94,14 +94,11 @@ for k in ['logged_in', 'user_name', 'user_role', 'user_unit', 'can_print', 'clea
 if st.session_state['clear_form']:
     st.session_state['clear_form'] = False
 
-def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
-
 def load_users():
     if not os.path.exists(USERS_FILE):
         default_admin = {
             "admin": {
-                "password": hash_password("123456"),
+                "password": "123456",
                 "role": "ADMIN",
                 "unit": "Tất cả",
                 "can_print": True
@@ -465,7 +462,6 @@ def draw_card_image(card, g_cfg):
         
         is_bold = line_cfg.get("is_bold", True)
         
-        # SỬA LỖI FONT TRÊN CLOUD
         font_file = font_map.get(font_family, font_map["Arial"])["bold" if is_bold else "regular"]
         if not os.path.exists(font_file): 
             font_file = "arialbd.ttf" if is_bold else "arial.ttf"
@@ -590,14 +586,24 @@ if not st.session_state['logged_in']:
             if submit_login:
                 users_db = load_users()
                 uname = username_input.strip()
-                if uname in users_db and users_db[uname]["password"] == hash_password(password_input):
-                    st.session_state['logged_in'] = True
-                    st.session_state['user_name'] = uname
-                    st.session_state['user_role'] = users_db[uname]["role"]
-                    st.session_state['user_unit'] = users_db[uname]["unit"]
-                    st.session_state['can_print'] = users_db[uname].get("can_print", False)
-                    st.success("Đăng nhập thành công!")
-                    st.rerun()
+                if uname in users_db:
+                    stored_pwd = users_db[uname].get("password", "")
+                    hashed_input = hashlib.sha256(password_input.encode()).hexdigest()
+                    
+                    if stored_pwd == password_input or stored_pwd == hashed_input:
+                        if stored_pwd == hashed_input and stored_pwd != password_input:
+                            users_db[uname]["password"] = password_input
+                            save_users(users_db)
+                            
+                        st.session_state['logged_in'] = True
+                        st.session_state['user_name'] = uname
+                        st.session_state['user_role'] = users_db[uname]["role"]
+                        st.session_state['user_unit'] = users_db[uname]["unit"]
+                        st.session_state['can_print'] = users_db[uname].get("can_print", False)
+                        st.success("Đăng nhập thành công!")
+                        st.rerun()
+                    else:
+                        st.error("❌ Tên đăng nhập hoặc mật khẩu không chính xác!")
                 else:
                     st.error("❌ Tên đăng nhập hoặc mật khẩu không chính xác!")
     st.stop() 
@@ -1163,7 +1169,7 @@ elif menu_choice == "3️⃣ Cài đặt (Admin)":
                 st.error(f"❌ Tài khoản '{new_u}' đã tồn tại!")
             else:
                 users_db[new_u] = {
-                    "password": hash_password(new_p),
+                    "password": new_p,
                     "role": "DON_VI",
                     "unit": new_dv,
                     "can_print": c4
@@ -1175,12 +1181,18 @@ elif menu_choice == "3️⃣ Cài đặt (Admin)":
     st.markdown("**📋 Danh sách tài khoản hiện tại:**")
     for u, info in users_db.items():
         if u == "admin": continue
-        c1, c2, c3, c4, c5 = st.columns([2, 3, 2, 2, 1])
+        c1, c2, c3, c4, c5, c6 = st.columns([1.5, 1.5, 2, 1.5, 1.5, 1])
         c1.write(f"👤 **{u}**")
-        c2.write(f"🏢 {info.get('unit', '')}")
-        c3.write(f"🔑 Quyền: {info.get('role', '')}")
-        c4.write("🖨️ In thẻ: " + ("Được phép" if info.get('can_print', False) else "Không"))
-        if c5.button("🗑️ Xóa", key=f"del_user_{u}"):
+        
+        pwd_display = info.get('password', '')
+        if len(pwd_display) == 64: 
+            pwd_display = "(Đã mã hóa cũ)"
+            
+        c2.write(f"🔑 MK: `{pwd_display}`")
+        c3.write(f"🏢 {info.get('unit', '')}")
+        c4.write(f"🛡️ {info.get('role', '')}")
+        c5.write("🖨️ In: " + ("Có" if info.get('can_print', False) else "Không"))
+        if c6.button("🗑️ Xóa", key=f"del_user_{u}"):
             del users_db[u]
             save_users(users_db)
             st.rerun()
@@ -1242,13 +1254,16 @@ elif menu_choice == "4️⃣ Đổi Mật Khẩu":
             users_db = load_users()
             uname = st.session_state['user_name']
             
-            if users_db[uname]["password"] != hash_password(old_pwd):
+            stored_pwd = users_db[uname]["password"]
+            hashed_old = hashlib.sha256(old_pwd.encode()).hexdigest()
+            
+            if stored_pwd != old_pwd and stored_pwd != hashed_old:
                 st.error("❌ Mật khẩu cũ không chính xác!")
             elif new_pwd != confirm_pwd:
                 st.error("❌ Mật khẩu mới không khớp với xác nhận!")
             elif len(new_pwd) < 6:
                 st.error("❌ Mật khẩu phải có ít nhất 6 ký tự!")
             else:
-                users_db[uname]["password"] = hash_password(new_pwd)
+                users_db[uname]["password"] = new_pwd
                 save_users(users_db)
                 st.success("✅ Đổi mật khẩu thành công! Bạn có thể sử dụng mật khẩu mới trong lần đăng nhập tiếp theo.")
