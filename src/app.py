@@ -1,6 +1,4 @@
 import streamlit as st
-import urllib.parse
-import requests
 import json
 import os
 import re
@@ -9,6 +7,7 @@ import unicodedata
 import io
 import datetime
 import zipfile
+import hashlib
 import pandas as pd
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 from reportlab.lib.pagesizes import A4
@@ -56,17 +55,13 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-CLIENT_ID = "411175345765-cuchaq5flnk6a16eboeu5k51fod89j64.apps.googleusercontent.com"
-CLIENT_SECRET = "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"
-REDIRECT_URI = "https://phan-mem-in-the-thi-dau-vdv.streamlit.app/"
-
 CARDS_FILE = "data/submitted_cards.json"
 CONFIG_GRAPHICS_FILE = "data/config_the.json"
-AUTHORIZED_EMAILS = {"tuananht1kg@gmail.com": "ADMIN"}
+USERS_FILE = "data/users.json"
 AVATARS_DIR = "data/avatars"
 
-if not os.path.exists(AVATARS_DIR):
-    os.makedirs(AVATARS_DIR)
+if not os.path.exists("data"): os.makedirs("data")
+if not os.path.exists(AVATARS_DIR): os.makedirs(AVATARS_DIR)
 
 FIELD_OPTIONS = [
     "Họ và Tên", "Chức Vụ", "Năm sinh", "Đơn vị", "Nội dung (Hạng cân)",
@@ -76,17 +71,40 @@ FIELD_OPTIONS = [
 ]
 
 # ==========================================
-# KHỞI TẠO TRẠNG THÁI HỆ THỐNG
+# KHỞI TẠO TRẠNG THÁI HỆ THỐNG & TÀI KHOẢN
 # ==========================================
-for k in ['logged_in', 'user_email', 'user_role', 'user_unit', 'clear_form', 'success_msg', 'success_url', 'edit_idx', 'show_settings', 'edit_tourney_idx']:
+for k in ['logged_in', 'user_name', 'user_role', 'user_unit', 'can_print', 'clear_form', 'success_msg', 'success_url', 'edit_idx', 'show_settings', 'edit_tourney_idx']:
     if k not in st.session_state:
-        st.session_state[k] = False if k in ['logged_in', 'clear_form', 'show_settings'] else (None if k in ['edit_idx', 'edit_tourney_idx'] else "")
+        st.session_state[k] = False if k in ['logged_in', 'clear_form', 'show_settings', 'can_print'] else (None if k in ['edit_idx', 'edit_tourney_idx'] else "")
 
 if st.session_state['clear_form']:
     st.session_state['clear_form'] = False
 
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+def load_users():
+    if not os.path.exists(USERS_FILE):
+        default_admin = {
+            "admin": {
+                "password": hash_password("123456"),
+                "role": "ADMIN",
+                "unit": "Tất cả",
+                "can_print": True
+            }
+        }
+        with open(USERS_FILE, "w", encoding="utf-8") as f:
+            json.dump(default_admin, f, indent=4)
+        return default_admin
+    try:
+        with open(USERS_FILE, "r", encoding="utf-8") as f: return json.load(f)
+    except: return {}
+
+def save_users(users_data):
+    with open(USERS_FILE, "w", encoding="utf-8") as f: json.dump(users_data, f, indent=4, ensure_ascii=False)
+
 # ==============================================================
-# QUẢN LÝ THAM SỐ VÀ CÀI ĐẶT
+# HÀM XỬ LÝ ẢNH & THÔNG SỐ ĐỒ HỌA
 # ==============================================================
 def process_and_save_image(uploaded_file, ma_hv):
     if uploaded_file is None: return ""
@@ -115,7 +133,6 @@ def load_graphics_config():
             {"color": "#000000", "initial_size": 85, "l_x": 1243, "l_y": 2201, "is_bold": True, "is_uppercase": False}
         ]
     }
-    if not os.path.exists("data"): os.makedirs("data")
     if not os.path.exists(CONFIG_GRAPHICS_FILE):
         with open(CONFIG_GRAPHICS_FILE, "w", encoding="utf-8") as f: json.dump(default_config, f, indent=4)
     try:
@@ -136,11 +153,7 @@ def remove_accents(input_str):
     return only_ascii.replace("Đ", "D").replace("đ", "d")
 
 def load_settings():
-    default_data = {
-        "unit_mapping": {}, "permissions": {}, "lua_tuoi": [], "noi_dung": [],
-        "tournaments": [], "printed_status": {}
-    }
-    if not os.path.exists("data"): os.makedirs("data")
+    default_data = {"lua_tuoi": [], "noi_dung": [], "tournaments": [], "printed_status": {}}
     if not os.path.exists("data/settings.json"):
         with open("data/settings.json", "w", encoding="utf-8") as f: json.dump(default_data, f)
         return default_data
@@ -150,15 +163,8 @@ def load_settings():
             if not isinstance(data, dict): return default_data
             for k in ["lua_tuoi", "noi_dung"]: 
                 if k not in data or not isinstance(data[k], list): data[k] = []
-            if "unit_mapping" not in data or not isinstance(data["unit_mapping"], dict): data["unit_mapping"] = {}
             if "tournaments" not in data or not isinstance(data["tournaments"], list): data["tournaments"] = []
             if "printed_status" not in data or not isinstance(data["printed_status"], dict): data["printed_status"] = {}
-            
-            if "tournament_config" in data and isinstance(data["tournament_config"], dict) and data["tournament_config"].get("name"):
-                if not data["tournaments"]:
-                    old_t = data["tournament_config"]
-                    old_t["is_active"] = True
-                    data["tournaments"].append(old_t)
             return data
     except: return default_data
 
@@ -198,39 +204,6 @@ def delete_card(idx):
             except: pass
         with open(CARDS_FILE, "w", encoding="utf-8") as f: json.dump(cards, f, ensure_ascii=False)
         st.session_state['success_msg'] = f"🗑️ Đã XÓA hồ sơ của {deleted_card.get('Họ tên', '')}!"
-
-def add_map():
-    raw_text = st.session_state.map_email_input.lower()
-    dv_moi = st.session_state.map_dv_select
-    email_list = re.split(r'[, \n]+', raw_text)
-    clean_emails = [e.strip() for e in email_list if "@gmail.com" in e.strip()]
-    if clean_emails:
-        cur = load_settings()
-        for em in clean_emails: cur.setdefault("unit_mapping", {})[em] = dv_moi
-        save_settings(cur); st.session_state.map_email_input = ""; st.session_state.thong_bao_mapping = f"✅ Gán thành công {len(clean_emails)} Gmail vào đơn vị {dv_moi}!"
-    else: st.session_state.thong_bao_mapping = "❌ Lỗi: Không tìm thấy Gmail hợp lệ!"
-
-def del_map(em):
-    cur = load_settings()
-    if em in cur.get("unit_mapping", {}): del cur["unit_mapping"][em]; save_settings(cur); st.session_state.thong_bao_mapping = f"🗑️ Đã xóa gán đơn vị của {em}!"
-
-def add_q():
-    em = st.session_state.nhap_q.strip().lower()
-    if em and "@gmail.com" in em:
-        cur = load_settings()
-        if em not in cur.setdefault("permissions", {}):
-            cur["permissions"][em] = {"xoa_danh_sach": False, "in_the": False}
-            save_settings(cur); st.session_state.nhap_q = ""; st.session_state.thong_bao_quyen = f"✅ Đã cấp quyền cơ sở cho {em}!"
-        else: st.session_state.thong_bao_quyen = f"⚠️ Tài khoản {em} đã tồn tại!"
-    else: st.session_state.thong_bao_quyen = "❌ Vui lòng nhập đúng định dạng Gmail!"
-
-def upd_q(em, q):
-    cur = load_settings()
-    if em in cur.get("permissions", {}): cur["permissions"][em][q] = st.session_state[f"{q}_{em}"]; save_settings(cur)
-
-def del_q(em):
-    cur = load_settings()
-    if em in cur.get("permissions", {}): del cur["permissions"][em]; save_settings(cur); st.session_state.thong_bao_quyen = f"🗑️ Đã thu hồi toàn bộ quyền đặc biệt của {em}!"
 
 def toggle_settings(): st.session_state['show_settings'] = not st.session_state['show_settings']
 
@@ -556,14 +529,11 @@ def export_reportlab_pdf(print_cards, g_cfg):
 # KHỞI CHẠY HỆ THỐNG CƠ BẢN
 settings_data = load_settings()
 graphics_config = load_graphics_config()
+danh_sach_thuc_the_cai_dat = sorted(list(UNIT_NAMES.keys()))
 
 tournaments_list = settings_data.get("tournaments", [])
 active_tourneys = [t for t in tournaments_list if t.get("is_active")]
 tourney_name = active_tourneys[0].get("name", "") if active_tourneys else ""
-
-has_qgia = any(t.get("type", "QGIA") == "QGIA" for t in active_tourneys)
-has_tinh = any(t.get("type", "QGIA") == "TINH" for t in active_tourneys)
-
 today_date = datetime.date.today()
 is_registration_open = False
 date_err_msg = "THÔNG BÁO đã hết hạn nộp hồ sơ thẻ"
@@ -580,64 +550,61 @@ for t in active_tourneys:
     except:
         is_registration_open = True
 
-# Tạo danh sách các đơn vị để Admin tiện cài đặt
-danh_sach_thuc_the_cai_dat = sorted(list(UNIT_NAMES.keys()))
-
 # ==========================================
-# LOGIC XỬ LÝ ĐĂNG NHẬP GOOGLE OAUTH
+# HỆ THỐNG ĐĂNG NHẬP (TÀI KHOẢN / MẬT KHẨU)
 # ==========================================
-if not st.session_state['logged_in'] and "code" in st.query_params:
-    code = st.query_params.get("code")
-    try:
-        token_url = "https://oauth2.googleapis.com/token"
-        res = requests.post(token_url, data={"code": code, "client_id": CLIENT_ID, "client_secret": CLIENT_SECRET, "redirect_uri": REDIRECT_URI, "grant_type": "authorization_code"})
-        access_token = res.json().get("access_token")
-        user_info = requests.get("https://www.googleapis.com/oauth2/v1/userinfo", headers={"Authorization": f"Bearer {access_token}"}).json()
-        email_dang_nhap = user_info.get("email", "").strip().lower()
-        
-        auth_emails_lower = {k.lower(): v for k, v in AUTHORIZED_EMAILS.items()}
-        unit_mapping_lower = {k.lower(): v for k, v in settings_data.get("unit_mapping", {}).items()}
-        perm_emails_lower = [e.lower() for e in settings_data.get("permissions", {}).keys()]
-        
-        if email_dang_nhap in auth_emails_lower: st.session_state.update({'logged_in': True, 'user_email': email_dang_nhap, 'user_role': "ADMIN", 'user_unit': ""}); st.query_params.clear(); st.rerun() 
-        elif email_dang_nhap in unit_mapping_lower: st.session_state.update({'logged_in': True, 'user_email': email_dang_nhap, 'user_role': "DON_VI", 'user_unit': unit_mapping_lower[email_dang_nhap]}); st.query_params.clear(); st.rerun() 
-        elif email_dang_nhap in perm_emails_lower: st.session_state.update({'logged_in': True, 'user_email': email_dang_nhap, 'user_role': "DON_VI_LE", 'user_unit': ""}); st.query_params.clear(); st.rerun()
-        else: st.sidebar.error(f"❌ Tài khoản {email_dang_nhap} chưa được cấp quyền!"); st.query_params.clear()
-    except Exception as e: st.sidebar.error("Có lỗi trong quá trình xác thực với Google.")
-
-st.sidebar.title("🔐 Đăng nhập hệ thống")
 if not st.session_state['logged_in']:
-    auth_url = "https://accounts.google.com/o/oauth2/v2/auth"
-    params = {"client_id": CLIENT_ID, "response_type": "code", "redirect_uri": REDIRECT_URI, "scope": "openid email profile", "prompt": "select_account"}
-    login_url = f"{auth_url}?{urllib.parse.urlencode(params)}"
-    st.sidebar.markdown(f'<a href="{login_url}" target="_self" style="text-decoration: none;"><div style="display: flex; align-items: center; justify-content: center; background-color: white; color: #3c4043; border: 1px solid #dadce0; border-radius: 4px; padding: 10px; font-weight: 500; cursor: pointer;"><img src="https://www.google.com/favicon.ico" style="width: 18px; margin-right: 12px;">Đăng nhập với Google</div></a>', unsafe_allow_html=True)
-    st.info("👈 Vui lòng đăng nhập ở thanh bên trái để sử dụng phần mềm.")
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center; color: #2980b9;'>🔐 HỆ THỐNG QUẢN LÝ THẺ TAEKWONDO</h2>", unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.info("Tài khoản mặc định cho Quản Trị Viên: Tên đăng nhập: **admin** | Mật khẩu: **123456**")
+        with st.form("login_form"):
+            username_input = st.text_input("Tên đăng nhập")
+            password_input = st.text_input("Mật khẩu", type="password")
+            submit_login = st.form_submit_button("Đăng nhập Hệ Thống", type="primary", use_container_width=True)
+            
+            if submit_login:
+                users_db = load_users()
+                uname = username_input.strip()
+                if uname in users_db and users_db[uname]["password"] == hash_password(password_input):
+                    st.session_state['logged_in'] = True
+                    st.session_state['user_name'] = uname
+                    st.session_state['user_role'] = users_db[uname]["role"]
+                    st.session_state['user_unit'] = users_db[uname]["unit"]
+                    st.session_state['can_print'] = users_db[uname].get("can_print", False)
+                    st.success("Đăng nhập thành công!")
+                    st.rerun()
+                else:
+                    st.error("❌ Tên đăng nhập hoặc mật khẩu không chính xác!")
     st.stop() 
 
+# ĐÃ ĐĂNG NHẬP THÀNH CÔNG
 st.sidebar.success("✅ Đăng nhập thành công!")
-st.sidebar.markdown(f"**Tài khoản:** {st.session_state['user_email']}")
-st.sidebar.markdown("---")
-
-user_perms = settings_data.get("permissions", {}).get(st.session_state['user_email'], {})
-quyen_in = user_perms.get("in_the", False)
-
-menu_choice = st.sidebar.radio("📌 CHỨC NĂNG CHÍNH", ["1️⃣ Nộp Danh Sách Làm Thẻ", "2️⃣ In Thẻ", "3️⃣ Cài đặt"])
+st.sidebar.markdown(f"👤 **Tài khoản:** {st.session_state['user_name']}")
 st.sidebar.markdown("---")
 
 role = st.session_state['user_role']
+quyen_in = st.session_state['can_print']
 ma_don_vi_lam_viec = ""
 entity_label = "Đơn vị/CLB"
+
+menu_options = ["1️⃣ Nộp Danh Sách Làm Thẻ", "2️⃣ In Thẻ"]
+if role == "ADMIN":
+    menu_options.append("3️⃣ Cài đặt (Admin)")
+menu_options.append("4️⃣ Đổi Mật Khẩu")
+
+menu_choice = st.sidebar.radio("📌 CHỨC NĂNG CHÍNH", menu_options)
+st.sidebar.markdown("---")
 
 all_cards_for_filter = load_submitted_cards()
 submitted_units = sorted(list({str(c.get("Đơn_vị", "")).strip().upper() for c in all_cards_for_filter}))
 
 if role == "ADMIN":
     st.sidebar.info("👑 Quyền: QUẢN TRỊ VIÊN")
-    
-    if not submitted_units:
-        danh_sach_admin = ["Chưa có đơn vị nộp hồ sơ"]
-    else:
-        danh_sach_admin = submitted_units
+    if not submitted_units: danh_sach_admin = ["Chưa có đơn vị nộp hồ sơ"]
+    else: danh_sach_admin = submitted_units
         
     printed_status = settings_data.get("printed_status", {})
     printed_units = printed_status.get(tourney_name, [])
@@ -651,14 +618,9 @@ if role == "ADMIN":
     if don_vi_chon != "-- Chọn --" and don_vi_chon != "Chưa có đơn vị nộp hồ sơ": ma_don_vi_lam_viec = don_vi_chon
 elif role == "DON_VI":
     ma_don_vi_lam_viec = st.session_state['user_unit']
-    st.sidebar.info("🏢 Quyền: ĐẠI DIỆN ĐƠN VỊ")
-    st.sidebar.success(f"**Tài khoản của bạn: {ma_don_vi_lam_viec}**")
-else:
-    st.sidebar.error("❌ Tài khoản chưa được gán Đơn vị!")
-    st.sidebar.info("Vui lòng nhờ Admin gán Gmail này vào 1 Đơn vị.")
+    st.sidebar.info(f"🏢 Đơn vị: {ma_don_vi_lam_viec}")
     
 st.sidebar.markdown("---")
-if st.sidebar.button("🔄 LÀM MỚI TẢI LẠI DỮ LIỆU", type="primary", use_container_width=True): st.cache_data.clear(); st.rerun()
 if st.sidebar.button("Đăng xuất", use_container_width=True): st.session_state.clear(); st.cache_data.clear(); st.rerun()
 
 # ==========================================
@@ -766,7 +728,7 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                     else:
                         img_path = process_and_save_image(uploaded_file, input_ma_hv)
                         save_submitted_card({
-                            "Người_nộp": st.session_state['user_email'], 
+                            "Người_nộp": st.session_state['user_name'], 
                             "Đơn_vị": ma_don_vi_lam_viec, 
                             "Đơn_vị_gốc": ma_don_vi_lam_viec,
                             "Mã": input_ma_hv, 
@@ -858,14 +820,13 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                         html_content += f'<div class="card-img-wrapper"><img src="{img_src}"></div>'
                         html_content += f'<div class="card-title">{card.get("Họ tên", "")}</div>'
                         html_content += f'<div class="card-text">🏢 {get_full_unit_name(card.get("Đơn_vị", ""))}</div>'
-                        html_content += f'<div class="card-text" style="color: #16a085; font-weight: bold;">🏷️ Mã gốc: {card.get("Đơn_vị_gốc", card.get("Đơn_vị", ""))}</div>'
                         html_content += f'<div class="card-text">🎂 NS: {card.get("Năm sinh", "")}</div>'
                         if str(card.get('Đẳng cấp', '')).strip():
-                            html_content += f'<div class="card-text">🥋 Đẳng cấp: {card.get("Đẳng cấp", "")}</div>'
+                            html_content += f'<div class="card-text">🥋 Đẳng: {card.get("Đẳng cấp", "")}</div>'
                         if card.get("Chức vụ") == "VĐV":
                             html_content += f'<div class="card-text" style="color: #0984e3; font-weight: bold;">🥋 {card.get("Nội dung", "")}</div>'
                             html_content += f'<div class="card-text" style="color: #e17055; font-weight: bold;">🏅 {card.get("Lứa tuổi", "")}</div>'
-                        html_content += f'<div class="card-footer">👤 {card.get("Người_nộp", "")}</div></div>'
+                        html_content += f'<div class="card-footer">👤 Nộp bởi: {card.get("Người_nộp", "")}</div></div>'
                         st.markdown(html_content, unsafe_allow_html=True)
                         
                         st.markdown("<div style='height: 5px;'></div>", unsafe_allow_html=True)
@@ -1048,191 +1009,224 @@ elif menu_choice == "2️⃣ In Thẻ":
 # ==========================================
 # MÀN HÌNH 3: CÀI ĐẶT HỆ THỐNG (ADMIN)
 # ==========================================
-elif menu_choice == "3️⃣ Cài đặt":
+elif menu_choice == "3️⃣ Cài đặt (Admin)":
     st.title("⚙️ Cài đặt Hệ thống")
     st.markdown("---")
-    if role == "ADMIN":
-        st.success("👑 Khu vực cấu hình phân quyền dành riêng cho Admin.")
+    
+    st.subheader("1. Quản lý Danh sách Giải đấu")
+    st.info("Cài đặt thông tin giải đấu. Hệ thống hỗ trợ bật/tắt để mở/đóng cổng đăng ký.")
+    
+    cur_set = load_settings()
+    tournaments = cur_set.get("tournaments", [])
+    edit_t_idx = st.session_state.get('edit_tourney_idx')
+    
+    if edit_t_idx is not None and 0 <= edit_t_idx < len(tournaments):
+        t_edit = tournaments[edit_t_idx]
+        form_title = f"✏️ Đang sửa giải: {t_edit['name']}"
+        def_name = t_edit['name']
+        def_start = datetime.datetime.strptime(t_edit['start_date'], "%Y-%m-%d").date() if t_edit['start_date'] else datetime.date.today()
+        def_end = datetime.datetime.strptime(t_edit['end_date'], "%Y-%m-%d").date() if t_edit['end_date'] else datetime.date.today()
+        def_type = 0 if t_edit['type'] == "QGIA" else 1
+        form_key = f"form_tourney_edit_{edit_t_idx}"
+    else:
+        form_title = "➕ Thêm giải đấu mới"
+        def_name = ""
+        def_start = datetime.date.today()
+        def_end = datetime.date.today()
+        def_type = 0
+        form_key = "form_tourney_new"
         
-        st.subheader("1. Quản lý Danh sách Giải đấu")
-        st.info("Cài đặt thông tin giải đấu. Hệ thống tự động đổi cơ sở dữ liệu theo loại giải. Hỗ trợ bật nhiều giải song song!")
+    with st.form(form_key, clear_on_submit=True):
+        st.markdown(f"**{form_title}**")
+        c_t1, c_t2, c_t3, c_t4 = st.columns(4)
+        with c_t1: new_t_start = st.date_input("1. Ngày bắt đầu", value=def_start)
+        with c_t2: new_t_end = st.date_input("2. Ngày kết thúc", value=def_end)
+        with c_t3: new_t_name = st.text_input("3. Tên giải đấu", value=def_name)
+        with c_t4: new_t_type = st.radio("4. Loại giải", ["QGIA (Quốc Gia)", "TINH (Cấp Tỉnh)"], index=def_type)
         
-        cur_set = load_settings()
-        tournaments = cur_set.get("tournaments", [])
-        edit_t_idx = st.session_state.get('edit_tourney_idx')
-        
-        if edit_t_idx is not None and 0 <= edit_t_idx < len(tournaments):
-            t_edit = tournaments[edit_t_idx]
-            form_title = f"✏️ Đang sửa giải: {t_edit['name']}"
-            def_name = t_edit['name']
-            def_start = datetime.datetime.strptime(t_edit['start_date'], "%Y-%m-%d").date() if t_edit['start_date'] else datetime.date.today()
-            def_end = datetime.datetime.strptime(t_edit['end_date'], "%Y-%m-%d").date() if t_edit['end_date'] else datetime.date.today()
-            def_type = 0 if t_edit['type'] == "QGIA" else 1
-            form_key = f"form_tourney_edit_{edit_t_idx}"
-        else:
-            form_title = "➕ Thêm giải đấu mới"
-            def_name = ""
-            def_start = datetime.date.today()
-            def_end = datetime.date.today()
-            def_type = 0
-            form_key = "form_tourney_new"
-            
-        with st.form(form_key, clear_on_submit=True):
-            st.markdown(f"**{form_title}**")
-            c_t1, c_t2, c_t3, c_t4 = st.columns(4)
-            with c_t1: new_t_start = st.date_input("1. Ngày bắt đầu", value=def_start)
-            with c_t2: new_t_end = st.date_input("2. Ngày kết thúc", value=def_end)
-            with c_t3: new_t_name = st.text_input("3. Tên giải đấu", value=def_name)
-            with c_t4: new_t_type = st.radio("4. Loại giải", ["QGIA (Quốc Gia)", "TINH (Cấp Tỉnh)"], index=def_type)
-            
-            btn_label = "💾 Lưu Cập Nhật Giải" if edit_t_idx is not None else "➕ Lưu Giải Đấu Mới"
-            if st.form_submit_button(btn_label, type="primary", use_container_width=True):
-                if new_t_name.strip() == "":
-                    st.warning("⚠️ Vui lòng nhập Tên giải đấu!")
+        btn_label = "💾 Lưu Cập Nhật Giải" if edit_t_idx is not None else "➕ Lưu Giải Đấu Mới"
+        if st.form_submit_button(btn_label, type="primary", use_container_width=True):
+            if new_t_name.strip() == "":
+                st.warning("⚠️ Vui lòng nhập Tên giải đấu!")
+            else:
+                new_t = {
+                    "name": new_t_name.strip(),
+                    "start_date": str(new_t_start),
+                    "end_date": str(new_t_end),
+                    "type": "QGIA" if "QGIA" in new_t_type else "TINH",
+                    "is_active": False 
+                }
+                if edit_t_idx is not None:
+                    new_t["is_active"] = tournaments[edit_t_idx].get("is_active", False)
+                    tournaments[edit_t_idx] = new_t
+                    st.session_state['edit_tourney_idx'] = None
+                    st.success("✅ Cập nhật giải đấu thành công!")
                 else:
-                    new_t = {
-                        "name": new_t_name.strip(),
-                        "start_date": str(new_t_start),
-                        "end_date": str(new_t_end),
-                        "type": "QGIA" if "QGIA" in new_t_type else "TINH",
-                        "is_active": False 
-                    }
-                    if edit_t_idx is not None:
-                        new_t["is_active"] = tournaments[edit_t_idx].get("is_active", False)
-                        tournaments[edit_t_idx] = new_t
-                        st.session_state['edit_tourney_idx'] = None
-                        st.success("✅ Cập nhật giải đấu thành công!")
-                    else:
-                        if len(tournaments) == 0: new_t["is_active"] = True
-                        tournaments.append(new_t)
-                        st.success("✅ Thêm giải đấu mới thành công!")
-                    
-                    cur_set["tournaments"] = tournaments
-                    save_settings(cur_set)
-                    st.rerun()
-                    
-        if edit_t_idx is not None:
-            if st.button("❌ Hủy chỉnh sửa"):
-                st.session_state['edit_tourney_idx'] = None
+                    if len(tournaments) == 0: new_t["is_active"] = True
+                    tournaments.append(new_t)
+                    st.success("✅ Thêm giải đấu mới thành công!")
+                
+                cur_set["tournaments"] = tournaments
+                save_settings(cur_set)
                 st.rerun()
+                
+    if edit_t_idx is not None:
+        if st.button("❌ Hủy chỉnh sửa"):
+            st.session_state['edit_tourney_idx'] = None
+            st.rerun()
 
-        st.markdown("#### 📌 Danh sách các giải đấu:")
-        if not tournaments:
-            st.warning("⚠️ Chưa có giải đấu nào được thiết lập. Vui lòng thêm mới ở trên.")
-        else:
-            for i, t in enumerate(tournaments):
-                is_act = t.get('is_active', False)
-                bg_color = "#e8f8f5" if is_act else "#f9f9f9"
-                border_color = "#1abc9c" if is_act else "#ddd"
-                
-                st.markdown(f"""
-                <div style="background-color: {bg_color}; border: 1px solid {border_color}; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
-                    <h4 style="margin: 0; color: #2c3e50;">{'⭐ (ĐANG HOẠT ĐỘNG) - ' if is_act else ''}{t['name']}</h4>
-                    <p style="margin: 5px 0 0 0; font-size: 14px; color: #7f8c8d;">
-                        🗓️ {t['start_date']} đến {t['end_date']} | 🎯 {'Quy mô Quốc Gia' if t['type']=='QGIA' else 'Quy mô Tỉnh/Thành'}
-                    </p>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                c_btn1, c_btn2, c_btn3, _ = st.columns([2, 2, 2, 6])
-                with c_btn1:
-                    if not is_act:
-                        if st.button("✅ Bật Kích hoạt", key=f"act_{i}", use_container_width=True):
-                            tournaments[i]['is_active'] = True
-                            cur_set["tournaments"] = tournaments
-                            save_settings(cur_set)
-                            st.rerun()
-                    else: 
-                        if st.button("⏸️ Tắt Kích hoạt", key=f"deact_{i}", use_container_width=True):
-                            tournaments[i]['is_active'] = False
-                            cur_set["tournaments"] = tournaments
-                            save_settings(cur_set)
-                            st.rerun()
-                with c_btn2:
-                    if st.button("✏️ Sửa", key=f"edit_{i}", use_container_width=True):
-                        st.session_state['edit_tourney_idx'] = i
-                        st.rerun()
-                with c_btn3:
-                    if st.button("🗑️ Xóa", key=f"del_{i}", use_container_width=True):
-                        tournaments.pop(i)
+    st.markdown("#### 📌 Danh sách các giải đấu:")
+    if not tournaments:
+        st.warning("⚠️ Chưa có giải đấu nào được thiết lập. Vui lòng thêm mới ở trên.")
+    else:
+        for i, t in enumerate(tournaments):
+            is_act = t.get('is_active', False)
+            bg_color = "#e8f8f5" if is_act else "#f9f9f9"
+            border_color = "#1abc9c" if is_act else "#ddd"
+            
+            st.markdown(f"""
+            <div style="background-color: {bg_color}; border: 1px solid {border_color}; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                <h4 style="margin: 0; color: #2c3e50;">{'⭐ (ĐANG HOẠT ĐỘNG) - ' if is_act else ''}{t['name']}</h4>
+                <p style="margin: 5px 0 0 0; font-size: 14px; color: #7f8c8d;">
+                    🗓️ {t['start_date']} đến {t['end_date']} | 🎯 {'Quy mô Quốc Gia' if t['type']=='QGIA' else 'Quy mô Tỉnh/Thành'}
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            c_btn1, c_btn2, c_btn3, _ = st.columns([2, 2, 2, 6])
+            with c_btn1:
+                if not is_act:
+                    if st.button("✅ Bật Kích hoạt", key=f"act_{i}", use_container_width=True):
+                        tournaments[i]['is_active'] = True
                         cur_set["tournaments"] = tournaments
                         save_settings(cur_set)
                         st.rerun()
-                st.markdown("<div style='margin-bottom: 15px;'></div>", unsafe_allow_html=True)
-            
-        st.markdown("---")
-        st.subheader("2. Quản lý Tài khoản Đơn vị (Gán Gmail vào Đơn vị/CLB)")
-        col_sel, col_inp, col_btn = st.columns([2, 3, 1])
-        with col_sel: st.selectbox("Chọn Đơn vị/CLB", danh_sach_thuc_the_cai_dat, key="map_dv_select")
-        with col_inp: st.text_input("Nhập/Dán danh sách Gmail", placeholder="VD: hlv1@gmail.com, hlv2@gmail.com", key="map_email_input")
-        with col_btn: st.write(""); st.button("➕ Thêm liên kết", on_click=add_map, type="primary", use_container_width=True)
-            
-        if st.session_state.get("thong_bao_mapping"): st.success(st.session_state.thong_bao_mapping); st.session_state.thong_bao_mapping = ""
-        mapping = load_settings().get("unit_mapping", {})
-        if mapping:
-            for mail, dv in mapping.items():
-                cx1, cx2, cx3 = st.columns([3, 2, 1])
-                cx1.write(f"📧 `{mail}`"); cx2.markdown(f"🏢 **{dv}**"); cx3.button("🗑️ Gỡ bỏ", key=f"dm_{mail}", on_click=del_map, args=(mail,))
-
-        st.markdown("---")
-        st.subheader("3. Phân quyền chi tiết (Quyền lẻ In thẻ & Xóa)")
-        cq1, cq2 = st.columns([3, 1])
-        with cq1: st.text_input("Nhập Gmail cấp quyền lẻ", placeholder="VD: canbo_in@gmail.com", key="nhap_q")
-        with cq2: st.write(""); st.button("➕ Thêm tài khoản lẻ", on_click=add_q, use_container_width=True)
+                else: 
+                    if st.button("⏸️ Tắt Kích hoạt", key=f"deact_{i}", use_container_width=True):
+                        tournaments[i]['is_active'] = False
+                        cur_set["tournaments"] = tournaments
+                        save_settings(cur_set)
+                        st.rerun()
+            with c_btn2:
+                if st.button("✏️ Sửa", key=f"edit_{i}", use_container_width=True):
+                    st.session_state['edit_tourney_idx'] = i
+                    st.rerun()
+            with c_btn3:
+                if st.button("🗑️ Xóa", key=f"del_{i}", use_container_width=True):
+                    tournaments.pop(i)
+                    cur_set["tournaments"] = tournaments
+                    save_settings(cur_set)
+                    st.rerun()
+            st.markdown("<div style='margin-bottom: 15px;'></div>", unsafe_allow_html=True)
         
-        if st.session_state.get("thong_bao_quyen"): 
-            if "✅" in st.session_state.thong_bao_quyen: st.success(st.session_state.thong_bao_quyen)
-            else: st.error(st.session_state.thong_bao_quyen)
-            st.session_state.thong_bao_quyen = ""
+    st.markdown("---")
+    st.subheader("2. Quản lý Tài Khoản Người Dùng (HLV/Đơn vị)")
+    
+    users_db = load_users()
+    
+    with st.form("create_user_form"):
+        st.markdown("**➕ Tạo tài khoản mới cho HLV/Đơn vị**")
+        c1, c2, c3 = st.columns(3)
+        with c1: new_u = st.text_input("Tên đăng nhập (Viết liền, không dấu)")
+        with c2: new_p = st.text_input("Mật khẩu")
+        with c3: new_dv = st.selectbox("Chọn Đơn vị/CLB quản lý", danh_sach_thuc_the_cai_dat)
         
-        permissions_data = load_settings().get("permissions", {})
-        if permissions_data:
-            for em, p in permissions_data.items():
-                cq1, cq2, cq3, cq4 = st.columns([3, 2, 2, 1])
-                cq1.write(f"📧 `{em}`")
-                cq2.checkbox("Cho phép Xóa", value=p.get("xoa_danh_sach", False), key=f"xoa_danh_sach_{em}", on_change=upd_q, args=(em, "xoa_danh_sach"))
-                cq3.checkbox("Cho phép In", value=p.get("in_the", False), key=f"in_the_{em}", on_change=upd_q, args=(em, "in_the"))
-                cq4.button("🗑️ Thu hồi", key=f"dq_{em}", on_click=del_q, args=(em,), use_container_width=True)
-
-        st.markdown("---")
-        st.subheader("4. Cài đặt Danh mục thi đấu")
-        with st.form("form_danhmuc"):
-            cd1, cd2 = st.columns(2)
-            with cd1: k_lt = st.text_area("Lứa tuổi", value="\n".join(settings_data.get("lua_tuoi", [])), height=150)
-            with cd2: k_nd = st.text_area("Nội dung", value="\n".join(settings_data.get("noi_dung", [])), height=150)
-            if st.form_submit_button("💾 Lưu Danh Mục Giải Đấu", type="primary"):
-                cur = load_settings()
-                cur["lua_tuoi"] = [x.strip() for x in k_lt.split('\n') if x.strip()]
-                cur["noi_dung"] = [x.strip() for x in k_nd.split('\n') if x.strip()]
-                save_settings(cur)
-                st.success("✅ Đã cập nhật danh mục thi đấu mới thành công!")
+        c4 = st.checkbox("🖨️ Cho phép tài khoản này tự In thẻ", value=False)
+        
+        if st.form_submit_button("Tạo Tài Khoản", type="primary"):
+            new_u = new_u.strip()
+            if not new_u or not new_p:
+                st.warning("⚠️ Vui lòng nhập đủ tên đăng nhập và mật khẩu!")
+            elif new_u in users_db:
+                st.error(f"❌ Tài khoản '{new_u}' đã tồn tại!")
+            else:
+                users_db[new_u] = {
+                    "password": hash_password(new_p),
+                    "role": "DON_VI",
+                    "unit": new_dv,
+                    "can_print": c4
+                }
+                save_users(users_db)
+                st.success(f"✅ Đã tạo tài khoản '{new_u}' thành công!")
                 st.rerun()
+
+    st.markdown("**📋 Danh sách tài khoản hiện tại:**")
+    for u, info in users_db.items():
+        if u == "admin": continue
+        c1, c2, c3, c4, c5 = st.columns([2, 3, 2, 2, 1])
+        c1.write(f"👤 **{u}**")
+        c2.write(f"🏢 {info.get('unit', '')}")
+        c3.write(f"🔑 Quyền: {info.get('role', '')}")
+        c4.write("🖨️ In thẻ: " + ("Được phép" if info.get('can_print', False) else "Không"))
+        if c5.button("🗑️ Xóa", key=f"del_user_{u}"):
+            del users_db[u]
+            save_users(users_db)
+            st.rerun()
+
+    st.markdown("---")
+    st.subheader("3. Cài đặt Danh mục Lứa tuổi / Nội dung")
+    with st.form("form_danhmuc"):
+        cd1, cd2 = st.columns(2)
+        with cd1: k_lt = st.text_area("Lứa tuổi", value="\n".join(settings_data.get("lua_tuoi", [])), height=150)
+        with cd2: k_nd = st.text_area("Nội dung", value="\n".join(settings_data.get("noi_dung", [])), height=150)
+        if st.form_submit_button("💾 Lưu Danh Mục Giải Đấu", type="primary"):
+            cur = load_settings()
+            cur["lua_tuoi"] = [x.strip() for x in k_lt.split('\n') if x.strip()]
+            cur["noi_dung"] = [x.strip() for x in k_nd.split('\n') if x.strip()]
+            save_settings(cur)
+            st.success("✅ Đã cập nhật danh mục thi đấu mới thành công!")
+            st.rerun()
+    
+    st.markdown("---")
+    st.subheader("4. Tải lên Phôi thẻ (Đồng bộ In ấn)")
+    st.info("💡 Hệ thống tự động lưu phôi ngay khi bạn kéo thả file. Giao diện luôn căn bằng hoàn hảo!")
+    
+    c_p1, c_p2 = st.columns(2)
+    with c_p1:
+        st.markdown("##### 🖼️ Mẫu phôi Huấn Luyện Viên (VIP)")
+        phoi_hlv_file = st.file_uploader("Thả file vào đây (Tự động lưu)", type=['png', 'jpg', 'jpeg'], key="up_hlv")
+        if phoi_hlv_file is not None:
+            try:
+                img_hlv = Image.open(phoi_hlv_file)
+                img_hlv.save("phoi_hlv.png", format="PNG")
+            except Exception as e: st.error(f"Lỗi: {e}")
+        if os.path.exists("phoi_hlv.png"):
+            st.image("phoi_hlv.png", caption="Phôi HLV hiện tại đang sử dụng", use_container_width=True)
+            
+    with c_p2:
+        st.markdown("##### 🖼️ Mẫu phôi Vận Động Viên (Thường)")
+        phoi_vdv_file = st.file_uploader("Thả file vào đây (Tự động lưu)", type=['png', 'jpg', 'jpeg'], key="up_vdv")
+        if phoi_vdv_file is not None:
+            try:
+                img_vdv = Image.open(phoi_vdv_file)
+                img_vdv.save("phoi_vdv.png", format="PNG")
+            except Exception as e: st.error(f"Lỗi: {e}")
+        if os.path.exists("phoi_vdv.png"):
+            st.image("phoi_vdv.png", caption="Phôi VĐV hiện tại đang sử dụng", use_container_width=True)
+
+# ==========================================
+# MÀN HÌNH 4: ĐỔI MẬT KHẨU
+# ==========================================
+elif menu_choice == "4️⃣ Đổi Mật Khẩu":
+    st.title("🔑 Đổi Mật Khẩu")
+    st.markdown("---")
+    
+    with st.form("change_pwd_form"):
+        old_pwd = st.text_input("Mật khẩu cũ", type="password")
+        new_pwd = st.text_input("Mật khẩu mới", type="password")
+        confirm_pwd = st.text_input("Xác nhận mật khẩu mới", type="password")
         
-        st.markdown("---")
-        st.subheader("5. Tải lên Phôi thẻ (Đồng bộ In ấn)")
-        st.info("💡 Hệ thống tự động lưu phôi ngay khi bạn kéo thả file. Giao diện luôn căn bằng hoàn hảo!")
-        
-        c_p1, c_p2 = st.columns(2)
-        with c_p1:
-            st.markdown("##### 🖼️ Mẫu phôi Huấn Luyện Viên (VIP)")
-            phoi_hlv_file = st.file_uploader("Thả file vào đây (Tự động lưu)", type=['png', 'jpg', 'jpeg'], key="up_hlv")
-            if phoi_hlv_file is not None:
-                try:
-                    img_hlv = Image.open(phoi_hlv_file)
-                    img_hlv.save("phoi_hlv.png", format="PNG")
-                except Exception as e: st.error(f"Lỗi: {e}")
-            if os.path.exists("phoi_hlv.png"):
-                st.image("phoi_hlv.png", caption="Phôi HLV hiện tại đang sử dụng", use_container_width=True)
-                
-        with c_p2:
-            st.markdown("##### 🖼️ Mẫu phôi Vận Động Viên (Thường)")
-            phoi_vdv_file = st.file_uploader("Thả file vào đây (Tự động lưu)", type=['png', 'jpg', 'jpeg'], key="up_vdv")
-            if phoi_vdv_file is not None:
-                try:
-                    img_vdv = Image.open(phoi_vdv_file)
-                    img_vdv.save("phoi_vdv.png", format="PNG")
-                except Exception as e: st.error(f"Lỗi: {e}")
-            if os.path.exists("phoi_vdv.png"):
-                st.image("phoi_vdv.png", caption="Phôi VĐV hiện tại đang sử dụng", use_container_width=True)
-                
-    else: st.error("❌ Bạn không có thẩm quyền cấu hình khu vực Admin.")
+        if st.form_submit_button("💾 Lưu Mật Khẩu Đổi Mới", type="primary"):
+            users_db = load_users()
+            uname = st.session_state['user_name']
+            
+            if users_db[uname]["password"] != hash_password(old_pwd):
+                st.error("❌ Mật khẩu cũ không chính xác!")
+            elif new_pwd != confirm_pwd:
+                st.error("❌ Mật khẩu mới không khớp với xác nhận!")
+            elif len(new_pwd) < 6:
+                st.error("❌ Mật khẩu phải có ít nhất 6 ký tự!")
+            else:
+                users_db[uname]["password"] = hash_password(new_pwd)
+                save_users(users_db)
+                st.success("✅ Đổi mật khẩu thành công! Bạn có thể sử dụng mật khẩu mới trong lần đăng nhập tiếp theo.")
