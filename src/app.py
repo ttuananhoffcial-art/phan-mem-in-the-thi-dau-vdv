@@ -86,8 +86,7 @@ AVATARS_DIR = "data/avatars"
 
 ALL_ROLES = ["VĐV", "HLV", "HLV Trưởng", "Trưởng đoàn", "Trọng tài", "Ban tổ chức", "VIP", "Nhân viên", "Truyền thông"]
 
-if not os.path.exists("data"): os.makedirs("data")
-if not os.path.exists(AVATARS_DIR): os.makedirs(AVATARS_DIR)
+TEXT_CASE_OPTS = ["Viết hoa toàn bộ", "Giữ nguyên gốc", "Viết hoa chữ cái đầu mỗi chữ", "Chỉ viết hoa chữ đầu của câu"]
 
 FIELD_OPTIONS = [
     "Họ và Tên", "Chức Vụ", "Năm sinh", "Đơn vị", "Nội dung (Hạng cân)",
@@ -503,7 +502,7 @@ def draw_card_image(card, g_cfg):
             bbox = draw.textbbox((0, 0), text_processed, font=selected_font)
             text_w = bbox[2] - bbox[0]
             
-            # CẢI TIẾN: NỚI LỎNG HOÀN TOÀN GIỚI HẠN ÉP SIZE CHỮ (95% thẻ)
+            # CẢI TIẾN: Bỏ ép kích thước chữ - Mở rộng tối đa tới 95% mép thẻ
             if text_w <= int(STD_W * 0.95) or selected_font == ImageFont.load_default(): break
             current_size -= 2
             
@@ -570,9 +569,7 @@ def export_reportlab_pdf(print_cards, g_cfg):
 
 # KHỞI CHẠY HỆ THỐNG CƠ BẢN
 settings_data = load_settings()
-graphics_config = load_graphics_config()
 
-# ĐƯA BTC LÊN TRÊN CÙNG DANH SÁCH HIỂN THỊ ĐƠN VỊ CÓ SẴN
 danh_sach_thuc_the_cai_dat = ["BTC"] + sorted([k for k in UNIT_NAMES.keys() if k != "BTC"])
 
 tournaments_list = settings_data.get("tournaments", [])
@@ -594,12 +591,71 @@ for t in active_tourneys:
     except:
         is_registration_open = True
 
-# KHỞI TRÌNH QUẢN LÝ COOKIE (24H LOGIN) - TRÁNH LỖI MẤT KẾT NỐI
+# HỆ THỐNG AUTO-SAVE CHO MENU IN THẺ CỰC KỲ BỀN BỈ QUA CÁC LẦN F5
+def get_current_graphics_config():
+    return {
+        "font_choice": st.session_state.cfg_font_choice,
+        "img_x": st.session_state.cfg_img_x, "img_y": st.session_state.cfg_img_y,
+        "img_w": st.session_state.cfg_img_w, "img_h": st.session_state.cfg_img_h,
+        "w_card_cm": st.session_state.cfg_w_card_cm, "h_card_cm": st.session_state.cfg_h_card_cm,
+        "layout_pdf": st.session_state.cfg_layout_pdf, "bg_option": st.session_state.cfg_bg_option,
+        "data_mapping": [st.session_state.cfg_map1, st.session_state.cfg_map2, st.session_state.cfg_map3, st.session_state.cfg_map4],
+        "lines": [
+            {"color": st.session_state.cfg_c1, "initial_size": st.session_state.cfg_s1, "l_x": st.session_state.cfg_x1, "l_y": st.session_state.cfg_y1, "text_case": TEXT_CASE_OPTS.index(st.session_state.cfg_case1), "is_bold": st.session_state.cfg_b1},
+            {"color": st.session_state.cfg_c2, "initial_size": st.session_state.cfg_s2, "l_x": st.session_state.cfg_x2, "l_y": st.session_state.cfg_y2, "text_case": TEXT_CASE_OPTS.index(st.session_state.cfg_case2), "is_bold": st.session_state.cfg_b2},
+            {"color": st.session_state.cfg_c3, "initial_size": st.session_state.cfg_s3, "l_x": st.session_state.cfg_x3, "l_y": st.session_state.cfg_y3, "text_case": TEXT_CASE_OPTS.index(st.session_state.cfg_case3), "is_bold": st.session_state.cfg_b3},
+            {"color": st.session_state.cfg_c4, "initial_size": st.session_state.cfg_s4, "l_x": st.session_state.cfg_x4, "l_y": st.session_state.cfg_y4, "text_case": TEXT_CASE_OPTS.index(st.session_state.cfg_case4), "is_bold": st.session_state.cfg_b4}
+        ]
+    }
+
+def save_current_config():
+    save_graphics_config(get_current_graphics_config())
+
+def init_session_config():
+    if 'cfg_loaded' not in st.session_state:
+        g_cfg = load_graphics_config()
+        
+        font_list = ["Arial", "Arial Bold", "Times New Roman", "Times New Roman Bold", "Tahoma", "Tahoma Bold"]
+        f_ch = g_cfg.get("font_choice", "Arial")
+        st.session_state.cfg_font_choice = f_ch if f_ch in font_list else "Arial"
+        
+        st.session_state.cfg_img_x = int(g_cfg.get("img_x", 116))
+        st.session_state.cfg_img_y = int(g_cfg.get("img_y", 1380))
+        st.session_state.cfg_img_w = int(g_cfg.get("img_w", 586))
+        st.session_state.cfg_img_h = int(g_cfg.get("img_h", 800))
+        
+        st.session_state.cfg_w_card_cm = float(g_cfg.get("w_card_cm", 10.0))
+        st.session_state.cfg_h_card_cm = float(g_cfg.get("h_card_cm", 14.0))
+        
+        l_pdf = g_cfg.get("layout_pdf", "🔲 4 thẻ / 1 trang A4")
+        st.session_state.cfg_layout_pdf = l_pdf if l_pdf in ["🔲 4 thẻ / 1 trang A4", "📄 1 thẻ / 1 trang"] else "🔲 4 thẻ / 1 trang A4"
+        
+        b_opt = g_cfg.get("bg_option", "🖼️ In đầy đủ")
+        st.session_state.cfg_bg_option = b_opt if b_opt in ["🖼️ In đầy đủ", "⬜ Chỉ in nội dung"] else "🖼️ In đầy đủ"
+        
+        c_map = g_cfg.get("data_mapping", FIELD_OPTIONS[:4])
+        st.session_state.cfg_map1 = c_map[0] if len(c_map)>0 and c_map[0] in FIELD_OPTIONS else FIELD_OPTIONS[0]
+        st.session_state.cfg_map2 = c_map[1] if len(c_map)>1 and c_map[1] in FIELD_OPTIONS else FIELD_OPTIONS[1]
+        st.session_state.cfg_map3 = c_map[2] if len(c_map)>2 and c_map[2] in FIELD_OPTIONS else FIELD_OPTIONS[2]
+        st.session_state.cfg_map4 = c_map[3] if len(c_map)>3 and c_map[3] in FIELD_OPTIONS else FIELD_OPTIONS[3]
+        
+        for i in range(4):
+            l_cfg = g_cfg["lines"][i] if i < len(g_cfg["lines"]) else {}
+            st.session_state[f"cfg_c{i+1}"] = l_cfg.get("color", "#000000")
+            st.session_state[f"cfg_s{i+1}"] = int(l_cfg.get("initial_size", 100))
+            st.session_state[f"cfg_x{i+1}"] = int(l_cfg.get("l_x", 1243))
+            st.session_state[f"cfg_y{i+1}"] = int(l_cfg.get("l_y", 1800 + i*100))
+            t_case_idx = l_cfg.get("text_case", 0)
+            st.session_state[f"cfg_case{i+1}"] = TEXT_CASE_OPTS[t_case_idx] if 0 <= t_case_idx < len(TEXT_CASE_OPTS) else TEXT_CASE_OPTS[0]
+            st.session_state[f"cfg_b{i+1}"] = l_cfg.get("is_bold", True)
+        
+        st.session_state.cfg_loaded = True
+
+# KHỞI TRÌNH QUẢN LÝ COOKIE (24H LOGIN) - FIX LỖI BẮT ĐĂNG NHẬP LẠI
 cookie_manager = None
 if HAS_STX:
     cookie_manager = stx.CookieManager(key="auth_cm")
     
-    # Tạo nhịp dừng 0.3s lần đầu tiên để trình duyệt truyền Cookie
     if not st.session_state['cookie_fetched']:
         st.session_state['cookie_fetched'] = True
         time.sleep(0.3)
@@ -998,7 +1054,7 @@ else:
             for c in all_cards:
                 dv = str(c.get("Đơn_vị", "")).strip()
                 is_my_unit = (dv.upper() == ma_don_vi_lam_viec.upper())
-                is_btc_viewing_vips = (ma_don_vi_lam_viec.upper() == "BTC" and c.get("Chức vụ") in ["Trọng tài", "Ban tổ chức", "VIP", "Nhân viên", "Truền thông"])
+                is_btc_viewing_vips = (ma_don_vi_lam_viec.upper() == "BTC" and c.get("Chức vụ") in ["Trọng tài", "Ban tổ chức", "VIP", "Nhân viên", "Truyền thông"])
                 
                 if is_my_unit or is_btc_viewing_vips:
                     print_cards.append(c)
@@ -1008,117 +1064,102 @@ else:
             else:
                 st.success(f"Tìm thấy {len(print_cards)} thẻ sẵn sàng. Bảng cấu hình tự động lưu bên dưới.")
                 
-                font_list = ["Arial", "Times New Roman", "Tahoma", "Calibri"]
-                current_font = graphics_config.get("font_choice", "Arial")
-                if current_font not in font_list: current_font = "Arial"
+                init_session_config()
                 
-                v_font_choice = st.selectbox("🔤 Chọn kiểu phông chữ:", font_list, index=font_list.index(current_font))
+                font_list = ["Arial", "Arial Bold", "Times New Roman", "Times New Roman Bold", "Tahoma", "Tahoma Bold"]
+                st.selectbox("🔤 Chọn kiểu phông chữ:", font_list, key="cfg_font_choice", on_change=save_current_config)
                 
                 with st.expander("🔧 Bấm vào đây để KÉO ẢNH & ĐỔI MÀU/KIỂU CHỮ (Tự động lưu)", expanded=True):
                     tab_photo, tab_l12, tab_l34 = st.tabs(["📷 Ảnh chân dung", "🔤 Dòng 1 & Dòng 2", "🔤 Dòng 3 & Dòng 4"])
                     
                     with tab_photo:
                         col_img1, col_img2 = st.columns(2)
-                        v_img_x = col_img1.number_input("Vị trí ngang X (Ảnh)", value=int(graphics_config.get("img_x", 116)))
-                        v_img_y = col_img2.number_input("Vị trí dọc Y (Ảnh)", value=int(graphics_config.get("img_y", 1380)))
-                        v_img_w = col_img1.number_input("Chiều rộng khung ảnh (img_w)", value=int(graphics_config.get("img_w", 586)))
-                        v_img_h = col_img2.number_input("Chiều cao khung ảnh (img_h)", value=int(graphics_config.get("img_h", 800)))
-                    
-                    text_case_opts = ["Viết hoa toàn bộ", "Giữ nguyên gốc", "Viết hoa chữ cái đầu mỗi chữ", "Chỉ viết hoa chữ đầu của câu"]
+                        col_img1.number_input("Vị trí ngang X (Ảnh)", key="cfg_img_x", on_change=save_current_config)
+                        col_img2.number_input("Vị trí dọc Y (Ảnh)", key="cfg_img_y", on_change=save_current_config)
+                        col_img1.number_input("Chiều rộng khung ảnh (img_w)", key="cfg_img_w", on_change=save_current_config)
+                        col_img2.number_input("Chiều cao khung ảnh (img_h)", key="cfg_img_h", on_change=save_current_config)
                     
                     with tab_l12:
                         st.markdown("🔹 **Cấu hình Dòng 1**")
                         col_c1, col_k1 = st.columns([1.5, 4])
                         with col_c1:
                             cc1, cb1 = st.columns(2)
-                            v_color_line1 = cc1.color_picker("🎨 Màu:", graphics_config["lines"][0]["color"], key="c1")
+                            cc1.color_picker("🎨 Màu:", key="cfg_c1", on_change=save_current_config)
                             with cb1:
                                 st.write("")
-                                v_bold_1 = st.checkbox("𝗕 In đậm", value=graphics_config["lines"][0].get("is_bold", True), key="b1")
-                        v_case_1 = col_k1.radio("Kiểu chữ Dòng 1:", text_case_opts, index=graphics_config["lines"][0].get("text_case", 0), horizontal=True, key="case1")
+                                st.checkbox("𝗕 In đậm", key="cfg_b1", on_change=save_current_config)
+                        col_k1.radio("Kiểu chữ Dòng 1:", TEXT_CASE_OPTS, horizontal=True, key="cfg_case1", on_change=save_current_config)
                         
                         cl1_1, cl1_2, cl1_3 = st.columns(3)
-                        v_size_line1 = cl1_1.number_input("Cỡ chữ Dòng 1", value=int(graphics_config["lines"][0]["initial_size"]), key="s1")
-                        v_x_line1 = cl1_2.number_input("Tâm X Dòng 1", value=int(graphics_config["lines"][0]["l_x"]), key="x1")
-                        v_y_line1 = cl1_3.number_input("Vị trí Y Dòng 1", value=int(graphics_config["lines"][0]["l_y"]), key="y1")
+                        cl1_1.number_input("Cỡ chữ Dòng 1", key="cfg_s1", on_change=save_current_config)
+                        cl1_2.number_input("Tâm X Dòng 1", key="cfg_x1", on_change=save_current_config)
+                        cl1_3.number_input("Vị trí Y Dòng 1", key="cfg_y1", on_change=save_current_config)
                         
                         st.markdown("<hr style='margin:5px 0px;'>", unsafe_allow_html=True)
                         st.markdown("🔹 **Cấu hình Dòng 2**")
                         col_c2, col_k2 = st.columns([1.5, 4])
                         with col_c2:
                             cc2, cb2 = st.columns(2)
-                            v_color_line2 = cc2.color_picker("🎨 Màu:", graphics_config["lines"][1]["color"], key="c2")
+                            cc2.color_picker("🎨 Màu:", key="cfg_c2", on_change=save_current_config)
                             with cb2:
                                 st.write("")
-                                v_bold_2 = st.checkbox("𝗕 In đậm", value=graphics_config["lines"][1].get("is_bold", True), key="b2")
-                        v_case_2 = col_k2.radio("Kiểu chữ Dòng 2:", text_case_opts, index=graphics_config["lines"][1].get("text_case", 0), horizontal=True, key="case2")
+                                st.checkbox("𝗕 In đậm", key="cfg_b2", on_change=save_current_config)
+                        col_k2.radio("Kiểu chữ Dòng 2:", TEXT_CASE_OPTS, horizontal=True, key="cfg_case2", on_change=save_current_config)
                         
                         cl2_1, cl2_2, cl2_3 = st.columns(3)
-                        v_size_line2 = cl2_1.number_input("Cỡ chữ Dòng 2", value=int(graphics_config["lines"][1]["initial_size"]), key="s2")
-                        v_x_line2 = cl2_2.number_input("Tâm X Dòng 2", value=int(graphics_config["lines"][1]["l_x"]), key="x2")
-                        v_y_line2 = cl2_3.number_input("Vị trí Y Dòng 2", value=int(graphics_config["lines"][1]["l_y"]), key="y2")
+                        cl2_1.number_input("Cỡ chữ Dòng 2", key="cfg_s2", on_change=save_current_config)
+                        cl2_2.number_input("Tâm X Dòng 2", key="cfg_x2", on_change=save_current_config)
+                        cl2_3.number_input("Vị trí Y Dòng 2", key="cfg_y2", on_change=save_current_config)
                         
                     with tab_l34:
                         st.markdown("🔹 **Cấu hình Dòng 3**")
                         col_c3, col_k3 = st.columns([1.5, 4])
                         with col_c3:
                             cc3, cb3 = st.columns(2)
-                            v_color_line3 = cc3.color_picker("🎨 Màu:", graphics_config["lines"][2]["color"], key="c3")
+                            cc3.color_picker("🎨 Màu:", key="cfg_c3", on_change=save_current_config)
                             with cb3:
                                 st.write("")
-                                v_bold_3 = st.checkbox("𝗕 In đậm", value=graphics_config["lines"][2].get("is_bold", True), key="b3")
-                        v_case_3 = col_k3.radio("Kiểu chữ Dòng 3:", text_case_opts, index=graphics_config["lines"][2].get("text_case", 0), horizontal=True, key="case3")
+                                st.checkbox("𝗕 In đậm", key="cfg_b3", on_change=save_current_config)
+                        col_k3.radio("Kiểu chữ Dòng 3:", TEXT_CASE_OPTS, horizontal=True, key="cfg_case3", on_change=save_current_config)
                         
                         cl3_1, cl3_2, cl3_3 = st.columns(3)
-                        v_size_line3 = cl3_1.number_input("Cỡ chữ Dòng 3", value=int(graphics_config["lines"][2]["initial_size"]), key="s3")
-                        v_x_line3 = cl3_2.number_input("Tâm X Dòng 3", value=int(graphics_config["lines"][2]["l_x"]), key="x3")
-                        v_y_line3 = cl3_3.number_input("Vị trí Y Dòng 3", value=int(graphics_config["lines"][2]["l_y"]), key="y3")
+                        cl3_1.number_input("Cỡ chữ Dòng 3", key="cfg_s3", on_change=save_current_config)
+                        cl3_2.number_input("Tâm X Dòng 3", key="cfg_x3", on_change=save_current_config)
+                        cl3_3.number_input("Vị trí Y Dòng 3", key="cfg_y3", on_change=save_current_config)
                         
                         st.markdown("<hr style='margin:5px 0px;'>", unsafe_allow_html=True)
                         st.markdown("🔹 **Cấu hình Dòng 4**")
                         col_c4, col_k4 = st.columns([1.5, 4])
                         with col_c4:
                             cc4, cb4 = st.columns(2)
-                            v_color_line4 = cc4.color_picker("🎨 Màu:", graphics_config["lines"][3]["color"], key="c4")
+                            cc4.color_picker("🎨 Màu:", key="cfg_c4", on_change=save_current_config)
                             with cb4:
                                 st.write("")
-                                v_bold_4 = st.checkbox("𝗕 In đậm", value=graphics_config["lines"][3].get("is_bold", True), key="b4")
-                        v_case_4 = col_k4.radio("Kiểu chữ Dòng 4:", text_case_opts, index=graphics_config["lines"][3].get("text_case", 0), horizontal=True, key="case4")
+                                st.checkbox("𝗕 In đậm", key="cfg_b4", on_change=save_current_config)
+                        col_k4.radio("Kiểu chữ Dòng 4:", TEXT_CASE_OPTS, horizontal=True, key="cfg_case4", on_change=save_current_config)
                         
                         cl4_1, cl4_2, cl4_3 = st.columns(3)
-                        v_size_line4 = cl4_1.number_input("Cỡ chữ Dòng 4", value=int(graphics_config["lines"][3]["initial_size"]), key="s4")
-                        v_x_line4 = cl4_2.number_input("Tâm X Dòng 4", value=int(graphics_config["lines"][3]["l_x"]), key="x4")
-                        v_y_line4 = cl4_3.number_input("Vị trí Y Dòng 4", value=int(graphics_config["lines"][3]["l_y"]), key="y4")
+                        cl4_1.number_input("Cỡ chữ Dòng 4", key="cfg_s4", on_change=save_current_config)
+                        cl4_2.number_input("Tâm X Dòng 4", key="cfg_x4", on_change=save_current_config)
+                        cl4_3.number_input("Vị trí Y Dòng 4", key="cfg_y4", on_change=save_current_config)
 
                 with st.container():
                     st.markdown("#### 📐 A. Kích thước & Bố cục PDF")
                     col_k1, col_k2, col_k3, col_k4 = st.columns(4)
-                    v_w_card_cm = col_k1.number_input("Rộng thẻ (cm):", value=float(graphics_config.get("w_card_cm", 10.0)), step=0.10)
-                    v_h_card_cm = col_k2.number_input("Cao thẻ (cm):", value=float(graphics_config.get("h_card_cm", 14.0)), step=0.10)
-                    v_layout_pdf = col_k3.radio("Dàn trang PDF:", ["🔲 4 thẻ / 1 trang A4", "📄 1 thẻ / 1 trang"], index=0 if "4 thẻ" in graphics_config.get("layout_pdf","") else 1)
-                    v_bg_option = col_k4.radio("Nền phôi:", ["🖼️ In đầy đủ", "⬜ Chỉ in nội dung"], index=0 if "đầy" in graphics_config.get("bg_option","") else 1)
+                    col_k1.number_input("Rộng thẻ (cm):", step=0.10, key="cfg_w_card_cm", on_change=save_current_config)
+                    col_k2.number_input("Cao thẻ (cm):", step=0.10, key="cfg_h_card_cm", on_change=save_current_config)
+                    col_k3.radio("Dàn trang PDF:", ["🔲 4 thẻ / 1 trang A4", "📄 1 thẻ / 1 trang"], key="cfg_layout_pdf", on_change=save_current_config)
+                    col_k4.radio("Nền phôi:", ["🖼️ In đầy đủ", "⬜ Chỉ in nội dung"], key="cfg_bg_option", on_change=save_current_config)
 
                 st.markdown("#### 📋 B. Ghép Cột Dữ Liệu Tùy Biến:")
-                c_map = graphics_config.get("data_mapping", ["Họ và Tên", "Đơn vị", "[Thông minh] Nội dung (VĐV) - Năm sinh (HLV/VIP)", "[Thông minh] Lứa tuổi (VĐV) - Chức vụ (HLV/VIP)"])
                 col_m1, col_m2, col_m3, col_m4 = st.columns(4)
-                v_map1 = col_m1.selectbox("Dòng 1 in:", FIELD_OPTIONS, index=FIELD_OPTIONS.index(c_map[0]) if c_map[0] in FIELD_OPTIONS else 0)
-                v_map2 = col_m2.selectbox("Dòng 2 in:", FIELD_OPTIONS, index=FIELD_OPTIONS.index(c_map[1]) if c_map[1] in FIELD_OPTIONS else 1)
-                v_map3 = col_m3.selectbox("Dòng 3 in:", FIELD_OPTIONS, index=FIELD_OPTIONS.index(c_map[2]) if c_map[2] in FIELD_OPTIONS else 2)
-                v_map4 = col_m4.selectbox("Dòng 4 in:", FIELD_OPTIONS, index=FIELD_OPTIONS.index(c_map[3]) if c_map[3] in FIELD_OPTIONS else 3)
-                
-                new_graphics_cfg = {
-                    "font_choice": v_font_choice, "img_x": v_img_x, "img_y": v_img_y, "img_w": v_img_w, "img_h": v_img_h,
-                    "w_card_cm": v_w_card_cm, "h_card_cm": v_h_card_cm, "layout_pdf": v_layout_pdf, "bg_option": v_bg_option,
-                    "data_mapping": [v_map1, v_map2, v_map3, v_map4],
-                    "lines": [
-                        {"color": v_color_line1, "initial_size": v_size_line1, "l_x": v_x_line1, "l_y": v_y_line1, "text_case": text_case_opts.index(v_case_1), "is_bold": v_bold_1},
-                        {"color": v_color_line2, "initial_size": v_size_line2, "l_x": v_x_line2, "l_y": v_y_line2, "text_case": text_case_opts.index(v_case_2), "is_bold": v_bold_2},
-                        {"color": v_color_line3, "initial_size": v_size_line3, "l_x": v_x_line3, "l_y": v_y_line3, "text_case": text_case_opts.index(v_case_3), "is_bold": v_bold_3},
-                        {"color": v_color_line4, "initial_size": v_size_line4, "l_x": v_x_line4, "l_y": v_y_line4, "text_case": text_case_opts.index(v_case_4), "is_bold": v_bold_4}
-                    ]
-                }
-                save_graphics_config(new_graphics_cfg)
-                graphics_config = new_graphics_cfg 
+                col_m1.selectbox("Dòng 1 in:", FIELD_OPTIONS, key="cfg_map1", on_change=save_current_config)
+                col_m2.selectbox("Dòng 2 in:", FIELD_OPTIONS, key="cfg_map2", on_change=save_current_config)
+                col_m3.selectbox("Dòng 3 in:", FIELD_OPTIONS, key="cfg_map3", on_change=save_current_config)
+                col_m4.selectbox("Dòng 4 in:", FIELD_OPTIONS, key="cfg_map4", on_change=save_current_config)
+
+                # Lấy config hiện tại để hiển thị xem trước
+                graphics_config = get_current_graphics_config()
 
                 # ==============================================================
                 # GIAO DIỆN XEM TRƯỚC WYSIWYG
