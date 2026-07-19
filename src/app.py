@@ -246,8 +246,7 @@ UNIT_NAMES = {
     "TBIN": "Thái Bình", "TNGU": "Thái Nguyên", "THAN": "Thanh Hóa", "TTHU": "Thừa Thiên Huế", 
     "TGIA": "Tiền Giang", "TVIN": "Trà Vinh", "TQUA": "Tuyên Quang", "VLON": "Vĩnh Long", 
     "VPHU": "Vĩnh Phúc", "YBAI": "Yên Bái", "CAND": "Công An Nhân Dân", "QDOI": "Quân Đội",
-    "BTC": "Ban Tổ Chức Giải", "TRONGTAI": "Tổ Trọng Tài", "VIP": "Khách Mời VIP", 
-    "TRUYENTHONG": "Báo Chí - Truyền Thông", "NHANVIEN": "Nhân Viên - Phục Vụ"
+    "BTC": "Ban Tổ Chức"
 }
 
 def get_full_unit_name(code):
@@ -444,7 +443,9 @@ def export_reportlab_pdf(print_cards, g_cfg):
 # KHỞI CHẠY HỆ THỐNG CƠ BẢN
 settings_data = load_settings()
 graphics_config = load_graphics_config()
-danh_sach_thuc_the_cai_dat = sorted(list(UNIT_NAMES.keys()))
+
+# ĐƯA BTC LÊN TRÊN CÙNG DANH SÁCH HIỂN THỊ ĐƠN VỊ
+danh_sach_thuc_the_cai_dat = ["BTC"] + sorted([k for k in UNIT_NAMES.keys() if k != "BTC"])
 
 tournaments_list = settings_data.get("tournaments", [])
 active_tourneys = [t for t in tournaments_list if t.get("is_active")]
@@ -615,7 +616,6 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
             with c_e1:
                 edit_ht = st.text_input("Họ và tên", value=card_edit.get("Họ tên", ""))
                 
-                # CHỨC NĂNG NHẬP TAY DÀNH RIÊNG CHO ADMIN & BTC
                 can_custom_role = (role == "ADMIN" or ma_don_vi_lam_viec == "BTC")
                 role_options = ALL_ROLES.copy()
                 if can_custom_role:
@@ -682,7 +682,6 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                     input_ho_ten = st.text_input("Họ và Tên (*)")
                     input_ma_hv = st.text_input("Mã Định Danh/Thẻ (*)")
                     
-                    # CHỨC NĂNG NHẬP TAY DÀNH RIÊNG CHO ADMIN & BTC
                     can_custom_role = (role == "ADMIN" or ma_don_vi_lam_viec == "BTC")
                     role_options = ALL_ROLES.copy()
                     if can_custom_role:
@@ -722,14 +721,11 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                         st.session_state.update({'success_msg': "✅ Đã ghi nhận hồ sơ mới!", 'clear_form': True})
                         st.rerun()
 
-    # LOGIC LỌC THẺ THÔNG MINH CHO BTC
     all_cards_updated = load_submitted_cards()
     display_cards = []
     
     for c in all_cards_updated:
-        # Nếu là thẻ của đơn vị mình nộp (Kể cả BTC tự nộp)
         is_my_unit = (ma_don_vi_lam_viec and ma_don_vi_lam_viec != "-- Chọn --" and str(c.get("Đơn_vị")).strip().upper() == ma_don_vi_lam_viec.upper())
-        # Nếu là thẻ thuộc nhóm VIP do đơn vị KHÁC nộp (Chỉ BTC mới được thấy)
         is_btc_viewing_vips = (ma_don_vi_lam_viec == "BTC" and c.get("Chức vụ") in ["Trọng tài", "Ban tổ chức", "VIP", "Nhân viên", "Truyền thông"])
         
         if is_my_unit or is_btc_viewing_vips:
@@ -758,7 +754,6 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                         all_remaining = []
                         deleted_count = 0
                         for c in all_cards_updated:
-                            # Chỉ xóa những thẻ do chính đơn vị này tạo ra để tránh xóa nhầm của đơn vị khác
                             if str(c.get("Đơn_vị")).strip().upper() == ma_don_vi_lam_viec.upper(): 
                                 img_path = c.get('Ảnh_Path', '')
                                 if img_path and os.path.exists(img_path):
@@ -785,7 +780,6 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
         else:
             paged_cards = display_cards
 
-        # Phân loại hiển thị theo đúng thứ tự chức danh mới và các chức danh nhập tay
         standard_roles = ["VIP", "Ban tổ chức", "Trọng tài", "Truyền thông", "Nhân viên", "Trưởng đoàn", "HLV Trưởng", "HLV", "VĐV"]
         all_present_roles = []
         for c in paged_cards:
@@ -846,7 +840,6 @@ elif menu_choice == "2️⃣ In Thẻ":
     elif role == "ADMIN" or quyen_in: 
         all_cards = load_submitted_cards()
         
-        # LOGIC LỌC THẺ THÔNG MINH CHO BTC (IN THẺ)
         print_cards = []
         for c in all_cards:
             is_my_unit = (str(c.get("Đơn_vị")).strip().upper() == ma_don_vi_lam_viec.upper())
@@ -860,7 +853,6 @@ elif menu_choice == "2️⃣ In Thẻ":
         else:
             st.success(f"Tìm thấy {len(print_cards)} thẻ sẵn sàng. Bảng cấu hình tự động lưu bên dưới.")
             
-            # GIAO DIỆN TÙY CHỈNH THEO YÊU CẦU MỚI NHẤT
             font_list = ["Arial", "Arial Bold", "Times New Roman", "Times New Roman Bold", "Tahoma", "Tahoma Bold"]
             current_font = graphics_config.get("font_choice", "Arial")
             if current_font not in font_list: current_font = "Arial"
@@ -923,7 +915,6 @@ elif menu_choice == "2️⃣ In Thẻ":
                     v_x_line4 = cl4_2.number_input("Tâm X Dòng 4", value=int(graphics_config["lines"][3]["l_x"]), key="x4")
                     v_y_line4 = cl4_3.number_input("Vị trí Y Dòng 4", value=int(graphics_config["lines"][3]["l_y"]), key="y4")
 
-            # CÁC THÔNG SỐ CƠ BẢN
             with st.container():
                 st.markdown("#### 📐 A. Kích thước & Bố cục PDF")
                 col_k1, col_k2, col_k3, col_k4 = st.columns(4)
@@ -940,7 +931,6 @@ elif menu_choice == "2️⃣ In Thẻ":
             v_map3 = col_m3.selectbox("Dòng 3 in:", FIELD_OPTIONS, index=FIELD_OPTIONS.index(c_map[2]) if c_map[2] in FIELD_OPTIONS else 2)
             v_map4 = col_m4.selectbox("Dòng 4 in:", FIELD_OPTIONS, index=FIELD_OPTIONS.index(c_map[3]) if c_map[3] in FIELD_OPTIONS else 3)
             
-            # CƠ CHẾ AUTO-SAVE (MỌI THAY ĐỔI SẼ ĐƯỢC GHI NHẬN NGAY LẬP TỨC XUỐNG JSON)
             new_graphics_cfg = {
                 "font_choice": v_font_choice, "img_x": v_img_x, "img_y": v_img_y, "img_w": v_img_w, "img_h": v_img_h,
                 "w_card_cm": v_w_card_cm, "h_card_cm": v_h_card_cm, "layout_pdf": v_layout_pdf, "bg_option": v_bg_option,
