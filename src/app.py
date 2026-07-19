@@ -287,12 +287,13 @@ def draw_card_image(card, g_cfg):
     aspect_ratio = g_cfg["h_card_cm"] / g_cfg["w_card_cm"]
     STD_H = int(STD_W * aspect_ratio) 
     
-    vip_keywords = ["HLV", "HUAN LUYEN VIEN", "TRONG TAI", "BTC", "TRUONG DOAN", "BAN TO CHUC", "THU KY", "VIP", "NHAN VIEN", "TRUYEN THONG"]
+    vip_keywords = ["HLV", "HUAN LUYEN VIEN", "TRONG TAI", "BTC", "TRUONG DOAN", "BAN TO CHUC", "THU KY", "VIP", "NHAN VIEN", "TRUYEN THONG", "Y TE", "GIAM SAT"]
     cv_goc = str(card.get("Chức vụ", "")).strip()
     if not cv_goc: cv_goc = "VĐV"
     is_vip = False
     chuc_vu_clean = remove_accents(cv_goc).upper()
-    if any(kw in chuc_vu_clean for kw in vip_keywords): is_vip = True
+    if any(kw in chuc_vu_clean for kw in vip_keywords) or cv_goc not in ["VĐV", "VDV"]:
+        is_vip = True
             
     bg_choice = g_cfg.get("bg_option", "")
     base_img = Image.new("RGBA", (STD_W, STD_H), (255, 255, 255, 255))
@@ -613,8 +614,29 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
             
             with c_e1:
                 edit_ht = st.text_input("Họ và tên", value=card_edit.get("Họ tên", ""))
-                edit_cv = st.selectbox("Chức vụ đoàn", ALL_ROLES, index=ALL_ROLES.index(card_edit.get("Chức vụ", "VĐV")) if card_edit.get("Chức vụ", "VĐV") in ALL_ROLES else 0)
+                
+                # CHỨC NĂNG NHẬP TAY DÀNH RIÊNG CHO ADMIN & BTC
+                can_custom_role = (role == "ADMIN" or ma_don_vi_lam_viec == "BTC")
+                role_options = ALL_ROLES.copy()
+                if can_custom_role:
+                    role_options.append("Khác (Nhập tay)")
+                    
+                current_cv = card_edit.get("Chức vụ", "VĐV")
+                if current_cv not in ALL_ROLES:
+                    role_options.insert(0, current_cv)
+                    idx_cv = 0
+                else:
+                    idx_cv = role_options.index(current_cv)
+                    
+                edit_cv = st.selectbox("Chức vụ đoàn", role_options, index=idx_cv)
+                if edit_cv == "Khác (Nhập tay)" or (edit_cv not in ALL_ROLES and can_custom_role):
+                    val = edit_cv if edit_cv != "Khác (Nhập tay)" else ""
+                    edit_cv_final = st.text_input("✍️ Chức vụ thực tế in trên thẻ:", value=val)
+                else:
+                    edit_cv_final = edit_cv
+                    
                 edit_dc = st.text_input("Cấp / Đẳng", value=card_edit.get("Đẳng cấp", ""))
+                
             with c_e2:
                 edit_ns = st.text_input("Năm sinh", value=card_edit.get("Năm sinh", ""))
                 edit_lt = st.selectbox("Lứa tuổi thi đấu", list_luatuoi, index=list_luatuoi.index(card_edit.get("Lứa tuổi","Không")) if card_edit.get("Lứa tuổi","Không") in list_luatuoi else 0)
@@ -624,7 +646,7 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                 
             if st.button("💾 Lưu cập nhật", type="primary"):
                 all_cards[edit_i]["Họ tên"] = edit_ht
-                all_cards[edit_i]["Chức vụ"] = edit_cv
+                all_cards[edit_i]["Chức vụ"] = edit_cv_final.strip() if edit_cv_final.strip() else "VĐV"
                 all_cards[edit_i]["Lứa tuổi"] = edit_lt
                 all_cards[edit_i]["Nội dung"] = edit_nd
                 all_cards[edit_i]["Đẳng cấp"] = edit_dc
@@ -659,7 +681,19 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                 with c1:
                     input_ho_ten = st.text_input("Họ và Tên (*)")
                     input_ma_hv = st.text_input("Mã Định Danh/Thẻ (*)")
-                    cv_chon = st.selectbox("📌 Chức vụ", ALL_ROLES)
+                    
+                    # CHỨC NĂNG NHẬP TAY DÀNH RIÊNG CHO ADMIN & BTC
+                    can_custom_role = (role == "ADMIN" or ma_don_vi_lam_viec == "BTC")
+                    role_options = ALL_ROLES.copy()
+                    if can_custom_role:
+                        role_options.append("Khác (Nhập tay)")
+                        
+                    cv_chon = st.selectbox("📌 Chức vụ", role_options)
+                    if cv_chon == "Khác (Nhập tay)":
+                        cv_final = st.text_input("✍️ Nhập chức vụ khác (In trên thẻ):")
+                    else:
+                        cv_final = cv_chon
+                        
                     ns_chon = st.text_input("Năm sinh (VD: 2005)")
                 with c2:
                     dc_chon = st.text_input("Cấp / Đẳng")
@@ -668,8 +702,8 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                     uploaded_file = st.file_uploader("Tải lên ảnh thẻ (*)", type=['png', 'jpg', 'jpeg'])
                     
                 if st.button("💾 Ghi nhận hồ sơ", type="primary"):
-                    if not input_ho_ten.strip() or not input_ma_hv.strip() or uploaded_file is None:
-                        st.error("⚠️ Vui lòng điền đầy đủ Họ Tên, Mã số và tải lên Ảnh thẻ!")
+                    if not input_ho_ten.strip() or not input_ma_hv.strip() or uploaded_file is None or not cv_final.strip():
+                        st.error("⚠️ Vui lòng điền đầy đủ Họ Tên, Mã số, Chức vụ và tải lên Ảnh thẻ!")
                     else:
                         img_path = process_and_save_image(uploaded_file, input_ma_hv)
                         save_submitted_card({
@@ -677,25 +711,35 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                             "Đơn_vị": ma_don_vi_lam_viec, 
                             "Đơn_vị_gốc": ma_don_vi_lam_viec,
                             "Mã": input_ma_hv, 
-                            "Chức vụ": cv_chon, 
-                            "Họ tên": input_ho_ten,
-                            "Năm sinh": ns_chon, 
+                            "Chức vụ": cv_final.strip(), 
+                            "Họ tên": input_ho_ten.strip(),
+                            "Năm sinh": ns_chon.strip(), 
                             "Nội dung": nd_chon, 
                             "Lứa tuổi": lt_chon, 
-                            "Đẳng cấp": dc_chon,
+                            "Đẳng cấp": dc_chon.strip(),
                             "Ảnh_Path": img_path
                         })
                         st.session_state.update({'success_msg': "✅ Đã ghi nhận hồ sơ mới!", 'clear_form': True})
                         st.rerun()
 
+    # LOGIC LỌC THẺ THÔNG MINH CHO BTC
     all_cards_updated = load_submitted_cards()
-    display_cards = [c for c in all_cards_updated if ma_don_vi_lam_viec and ma_don_vi_lam_viec != "-- Chọn --" and str(c.get("Đơn_vị")).strip().upper() == ma_don_vi_lam_viec.upper()]
+    display_cards = []
+    
+    for c in all_cards_updated:
+        # Nếu là thẻ của đơn vị mình nộp (Kể cả BTC tự nộp)
+        is_my_unit = (ma_don_vi_lam_viec and ma_don_vi_lam_viec != "-- Chọn --" and str(c.get("Đơn_vị")).strip().upper() == ma_don_vi_lam_viec.upper())
+        # Nếu là thẻ thuộc nhóm VIP do đơn vị KHÁC nộp (Chỉ BTC mới được thấy)
+        is_btc_viewing_vips = (ma_don_vi_lam_viec == "BTC" and c.get("Chức vụ") in ["Trọng tài", "Ban tổ chức", "VIP", "Nhân viên", "Truyền thông"])
+        
+        if is_my_unit or is_btc_viewing_vips:
+            display_cards.append(c)
     
     if display_cards:
         st.markdown("<br><hr>", unsafe_allow_html=True)
         c_header, c_export, c_del = st.columns([2, 1, 1])
         with c_header: 
-            st.subheader(f"🖼️ Danh sách thẻ đã đăng ký ({len(display_cards)} nhân sự)")
+            st.subheader(f"🖼️ Danh sách thẻ ({len(display_cards)} nhân sự)")
         
         with c_export:
             zip_data_export = tao_file_zip_xuat_du_lieu(display_cards, ma_don_vi_lam_viec)
@@ -714,6 +758,7 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                         all_remaining = []
                         deleted_count = 0
                         for c in all_cards_updated:
+                            # Chỉ xóa những thẻ do chính đơn vị này tạo ra để tránh xóa nhầm của đơn vị khác
                             if str(c.get("Đơn_vị")).strip().upper() == ma_don_vi_lam_viec.upper(): 
                                 img_path = c.get('Ảnh_Path', '')
                                 if img_path and os.path.exists(img_path):
@@ -724,7 +769,7 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                         with open(CARDS_FILE, "w", encoding="utf-8") as f:
                             json.dump(all_remaining, f, ensure_ascii=False)
                         
-                        st.session_state['success_msg'] = f"✅ Đã xóa sạch {deleted_count} thẻ của {ma_don_vi_lam_viec}!"
+                        st.session_state['success_msg'] = f"✅ Đã xóa sạch {deleted_count} thẻ của đơn vị!"
                         st.rerun()
                         
         ITEMS_PER_PAGE = 30
@@ -740,11 +785,22 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
         else:
             paged_cards = display_cards
 
-        # Phân loại hiển thị theo đúng thứ tự chức danh mới
-        for ten_cv in ["VIP", "Ban tổ chức", "Trọng tài", "Truyền thông", "Nhân viên", "Trưởng đoàn", "HLV Trưởng", "HLV", "VĐV"]:
+        # Phân loại hiển thị theo đúng thứ tự chức danh mới và các chức danh nhập tay
+        standard_roles = ["VIP", "Ban tổ chức", "Trọng tài", "Truyền thông", "Nhân viên", "Trưởng đoàn", "HLV Trưởng", "HLV", "VĐV"]
+        all_present_roles = []
+        for c in paged_cards:
+            r = c.get("Chức vụ", "VĐV")
+            if r not in all_present_roles:
+                all_present_roles.append(r)
+                
+        display_roles = [r for r in standard_roles if r in all_present_roles]
+        other_roles = [r for r in all_present_roles if r not in standard_roles]
+        display_roles.extend(other_roles)
+
+        for ten_cv in display_roles:
             nhom = [(i, c) for i, c in enumerate(all_cards_updated) if c in paged_cards and c.get("Chức vụ") == ten_cv]
             if nhom:
-                st.markdown(f"#### 📌 {ten_cv} ({len(nhom)})")
+                st.markdown(f"#### 📌 Chức vụ: {ten_cv} ({len(nhom)})")
                 cols = st.columns(6)
                 for idx, (original_idx, card) in enumerate(nhom):
                     with cols[idx % 6]:
@@ -789,10 +845,18 @@ elif menu_choice == "2️⃣ In Thẻ":
         st.warning(f"⚠️ Vui lòng chọn Đơn vị ở Menu bên trái để tải danh sách thẻ!")
     elif role == "ADMIN" or quyen_in: 
         all_cards = load_submitted_cards()
-        print_cards = [c for c in all_cards if str(c.get("Đơn_vị")).strip().upper() == ma_don_vi_lam_viec.upper()]
+        
+        # LOGIC LỌC THẺ THÔNG MINH CHO BTC (IN THẺ)
+        print_cards = []
+        for c in all_cards:
+            is_my_unit = (str(c.get("Đơn_vị")).strip().upper() == ma_don_vi_lam_viec.upper())
+            is_btc_viewing_vips = (ma_don_vi_lam_viec == "BTC" and c.get("Chức vụ") in ["Trọng tài", "Ban tổ chức", "VIP", "Nhân viên", "Truyền thông"])
+            
+            if is_my_unit or is_btc_viewing_vips:
+                print_cards.append(c)
         
         if len(print_cards) == 0:
-            st.warning(f"Đơn vị {ma_don_vi_lam_viec} hiện chưa có dữ liệu nộp.")
+            st.warning(f"Đơn vị {ma_don_vi_lam_viec} hiện chưa có dữ liệu in thẻ.")
         else:
             st.success(f"Tìm thấy {len(print_cards)} thẻ sẵn sàng. Bảng cấu hình tự động lưu bên dưới.")
             
