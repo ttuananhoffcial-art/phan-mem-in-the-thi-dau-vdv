@@ -9,6 +9,7 @@ import datetime
 import zipfile
 import hashlib
 import urllib.request
+import time
 import pandas as pd
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 from reportlab.lib.pagesizes import A4
@@ -20,6 +21,14 @@ from reportlab.lib.units import cm
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+
+# CƠ CHẾ LƯU COOKIE 24H
+HAS_STX = False
+try:
+    import extra_streamlit_components as stx
+    HAS_STX = True
+except ImportError:
+    pass
 
 # ==========================================
 # TỰ ĐỘNG TẢI PHÔNG CHỮ CHUẨN CHO LINUX CLOUD
@@ -66,6 +75,7 @@ st.markdown("""
     .stTabs [data-baseweb="tab-list"] { gap: 8px; }
     .stTabs [data-baseweb="tab"] { height: 50px; white-space: pre-wrap; background-color: #f8f9fa; border-radius: 4px 4px 0px 0px; gap: 1px; padding-top: 10px; padding-bottom: 10px; }
     .stTabs [aria-selected="true"] { background-color: #e0f7fa; color: #2980b9; font-weight: bold; border-bottom: 3px solid #2980b9; }
+    div[role="radiogroup"] { flex-direction: row; gap: 20px; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -74,14 +84,16 @@ CONFIG_GRAPHICS_FILE = "data/config_the.json"
 USERS_FILE = "data/users.json"
 AVATARS_DIR = "data/avatars"
 
+ALL_ROLES = ["VĐV", "HLV", "HLV Trưởng", "Trưởng đoàn", "Trọng tài", "Ban tổ chức", "VIP", "Nhân viên", "Truyền thông"]
+
 if not os.path.exists("data"): os.makedirs("data")
 if not os.path.exists(AVATARS_DIR): os.makedirs(AVATARS_DIR)
 
 FIELD_OPTIONS = [
     "Họ và Tên", "Chức Vụ", "Năm sinh", "Đơn vị", "Nội dung (Hạng cân)",
     "Lứa tuổi", "Đẳng cấp", "Mã Hội Viên", "Đơn vị & Mã", "Mã Đơn vị gốc",
-    "[Thông minh] Nội dung (VĐV) - Năm sinh (HLV)",
-    "[Thông minh] Lứa tuổi (VĐV) - Chức vụ (HLV)", "Trống (Không in)"
+    "[Thông minh] Nội dung (VĐV) - Năm sinh (HLV/VIP)",
+    "[Thông minh] Lứa tuổi (VĐV) - Chức vụ (HLV/VIP)", "Trống (Không in)"
 ]
 
 # ==========================================
@@ -136,12 +148,12 @@ def load_graphics_config():
     default_config = {
         "font_choice": "Arial", "img_x": 116, "img_y": 1380, "img_w": 586, "img_h": 800,
         "w_card_cm": 10.00, "h_card_cm": 14.00, "layout_pdf": "🔲 4 thẻ / 1 trang A4", "bg_option": "🖼️ In đầy đủ",
-        "data_mapping": ["Họ và Tên", "Đơn vị", "[Thông minh] Nội dung (VĐV) - Năm sinh (HLV)", "[Thông minh] Lứa tuổi (VĐV) - Chức vụ (HLV)"],
+        "data_mapping": ["Họ và Tên", "Đơn vị", "[Thông minh] Nội dung (VĐV) - Năm sinh (HLV/VIP)", "[Thông minh] Lứa tuổi (VĐV) - Chức vụ (HLV/VIP)"],
         "lines": [
-            {"color": "#ff0000", "initial_size": 95, "l_x": 1243, "l_y": 1780, "is_bold": True, "is_uppercase": False},
-            {"color": "#000000", "initial_size": 109, "l_x": 1243, "l_y": 1894, "is_bold": True, "is_uppercase": False},
-            {"color": "#000000", "initial_size": 100, "l_x": 1243, "l_y": 2048, "is_bold": True, "is_uppercase": False},
-            {"color": "#000000", "initial_size": 85, "l_x": 1243, "l_y": 2201, "is_bold": True, "is_uppercase": False}
+            {"color": "#ff0000", "initial_size": 95, "l_x": 1243, "l_y": 1780, "text_case": 0},
+            {"color": "#000000", "initial_size": 109, "l_x": 1243, "l_y": 1894, "text_case": 0},
+            {"color": "#000000", "initial_size": 100, "l_x": 1243, "l_y": 2048, "text_case": 0},
+            {"color": "#000000", "initial_size": 85, "l_x": 1243, "l_y": 2201, "text_case": 0}
         ]
     }
     if not os.path.exists(CONFIG_GRAPHICS_FILE):
@@ -150,7 +162,6 @@ def load_graphics_config():
         with open(CONFIG_GRAPHICS_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
             if "data_mapping" not in data: data["data_mapping"] = default_config["data_mapping"]
-            data["font_choice"] = data.get("font_choice", "Arial").replace(" Bold", "")
             return data
     except: return default_config
 
@@ -234,7 +245,9 @@ UNIT_NAMES = {
     "QTRI": "Quảng Trị", "STRA": "Sóc Trăng", "SLAN": "Sơn La", "TNIN": "Tây Ninh", 
     "TBIN": "Thái Bình", "TNGU": "Thái Nguyên", "THAN": "Thanh Hóa", "TTHU": "Thừa Thiên Huế", 
     "TGIA": "Tiền Giang", "TVIN": "Trà Vinh", "TQUA": "Tuyên Quang", "VLON": "Vĩnh Long", 
-    "VPHU": "Vĩnh Phúc", "YBAI": "Yên Bái", "CAND": "Công An Nhân Dân", "QDOI": "Quân Đội"
+    "VPHU": "Vĩnh Phúc", "YBAI": "Yên Bái", "CAND": "Công An Nhân Dân", "QDOI": "Quân Đội",
+    "BTC": "Ban Tổ Chức Giải", "TRONGTAI": "Tổ Trọng Tài", "VIP": "Khách Mời VIP", 
+    "TRUYENTHONG": "Báo Chí - Truyền Thông", "NHANVIEN": "Nhân Viên - Phục Vụ"
 }
 
 def get_full_unit_name(code):
@@ -246,6 +259,7 @@ def get_mapped_value(card, field_name):
     cv_goc = str(card.get("Chức vụ", "")).strip()
     if not cv_goc: cv_goc = "VĐV"
     cv_upper = cv_goc.upper()
+    
     if cv_upper in ["VĐV", "VDV"]: cv_full = "Vận Động Viên"
     elif cv_upper == "HLV": cv_full = "Huấn Luyện Viên"
     elif cv_upper in ["HLV TRƯỞNG", "HLV TRUONG"]: cv_full = "Huấn Luyện Viên Trưởng"
@@ -262,142 +276,18 @@ def get_mapped_value(card, field_name):
     elif field_name == "Mã Hội Viên": return str(card.get("Mã", ""))
     elif field_name == "Đơn vị & Mã": return f"{unit_full} - Mã: {card.get('Mã', '')}"
     elif field_name == "Mã Đơn vị gốc": return str(card.get("Đơn_vị_gốc", card.get("Đơn_vị", "")))
-    elif field_name == "[Thông minh] Nội dung (VĐV) - Năm sinh (HLV)":
+    elif field_name == "[Thông minh] Nội dung (VĐV) - Năm sinh (HLV/VIP)":
         return str(card.get("Nội dung", "")) if cv_upper in ["VĐV", "VDV"] else f"Năm sinh: {card.get('Năm sinh', '')}"
-    elif field_name == "[Thông minh] Lứa tuổi (VĐV) - Chức vụ (HLV)":
+    elif field_name == "[Thông minh] Lứa tuổi (VĐV) - Chức vụ (HLV/VIP)":
         return str(card.get("Lứa tuổi", "")) if cv_upper in ["VĐV", "VDV"] else cv_full
     return ""
-
-def tao_pdf_danh_sach(danh_sach_the, ten_don_vi):
-    buffer = io.BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=0.5*cm, leftMargin=0.5*cm, topMargin=1*cm, bottomMargin=1*cm)
-    story = []
-
-    font_paths = ["arial.ttf", "C:/Windows/Fonts/arial.ttf", "D:/Windows/Fonts/arial.ttf"]
-    font_bold_paths = ["arialbd.ttf", "C:/Windows/Fonts/arialbd.ttf", "D:/Windows/Fonts/arialbd.ttf"]
-    font_name = 'Helvetica'
-    font_bold = 'Helvetica-Bold'
-    
-    for fp in font_paths:
-        if os.path.exists(fp):
-            try:
-                pdfmetrics.registerFont(TTFont('VnFont', fp))
-                font_name = 'VnFont'
-                break
-            except: pass
-    for fbp in font_bold_paths:
-        if os.path.exists(fbp):
-            try:
-                pdfmetrics.registerFont(TTFont('VnFont-Bold', fbp))
-                font_bold = 'VnFont-Bold'
-                break
-            except: pass
-
-    styles = getSampleStyleSheet()
-    title_style = ParagraphStyle('TitleStyle', fontName=font_bold, fontSize=16, alignment=1, spaceAfter=20, textColor='#2c3e50')
-    text_style = ParagraphStyle('TextStyle', fontName=font_name, fontSize=8.5, leading=11, alignment=1)
-
-    ten_day_du = get_full_unit_name(ten_don_vi).upper()
-    story.append(Paragraph(f"DANH SÁCH NHÂN SỰ - {ten_day_du}", title_style))
-
-    table_data = []
-    row = []
-    for c in danh_sach_the:
-        cell_content = []
-        img_data = None
-        if "Ảnh_Path" in c and os.path.exists(c["Ảnh_Path"]):
-            with open(c["Ảnh_Path"], "rb") as f: img_data = f.read()
-        elif "Ảnh_Base64" in c and c["Ảnh_Base64"]:
-            try: img_data = base64.b64decode(c["Ảnh_Base64"])
-            except: pass
-            
-        if img_data:
-            try:
-                img = Image.open(io.BytesIO(img_data))
-                img_w, img_h = img.size
-                aspect = img_h / img_w
-                rl_img = RLImage(io.BytesIO(img_data), width=3.0*cm, height=3.0*cm*aspect)
-                cell_content.append(rl_img)
-                cell_content.append(Spacer(1, 0.1*cm))
-            except: pass
-
-        cv = str(c.get("Chức vụ", "")).strip().upper()
-        if cv in ["VĐV", "VDV", "VẬN ĐỘNG VIÊN"]: cv_hien_thi = "VĐV"
-        elif cv in ["HLV", "HUẤN LUYỆN VIÊN"]: cv_hien_thi = "HLV"
-        elif cv in ["HLV TRƯỞNG", "HLV TRUONG"]: cv_hien_thi = "HLV Trưởng"
-        else: cv_hien_thi = c.get("Chức vụ", "")
-
-        info_text = f"<font fontName='{font_bold}' size='9'>{c.get('Họ tên', '').upper()}</font><br/>"
-        info_text += f"CV: <b>{cv_hien_thi}</b> | NS: {c.get('Năm sinh', '')}<br/>"
-        if str(c.get('Đẳng cấp', '')).strip():
-            info_text += f"Đẳng: {c.get('Đẳng cấp', '')}<br/>"
-        info_text += f"Mã: {c.get('Mã', '')}<br/>"
-        
-        if cv in ["VĐV", "VDV", "VẬN ĐỘNG VIÊN"]:
-            info_text += f"HC: {c.get('Nội dung', '')}<br/>"
-            info_text += f"Tuổi: {c.get('Lứa tuổi', '')}"
-            
-        cell_content.append(Paragraph(info_text, text_style))
-        row.append(cell_content)
-        
-        if len(row) == 5:
-            table_data.append(row)
-            row = []
-
-    if row:
-        while len(row) < 5: row.append("")
-        table_data.append(row)
-
-    if table_data:
-        t = Table(table_data, colWidths=[4*cm]*5)
-        t.setStyle(TableStyle([
-            ('ALIGN', (0,0), (-1,-1), 'CENTER'),
-            ('VALIGN', (0,0), (-1,-1), 'TOP'),
-            ('INNERGRID', (0,0), (-1,-1), 0.25, '#ecf0f1'),
-            ('BOX', (0,0), (-1,-1), 1, '#bdc3c7'),
-            ('PADDING', (0,0), (-1,-1), 3),
-        ]))
-        story.append(t)
-    else:
-        story.append(Paragraph("Chưa có dữ liệu.", text_style))
-
-    doc.build(story)
-    buffer.seek(0)
-    return buffer.getvalue()
-
-def tao_file_zip_xuat_du_lieu(danh_sach_the, ten_don_vi):
-    zip_buffer = io.BytesIO()
-    with zipfile.ZipFile(zip_buffer, "a", zipfile.ZIP_DEFLATED, False) as zip_file:
-        for c in danh_sach_the:
-            img_bytes = None
-            if "Ảnh_Path" in c and os.path.exists(c["Ảnh_Path"]):
-                with open(c["Ảnh_Path"], "rb") as f: img_bytes = f.read()
-            elif "Ảnh_Base64" in c and c["Ảnh_Base64"]:
-                try: img_bytes = base64.b64decode(c["Ảnh_Base64"])
-                except: pass
-                
-            if img_bytes:
-                try:
-                    safe_name = remove_accents(c.get("Họ tên", "")).replace(" ", "_").upper()
-                    safe_cv = remove_accents(c.get("Chức vụ", "")).replace(" ", "")
-                    safe_ma = c.get("Mã", "NoID")
-                    file_name = f"Hinh_Anh/{safe_cv}_{safe_name}_{safe_ma}.jpg"
-                    zip_file.writestr(file_name, img_bytes)
-                except: pass
-
-        if danh_sach_the:
-            pdf_bytes = tao_pdf_danh_sach(danh_sach_the, ten_don_vi)
-            zip_file.writestr(f"Danh_Sach_Nhan_Su_{ten_don_vi}.pdf", pdf_bytes)
-
-    zip_buffer.seek(0)
-    return zip_buffer.getvalue()
 
 def draw_card_image(card, g_cfg):
     STD_W = 2480
     aspect_ratio = g_cfg["h_card_cm"] / g_cfg["w_card_cm"]
     STD_H = int(STD_W * aspect_ratio) 
     
-    vip_keywords = ["HLV", "HUAN LUYEN VIEN", "TRONG TAI", "BTC", "TRUONG DOAN", "BAN TO CHUC", "THU KY"]
+    vip_keywords = ["HLV", "HUAN LUYEN VIEN", "TRONG TAI", "BTC", "TRUONG DOAN", "BAN TO CHUC", "THU KY", "VIP", "NHAN VIEN", "TRUYEN THONG"]
     cv_goc = str(card.get("Chức vụ", "")).strip()
     if not cv_goc: cv_goc = "VĐV"
     is_vip = False
@@ -434,6 +324,9 @@ def draw_card_image(card, g_cfg):
         except: pass
         
     font_family = g_cfg.get("font_choice", "Arial")
+    is_global_bold = "Bold" in font_family
+    base_font = font_family.replace(" Bold", "")
+    
     font_map = {
         "Arial": {"regular": "arial.ttf", "bold": "arialbd.ttf"},
         "Times New Roman": {"regular": "times.ttf", "bold": "timesbd.ttf"},
@@ -454,17 +347,19 @@ def draw_card_image(card, g_cfg):
         if not text_raw: continue
         line_cfg = g_cfg["lines"][i]
         
-        text_processed = text_raw.replace("HLV", "HUÂN LUYỆN VIÊN").replace("VĐV", "VẬN ĐỘNG VIÊN").replace("VDV", "VẬN ĐỘNG VIÊN")
-        if line_cfg.get("is_uppercase", False): text_processed = text_processed.upper()
+        text_processed = text_raw.replace("HLV", "HUẤN LUYỆN VIÊN").replace("VĐV", "VẬN ĐỘNG VIÊN").replace("VDV", "VẬN ĐỘNG VIÊN")
+        
+        t_case = line_cfg.get("text_case", 0)
+        if t_case == 0: text_processed = text_processed.upper()
+        elif t_case == 2: text_processed = text_processed.title()
+        elif t_case == 3: text_processed = text_processed.capitalize()
             
         hex_color = line_cfg["color"].lstrip('#')
         rgb_color = tuple(int(hex_color[j:j+2], 16) for j in (0, 2, 4))
         
-        is_bold = line_cfg.get("is_bold", True)
-        
-        font_file = font_map.get(font_family, font_map["Arial"])["bold" if is_bold else "regular"]
+        font_file = font_map.get(base_font, font_map["Arial"])["bold" if is_global_bold else "regular"]
         if not os.path.exists(font_file): 
-            font_file = "arialbd.ttf" if is_bold else "arial.ttf"
+            font_file = "arialbd.ttf" if is_global_bold else "arial.ttf"
 
         current_size = line_cfg["initial_size"]
         selected_font = None
@@ -569,8 +464,27 @@ for t in active_tourneys:
     except:
         is_registration_open = True
 
+# KHỞI TRÌNH QUẢN LÝ COOKIE (24H LOGIN)
+if HAS_STX:
+    cookie_manager = stx.CookieManager(key="auth_cm")
+    if not st.session_state['logged_in']:
+        auth_token = cookie_manager.get("tk_auth_24h")
+        if auth_token and isinstance(auth_token, str):
+            try:
+                uname, hpwd = auth_token.split("||")
+                users_db = load_users()
+                if uname in users_db and users_db[uname]["password"] == hpwd:
+                    st.session_state['logged_in'] = True
+                    st.session_state['user_name'] = uname
+                    st.session_state['user_role'] = users_db[uname]["role"]
+                    st.session_state['user_unit'] = users_db[uname]["unit"]
+                    st.session_state['can_print'] = users_db[uname].get("can_print", False)
+                    st.rerun()
+            except:
+                pass
+
 # ==========================================
-# HỆ THỐNG ĐĂNG NHẬP (TÀI KHOẢN / MẬT KHẨU)
+# HỆ THỐNG ĐĂNG NHẬP
 # ==========================================
 if not st.session_state['logged_in']:
     st.markdown("<br><br>", unsafe_allow_html=True)
@@ -588,18 +502,19 @@ if not st.session_state['logged_in']:
                 uname = username_input.strip()
                 if uname in users_db:
                     stored_pwd = users_db[uname].get("password", "")
-                    hashed_input = hashlib.sha256(password_input.encode()).hexdigest()
                     
-                    if stored_pwd == password_input or stored_pwd == hashed_input:
-                        if stored_pwd == hashed_input and stored_pwd != password_input:
-                            users_db[uname]["password"] = password_input
-                            save_users(users_db)
-                            
+                    if stored_pwd == password_input:
                         st.session_state['logged_in'] = True
                         st.session_state['user_name'] = uname
                         st.session_state['user_role'] = users_db[uname]["role"]
                         st.session_state['user_unit'] = users_db[uname]["unit"]
                         st.session_state['can_print'] = users_db[uname].get("can_print", False)
+                        
+                        if HAS_STX:
+                            expire_time = datetime.datetime.now() + datetime.timedelta(days=1)
+                            cookie_manager.set("tk_auth_24h", f"{uname}||{stored_pwd}", expires_at=expire_time)
+                            time.sleep(0.5)
+                            
                         st.success("Đăng nhập thành công!")
                         st.rerun()
                     else:
@@ -616,7 +531,6 @@ st.sidebar.markdown("---")
 role = st.session_state['user_role']
 quyen_in = st.session_state['can_print']
 ma_don_vi_lam_viec = ""
-entity_label = "Đơn vị/CLB"
 
 menu_options = ["1️⃣ Nộp Danh Sách Làm Thẻ", "2️⃣ In Thẻ"]
 if role == "ADMIN":
@@ -649,7 +563,10 @@ elif role == "DON_VI":
     st.sidebar.info(f"🏢 Đơn vị: {ma_don_vi_lam_viec}")
     
 st.sidebar.markdown("---")
-if st.sidebar.button("Đăng xuất", use_container_width=True): st.session_state.clear(); st.cache_data.clear(); st.rerun()
+if st.sidebar.button("🔄 LÀM MỚI TẢI LẠI DỮ LIỆU", type="primary", use_container_width=True): st.cache_data.clear(); st.rerun()
+if st.sidebar.button("Đăng xuất", use_container_width=True): 
+    if HAS_STX: cookie_manager.delete("tk_auth_24h")
+    st.session_state.clear(); st.cache_data.clear(); st.rerun()
 
 # ==========================================
 # MÀN HÌNH 1: NỘP DANH SÁCH LÀM THẺ 
@@ -696,7 +613,7 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
             
             with c_e1:
                 edit_ht = st.text_input("Họ và tên", value=card_edit.get("Họ tên", ""))
-                edit_cv = st.selectbox("Chức vụ đoàn", ["VĐV", "HLV", "HLV Trưởng", "Trưởng đoàn"], index=["VĐV", "HLV", "HLV Trưởng", "Trưởng đoàn"].index(card_edit.get("Chức vụ", "VĐV")) if card_edit.get("Chức vụ", "VĐV") in ["VĐV", "HLV", "HLV Trưởng", "Trưởng đoàn"] else 0)
+                edit_cv = st.selectbox("Chức vụ đoàn", ALL_ROLES, index=ALL_ROLES.index(card_edit.get("Chức vụ", "VĐV")) if card_edit.get("Chức vụ", "VĐV") in ALL_ROLES else 0)
                 edit_dc = st.text_input("Cấp / Đẳng", value=card_edit.get("Đẳng cấp", ""))
             with c_e2:
                 edit_ns = st.text_input("Năm sinh", value=card_edit.get("Năm sinh", ""))
@@ -725,9 +642,9 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
 
     if not ma_don_vi_lam_viec:
         if role == "ADMIN":
-            st.warning("⚠️ Chọn Đơn vị ở menu bên trái để xem danh sách thẻ (Chỉ hiển thị đơn vị đã nộp).")
+            st.warning("⚠️ Chọn Đơn vị ở menu bên trái để xem danh sách thẻ.")
         else:
-            st.warning(f"⚠️ Vui lòng liên hệ Admin để gán tài khoản vào {entity_label}!")
+            st.warning("⚠️ Vui lòng liên hệ Admin để gán tài khoản vào Đơn vị!")
     else:
         st.markdown("### 📝 Nhập thông tin đăng ký làm thẻ mới")
         
@@ -741,8 +658,8 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                 c1, c2 = st.columns(2)
                 with c1:
                     input_ho_ten = st.text_input("Họ và Tên (*)")
-                    input_ma_hv = st.text_input("Mã Học Viên (*)")
-                    cv_chon = st.selectbox("📌 Chức vụ đoàn", ["VĐV", "HLV", "HLV Trưởng", "Trưởng đoàn"])
+                    input_ma_hv = st.text_input("Mã Định Danh/Thẻ (*)")
+                    cv_chon = st.selectbox("📌 Chức vụ", ALL_ROLES)
                     ns_chon = st.text_input("Năm sinh (VD: 2005)")
                 with c2:
                     dc_chon = st.text_input("Cấp / Đẳng")
@@ -752,7 +669,7 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                     
                 if st.button("💾 Ghi nhận hồ sơ", type="primary"):
                     if not input_ho_ten.strip() or not input_ma_hv.strip() or uploaded_file is None:
-                        st.error("⚠️ Vui lòng điền đầy đủ Họ Tên, Mã Học Viên và tải lên Ảnh thẻ!")
+                        st.error("⚠️ Vui lòng điền đầy đủ Họ Tên, Mã số và tải lên Ảnh thẻ!")
                     else:
                         img_path = process_and_save_image(uploaded_file, input_ma_hv)
                         save_submitted_card({
@@ -793,7 +710,7 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
         if role == "ADMIN" and ma_don_vi_lam_viec:
             with c_del:
                 if st.button(f"🚨 XÓA TẤT CẢ", type="primary", use_container_width=True):
-                    with st.spinner("Đang dọn dẹp dữ liệu (Có thể mất vài giây)..."):
+                    with st.spinner("Đang dọn dẹp dữ liệu..."):
                         all_remaining = []
                         deleted_count = 0
                         for c in all_cards_updated:
@@ -807,16 +724,9 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                         with open(CARDS_FILE, "w", encoding="utf-8") as f:
                             json.dump(all_remaining, f, ensure_ascii=False)
                         
-                        cur_set_print = load_settings()
-                        if "printed_status" in cur_set_print and tourney_name in cur_set_print["printed_status"]:
-                            if ma_don_vi_lam_viec in cur_set_print["printed_status"][tourney_name]:
-                                cur_set_print["printed_status"][tourney_name].remove(ma_don_vi_lam_viec)
-                                save_settings(cur_set_print)
-                                
                         st.session_state['success_msg'] = f"✅ Đã xóa sạch {deleted_count} thẻ của {ma_don_vi_lam_viec}!"
                         st.rerun()
                         
-        # --- TÍNH NĂNG PHÂN TRANG ---
         ITEMS_PER_PAGE = 30
         total_pages = max(1, (len(display_cards) - 1) // ITEMS_PER_PAGE + 1)
         
@@ -830,7 +740,8 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
         else:
             paged_cards = display_cards
 
-        for ten_cv in ["Trưởng đoàn", "HLV Trưởng", "HLV", "VĐV"]:
+        # Phân loại hiển thị theo đúng thứ tự chức danh mới
+        for ten_cv in ["VIP", "Ban tổ chức", "Trọng tài", "Truyền thông", "Nhân viên", "Trưởng đoàn", "HLV Trưởng", "HLV", "VĐV"]:
             nhom = [(i, c) for i, c in enumerate(all_cards_updated) if c in paged_cards and c.get("Chức vụ") == ten_cv]
             if nhom:
                 st.markdown(f"#### 📌 {ten_cv} ({len(nhom)})")
@@ -871,12 +782,9 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                                 st.button("🗑️ Xóa", key=f"d_{original_idx}", on_click=delete_card, args=(original_idx,), use_container_width=True)
 
 # ==============================================================
-# 🖨️ MÀN HÌNH 2: PHÂN HỆ DÀN TRANG KẾT XUẤT FILE IN CHUYÊN NGHIỆP
+# 🖨️ MÀN HÌNH 2: IN THẺ (GIAO DIỆN MỚI TỰ ĐỘNG LƯU)
 # ==============================================================
 elif menu_choice == "2️⃣ In Thẻ":
-    st.markdown("<h1><span style='color:#8e44ad;'>➕</span> PHÂN HỆ CẤU HÌNH KÍCH THƯỚC & XUẤT BẢN PDF</h1>", unsafe_allow_html=True)
-    st.markdown("---")
-    
     if not ma_don_vi_lam_viec: 
         st.warning(f"⚠️ Vui lòng chọn Đơn vị ở Menu bên trái để tải danh sách thẻ!")
     elif role == "ADMIN" or quyen_in: 
@@ -884,101 +792,104 @@ elif menu_choice == "2️⃣ In Thẻ":
         print_cards = [c for c in all_cards if str(c.get("Đơn_vị")).strip().upper() == ma_don_vi_lam_viec.upper()]
         
         if len(print_cards) == 0:
-            st.warning(f"Đơn vị {ma_don_vi_lam_viec} hiện chưa có dữ liệu võ sinh đăng ký.")
+            st.warning(f"Đơn vị {ma_don_vi_lam_viec} hiện chưa có dữ liệu nộp.")
         else:
-            st.success(f"Tìm thấy {len(print_cards)} thẻ sẵn sàng. Bấm nút bên dưới để mở Bảng cấu hình xuất bản.")
-            st.button("⚙️ BẤM VÀO ĐÂY ĐỂ CẤU HÌNH THÔNG SỐ ĐỒ HỌA IN THẺ", on_click=toggle_settings, type="primary")
-
-            if st.session_state['show_settings']:
-                st.markdown('<div style="background-color: #f4f6f9; padding: 25px; border-radius: 12px; margin-top: 15px; margin-bottom: 25px; border: 1px solid #dcdde1; box-shadow: 0px 5px 15px rgba(0,0,0,0.05);">', unsafe_allow_html=True)
+            st.success(f"Tìm thấy {len(print_cards)} thẻ sẵn sàng. Bảng cấu hình tự động lưu bên dưới.")
+            
+            # GIAO DIỆN TÙY CHỈNH THEO YÊU CẦU MỚI NHẤT
+            font_list = ["Arial", "Arial Bold", "Times New Roman", "Times New Roman Bold", "Tahoma", "Tahoma Bold"]
+            current_font = graphics_config.get("font_choice", "Arial")
+            if current_font not in font_list: current_font = "Arial"
+            
+            v_font_choice = st.selectbox("🔤 Chọn kiểu phông chữ:", font_list, index=font_list.index(current_font))
+            
+            with st.expander("🔧 Bấm vào đây để KÉO ẢNH & ĐỔI MÀU/KIỂU CHỮ (Tự động lưu)", expanded=True):
+                tab_photo, tab_l12, tab_l34 = st.tabs(["📷 Ảnh chân dung", "🔤 Dòng 1 & Dòng 2", "🔤 Dòng 3 & Dòng 4"])
                 
-                st.markdown("### 📐 A. Cấu hình Kích thước Vật lý (Physical Dimension Parameters)")
-                col_k1, col_k2 = st.columns(2)
-                v_w_card_cm = col_k1.number_input("Chiều ngang thẻ (the_width_cm):", value=float(graphics_config.get("w_card_cm", 10.0)), step=0.10, format="%.2f", key="ui_w")
-                v_h_card_cm = col_k2.number_input("Chiều cao thẻ (the_height_cm):", value=float(graphics_config.get("h_card_cm", 14.0)), step=0.10, format="%.2f", key="ui_h")
-                
-                st.markdown("### 🎛️ B. Thuật toán Bố cục PDF (PDF Layout Engine) & C. Lớp phủ Nền đồ họa")
-                col_k3, col_k4 = st.columns(2)
-                v_layout_pdf = col_k3.radio("Chọn bố cục dàn trang kết xuất file PDF:", ["🔲 4 thẻ / 1 trang A4", "📄 1 thẻ / 1 trang"], index=0 if "4 thẻ" in graphics_config.get("layout_pdf","") else 1, key="ui_lay")
-                v_bg_option = col_k4.radio("Tùy chọn nền phôi đồ họa:", ["🖼️ In đầy đủ", "⬜ Chỉ in nội dung"], index=0 if "đầy đủ" in graphics_config.get("bg_option","") else 1, key="ui_bg")
-                
-                st.markdown("<hr style='margin:15px 0px; border-color:#e0e0e0;'>", unsafe_allow_html=True)
-                st.markdown("### ⚙️ Căn chỉnh Tọa độ Ảnh chân dung (Image Position Bounds) & Text Layer")
-                v_font_choice = st.selectbox("Chọn Họ Phông chữ Windows (Font Engine):", ["Arial", "Times New Roman", "Tahoma", "Calibri"], index=["Arial", "Times New Roman", "Tahoma", "Calibri"].index(graphics_config.get("font_choice", "Arial")), key="ui_font")
-                
-                tab_photo, tab_l12, tab_l34 = st.tabs(["📷 Ảnh chân dung (Bounds)", "🔤 Dòng 1 & Dòng 2", "🔤 Dòng 3 & Dòng 4"])
                 with tab_photo:
                     col_img1, col_img2 = st.columns(2)
-                    v_img_x = col_img1.number_input("Vị trí ngang X (Ảnh)", value=int(graphics_config.get("img_x", 116)), key="ui_ix")
-                    v_img_y = col_img2.number_input("Vị trí dọc Y (Ảnh)", value=int(graphics_config.get("img_y", 1380)), key="ui_iy")
-                    v_img_w = col_img1.number_input("Chiều rộng khung ảnh (img_w)", value=int(graphics_config.get("img_w", 586)), key="ui_iw")
-                    v_img_h = col_img2.number_input("Chiều cao khung ảnh (img_h)", value=int(graphics_config.get("img_h", 800)), key="ui_ih")
+                    v_img_x = col_img1.number_input("Vị trí ngang X (Ảnh)", value=int(graphics_config.get("img_x", 116)))
+                    v_img_y = col_img2.number_input("Vị trí dọc Y (Ảnh)", value=int(graphics_config.get("img_y", 1380)))
+                    v_img_w = col_img1.number_input("Chiều rộng khung ảnh (img_w)", value=int(graphics_config.get("img_w", 586)))
+                    v_img_h = col_img2.number_input("Chiều cao khung ảnh (img_h)", value=int(graphics_config.get("img_h", 800)))
+                
+                text_case_opts = ["Viết hoa toàn bộ", "Giữ nguyên gốc", "Viết hoa chữ cái đầu mỗi chữ", "Chỉ viết hoa chữ đầu của câu"]
+                
                 with tab_l12:
                     st.markdown("🔹 **Cấu hình Dòng 1**")
-                    cx1_1, cx1_2, cx1_3 = st.columns([1,1,1])
-                    v_color_line1 = cx1_1.color_picker("🎨 Màu sắc:", graphics_config["lines"][0]["color"], key="c1")
-                    with cx1_2: st.write(""); v_is_bold1 = st.checkbox("𝗕 In đậm (Bold)", value=graphics_config["lines"][0].get("is_bold", True), key="b1")
-                    with cx1_3: st.write(""); v_is_up1 = st.checkbox("🔠 Viết hoa (UPPER)", value=graphics_config["lines"][0].get("is_uppercase", False), key="u1")
+                    col_c1, col_k1 = st.columns([1, 4])
+                    v_color_line1 = col_c1.color_picker("🎨 Màu Dòng 1:", graphics_config["lines"][0]["color"], key="c1")
+                    v_case_1 = col_k1.radio("Kiểu chữ Dòng 1:", text_case_opts, index=graphics_config["lines"][0].get("text_case", 0), horizontal=True, key="case1")
+                    
                     cl1_1, cl1_2, cl1_3 = st.columns(3)
                     v_size_line1 = cl1_1.number_input("Cỡ chữ Dòng 1", value=int(graphics_config["lines"][0]["initial_size"]), key="s1")
                     v_x_line1 = cl1_2.number_input("Tâm X Dòng 1", value=int(graphics_config["lines"][0]["l_x"]), key="x1")
                     v_y_line1 = cl1_3.number_input("Vị trí Y Dòng 1", value=int(graphics_config["lines"][0]["l_y"]), key="y1")
                     
+                    st.markdown("<hr style='margin:5px 0px;'>", unsafe_allow_html=True)
                     st.markdown("🔹 **Cấu hình Dòng 2**")
-                    cx2_1, cx2_2, cx2_3 = st.columns([1,1,1])
-                    v_color_line2 = cx2_1.color_picker("🎨 Màu sắc:", graphics_config["lines"][1]["color"], key="c2")
-                    with cx2_2: st.write(""); v_is_bold2 = st.checkbox("𝗕 In đậm (Bold)", value=graphics_config["lines"][1].get("is_bold", True), key="b2")
-                    with cx2_3: st.write(""); v_is_up2 = st.checkbox("🔠 Viết hoa (UPPER)", value=graphics_config["lines"][1].get("is_uppercase", False), key="u2")
+                    col_c2, col_k2 = st.columns([1, 4])
+                    v_color_line2 = col_c2.color_picker("🎨 Màu Dòng 2:", graphics_config["lines"][1]["color"], key="c2")
+                    v_case_2 = col_k2.radio("Kiểu chữ Dòng 2:", text_case_opts, index=graphics_config["lines"][1].get("text_case", 0), horizontal=True, key="case2")
+                    
                     cl2_1, cl2_2, cl2_3 = st.columns(3)
                     v_size_line2 = cl2_1.number_input("Cỡ chữ Dòng 2", value=int(graphics_config["lines"][1]["initial_size"]), key="s2")
                     v_x_line2 = cl2_2.number_input("Tâm X Dòng 2", value=int(graphics_config["lines"][1]["l_x"]), key="x2")
                     v_y_line2 = cl2_3.number_input("Vị trí Y Dòng 2", value=int(graphics_config["lines"][1]["l_y"]), key="y2")
+                    
                 with tab_l34:
                     st.markdown("🔹 **Cấu hình Dòng 3**")
-                    cx3_1, cx3_2, cx3_3 = st.columns([1,1,1])
-                    v_color_line3 = cx3_1.color_picker("🎨 Màu sắc:", graphics_config["lines"][2]["color"], key="c3")
-                    with cx3_2: st.write(""); v_is_bold3 = st.checkbox("𝗕 In đậm (Bold)", value=graphics_config["lines"][2].get("is_bold", True), key="b3")
-                    with cx3_3: st.write(""); v_is_up3 = st.checkbox("🔠 Viết hoa (UPPER)", value=graphics_config["lines"][2].get("is_uppercase", False), key="u3")
+                    col_c3, col_k3 = st.columns([1, 4])
+                    v_color_line3 = col_c3.color_picker("🎨 Màu Dòng 3:", graphics_config["lines"][2]["color"], key="c3")
+                    v_case_3 = col_k3.radio("Kiểu chữ Dòng 3:", text_case_opts, index=graphics_config["lines"][2].get("text_case", 0), horizontal=True, key="case3")
+                    
                     cl3_1, cl3_2, cl3_3 = st.columns(3)
                     v_size_line3 = cl3_1.number_input("Cỡ chữ Dòng 3", value=int(graphics_config["lines"][2]["initial_size"]), key="s3")
                     v_x_line3 = cl3_2.number_input("Tâm X Dòng 3", value=int(graphics_config["lines"][2]["l_x"]), key="x3")
                     v_y_line3 = cl3_3.number_input("Vị trí Y Dòng 3", value=int(graphics_config["lines"][2]["l_y"]), key="y3")
                     
+                    st.markdown("<hr style='margin:5px 0px;'>", unsafe_allow_html=True)
                     st.markdown("🔹 **Cấu hình Dòng 4**")
-                    cx4_1, cx4_2, cx4_3 = st.columns([1,1,1])
-                    v_color_line4 = cx4_1.color_picker("🎨 Màu sắc:", graphics_config["lines"][3]["color"], key="c4")
-                    with cx4_2: st.write(""); v_is_bold4 = st.checkbox("𝗕 In đậm (Bold)", value=graphics_config["lines"][3].get("is_bold", True), key="b4")
-                    with cx4_3: st.write(""); v_is_up4 = st.checkbox("🔠 Viết hoa (UPPER)", value=graphics_config["lines"][3].get("is_uppercase", False), key="u4")
+                    col_c4, col_k4 = st.columns([1, 4])
+                    v_color_line4 = col_c4.color_picker("🎨 Màu Dòng 4:", graphics_config["lines"][3]["color"], key="c4")
+                    v_case_4 = col_k4.radio("Kiểu chữ Dòng 4:", text_case_opts, index=graphics_config["lines"][3].get("text_case", 0), horizontal=True, key="case4")
+                    
                     cl4_1, cl4_2, cl4_3 = st.columns(3)
                     v_size_line4 = cl4_1.number_input("Cỡ chữ Dòng 4", value=int(graphics_config["lines"][3]["initial_size"]), key="s4")
                     v_x_line4 = cl4_2.number_input("Tâm X Dòng 4", value=int(graphics_config["lines"][3]["l_x"]), key="x4")
                     v_y_line4 = cl4_3.number_input("Vị trí Y Dòng 4", value=int(graphics_config["lines"][3]["l_y"]), key="y4")
-                    
-                st.markdown("<hr style='margin:10px 0px;'>", unsafe_allow_html=True)
-                st.markdown("#### 📋 3. Ghép Cột Dữ Liệu Tùy Biến (Smart Data Mapping):")
-                c_map = graphics_config.get("data_mapping", ["Họ và Tên", "Đơn vị", "[Thông minh] Nội dung (VĐV) - Năm sinh (HLV)", "[Thông minh] Lứa tuổi (VĐV) - Chức vụ (HLV)"])
-                col_m1, col_m2, col_m3, col_m4 = st.columns(4)
-                v_map1 = col_m1.selectbox("Dòng 1 in cột:", FIELD_OPTIONS, index=FIELD_OPTIONS.index(c_map[0]) if c_map[0] in FIELD_OPTIONS else 0, key="m1")
-                v_map2 = col_m2.selectbox("Dòng 2 in cột:", FIELD_OPTIONS, index=FIELD_OPTIONS.index(c_map[1]) if c_map[1] in FIELD_OPTIONS else 1, key="m2")
-                v_map3 = col_m3.selectbox("Dòng 3 in cột:", FIELD_OPTIONS, index=FIELD_OPTIONS.index(c_map[2]) if c_map[2] in FIELD_OPTIONS else 2, key="m3")
-                v_map4 = col_m4.selectbox("Dòng 4 in cột:", FIELD_OPTIONS, index=FIELD_OPTIONS.index(c_map[3]) if c_map[3] in FIELD_OPTIONS else 3, key="m4")
-                    
-                if st.button("💾 ĐỒNG BỘ HOÀN TOÀN THAM SỐ VÀO FILE JSON", type="primary", use_container_width=True):
-                    new_graphics_cfg = {
-                        "font_choice": v_font_choice, "img_x": v_img_x, "img_y": v_img_y, "img_w": v_img_w, "img_h": v_img_h,
-                        "w_card_cm": v_w_card_cm, "h_card_cm": v_h_card_cm, "layout_pdf": v_layout_pdf, "bg_option": v_bg_option,
-                        "data_mapping": [v_map1, v_map2, v_map3, v_map4],
-                        "lines": [
-                            {"color": v_color_line1, "initial_size": v_size_line1, "l_x": v_x_line1, "l_y": v_y_line1, "is_bold": v_is_bold1, "is_uppercase": v_is_up1},
-                            {"color": v_color_line2, "initial_size": v_size_line2, "l_x": v_x_line2, "l_y": v_y_line2, "is_bold": v_is_bold2, "is_uppercase": v_is_up2},
-                            {"color": v_color_line3, "initial_size": v_size_line3, "l_x": v_x_line3, "l_y": v_y_line3, "is_bold": v_is_bold3, "is_uppercase": v_is_up3},
-                            {"color": v_color_line4, "initial_size": v_size_line4, "l_x": v_x_line4, "l_y": v_y_line4, "is_bold": v_is_bold4, "is_uppercase": v_is_up4}
-                        ]
-                    }
-                    save_graphics_config(new_graphics_cfg)
-                    st.success("✅ Cấu hình đồ họa xuất bản đã được lưu trữ thành công!")
-                    st.rerun()
-                st.markdown("</div>", unsafe_allow_html=True)
+
+            # CÁC THÔNG SỐ CƠ BẢN
+            with st.container():
+                st.markdown("#### 📐 A. Kích thước & Bố cục PDF")
+                col_k1, col_k2, col_k3, col_k4 = st.columns(4)
+                v_w_card_cm = col_k1.number_input("Rộng thẻ (cm):", value=float(graphics_config.get("w_card_cm", 10.0)), step=0.10)
+                v_h_card_cm = col_k2.number_input("Cao thẻ (cm):", value=float(graphics_config.get("h_card_cm", 14.0)), step=0.10)
+                v_layout_pdf = col_k3.radio("Dàn trang PDF:", ["🔲 4 thẻ / 1 trang A4", "📄 1 thẻ / 1 trang"], index=0 if "4 thẻ" in graphics_config.get("layout_pdf","") else 1)
+                v_bg_option = col_k4.radio("Nền phôi:", ["🖼️ In đầy đủ", "⬜ Chỉ in nội dung"], index=0 if "đầy" in graphics_config.get("bg_option","") else 1)
+
+            st.markdown("#### 📋 B. Ghép Cột Dữ Liệu Tùy Biến:")
+            c_map = graphics_config.get("data_mapping", ["Họ và Tên", "Đơn vị", "[Thông minh] Nội dung (VĐV) - Năm sinh (HLV/VIP)", "[Thông minh] Lứa tuổi (VĐV) - Chức vụ (HLV/VIP)"])
+            col_m1, col_m2, col_m3, col_m4 = st.columns(4)
+            v_map1 = col_m1.selectbox("Dòng 1 in:", FIELD_OPTIONS, index=FIELD_OPTIONS.index(c_map[0]) if c_map[0] in FIELD_OPTIONS else 0)
+            v_map2 = col_m2.selectbox("Dòng 2 in:", FIELD_OPTIONS, index=FIELD_OPTIONS.index(c_map[1]) if c_map[1] in FIELD_OPTIONS else 1)
+            v_map3 = col_m3.selectbox("Dòng 3 in:", FIELD_OPTIONS, index=FIELD_OPTIONS.index(c_map[2]) if c_map[2] in FIELD_OPTIONS else 2)
+            v_map4 = col_m4.selectbox("Dòng 4 in:", FIELD_OPTIONS, index=FIELD_OPTIONS.index(c_map[3]) if c_map[3] in FIELD_OPTIONS else 3)
+            
+            # CƠ CHẾ AUTO-SAVE (MỌI THAY ĐỔI SẼ ĐƯỢC GHI NHẬN NGAY LẬP TỨC XUỐNG JSON)
+            new_graphics_cfg = {
+                "font_choice": v_font_choice, "img_x": v_img_x, "img_y": v_img_y, "img_w": v_img_w, "img_h": v_img_h,
+                "w_card_cm": v_w_card_cm, "h_card_cm": v_h_card_cm, "layout_pdf": v_layout_pdf, "bg_option": v_bg_option,
+                "data_mapping": [v_map1, v_map2, v_map3, v_map4],
+                "lines": [
+                    {"color": v_color_line1, "initial_size": v_size_line1, "l_x": v_x_line1, "l_y": v_y_line1, "text_case": text_case_opts.index(v_case_1)},
+                    {"color": v_color_line2, "initial_size": v_size_line2, "l_x": v_x_line2, "l_y": v_y_line2, "text_case": text_case_opts.index(v_case_2)},
+                    {"color": v_color_line3, "initial_size": v_size_line3, "l_x": v_x_line3, "l_y": v_y_line3, "text_case": text_case_opts.index(v_case_3)},
+                    {"color": v_color_line4, "initial_size": v_size_line4, "l_x": v_x_line4, "l_y": v_y_line4, "text_case": text_case_opts.index(v_case_4)}
+                ]
+            }
+            save_graphics_config(new_graphics_cfg)
+            graphics_config = new_graphics_cfg 
 
             # ==============================================================
             # GIAO DIỆN XEM TRƯỚC WYSIWYG
@@ -1217,7 +1128,7 @@ elif menu_choice == "3️⃣ Cài đặt (Admin)":
     
     c_p1, c_p2 = st.columns(2)
     with c_p1:
-        st.markdown("##### 🖼️ Mẫu phôi Huấn Luyện Viên (VIP)")
+        st.markdown("##### 🖼️ Mẫu phôi VIP (Dành cho Trọng tài, BTC, HLV, Truyền thông...)")
         phoi_hlv_file = st.file_uploader("Thả file vào đây (Tự động lưu)", type=['png', 'jpg', 'jpeg'], key="up_hlv")
         if phoi_hlv_file is not None:
             try:
@@ -1225,7 +1136,7 @@ elif menu_choice == "3️⃣ Cài đặt (Admin)":
                 img_hlv.save("phoi_hlv.png", format="PNG")
             except Exception as e: st.error(f"Lỗi: {e}")
         if os.path.exists("phoi_hlv.png"):
-            st.image("phoi_hlv.png", caption="Phôi HLV hiện tại đang sử dụng", use_container_width=True)
+            st.image("phoi_hlv.png", caption="Phôi VIP hiện tại đang sử dụng", use_container_width=True)
             
     with c_p2:
         st.markdown("##### 🖼️ Mẫu phôi Vận Động Viên (Thường)")
@@ -1255,9 +1166,8 @@ elif menu_choice == "4️⃣ Đổi Mật Khẩu":
             uname = st.session_state['user_name']
             
             stored_pwd = users_db[uname]["password"]
-            hashed_old = hashlib.sha256(old_pwd.encode()).hexdigest()
             
-            if stored_pwd != old_pwd and stored_pwd != hashed_old:
+            if stored_pwd != old_pwd:
                 st.error("❌ Mật khẩu cũ không chính xác!")
             elif new_pwd != confirm_pwd:
                 st.error("❌ Mật khẩu mới không khớp với xác nhận!")
