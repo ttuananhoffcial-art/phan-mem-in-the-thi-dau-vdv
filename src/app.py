@@ -150,10 +150,10 @@ def load_graphics_config():
         "w_card_cm": 10.00, "h_card_cm": 14.00, "layout_pdf": "🔲 4 thẻ / 1 trang A4", "bg_option": "🖼️ In đầy đủ",
         "data_mapping": ["Họ và Tên", "Đơn vị", "[Thông minh] Nội dung (VĐV) - Năm sinh (HLV/VIP)", "[Thông minh] Lứa tuổi (VĐV) - Chức vụ (HLV/VIP)"],
         "lines": [
-            {"color": "#ff0000", "initial_size": 95, "l_x": 1243, "l_y": 1780, "text_case": 0},
-            {"color": "#000000", "initial_size": 109, "l_x": 1243, "l_y": 1894, "text_case": 0},
-            {"color": "#000000", "initial_size": 100, "l_x": 1243, "l_y": 2048, "text_case": 0},
-            {"color": "#000000", "initial_size": 85, "l_x": 1243, "l_y": 2201, "text_case": 0}
+            {"color": "#ff0000", "initial_size": 95, "l_x": 1243, "l_y": 1780, "text_case": 0, "is_bold": True},
+            {"color": "#000000", "initial_size": 109, "l_x": 1243, "l_y": 1894, "text_case": 0, "is_bold": True},
+            {"color": "#000000", "initial_size": 100, "l_x": 1243, "l_y": 2048, "text_case": 0, "is_bold": True},
+            {"color": "#000000", "initial_size": 85, "l_x": 1243, "l_y": 2201, "text_case": 0, "is_bold": True}
         ]
     }
     if not os.path.exists(CONFIG_GRAPHICS_FILE):
@@ -452,7 +452,6 @@ def draw_card_image(card, g_cfg):
         except: pass
         
     font_family = g_cfg.get("font_choice", "Arial")
-    is_global_bold = "Bold" in font_family
     base_font = font_family.replace(" Bold", "")
     
     font_map = {
@@ -461,9 +460,6 @@ def draw_card_image(card, g_cfg):
         "Tahoma": {"regular": "tahoma.ttf", "bold": "tahomabd.ttf"},
         "Calibri": {"regular": "calibri.ttf", "bold": "calibrib.ttf"}
     }
-    
-    # NỚI LỎNG GIỚI HẠN ÉP SIZE CHỮ
-    max_safe_width = int(STD_W * 0.95)
     
     lines_text = [
         get_mapped_value(card, g_cfg["data_mapping"][0]),
@@ -486,9 +482,10 @@ def draw_card_image(card, g_cfg):
         hex_color = line_cfg["color"].lstrip('#')
         rgb_color = tuple(int(hex_color[j:j+2], 16) for j in (0, 2, 4))
         
-        font_file = font_map.get(base_font, font_map["Arial"])["bold" if is_global_bold else "regular"]
+        is_bold = line_cfg.get("is_bold", True)
+        font_file = font_map.get(base_font, font_map["Arial"])["bold" if is_bold else "regular"]
         if not os.path.exists(font_file): 
-            font_file = "arialbd.ttf" if is_global_bold else "arial.ttf"
+            font_file = "arialbd.ttf" if is_bold else "arial.ttf"
 
         current_size = line_cfg["initial_size"]
         selected_font = None
@@ -505,7 +502,9 @@ def draw_card_image(card, g_cfg):
             
             bbox = draw.textbbox((0, 0), text_processed, font=selected_font)
             text_w = bbox[2] - bbox[0]
-            if text_w <= max_safe_width or selected_font == ImageFont.load_default(): break
+            
+            # CẢI TIẾN: NỚI LỎNG HOÀN TOÀN GIỚI HẠN ÉP SIZE CHỮ (95% thẻ)
+            if text_w <= int(STD_W * 0.95) or selected_font == ImageFont.load_default(): break
             current_size -= 2
             
         bbox = draw.textbbox((0, 0), text_processed, font=selected_font)
@@ -999,7 +998,7 @@ else:
             for c in all_cards:
                 dv = str(c.get("Đơn_vị", "")).strip()
                 is_my_unit = (dv.upper() == ma_don_vi_lam_viec.upper())
-                is_btc_viewing_vips = (ma_don_vi_lam_viec.upper() == "BTC" and c.get("Chức vụ") in ["Trọng tài", "Ban tổ chức", "VIP", "Nhân viên", "Truyền thông"])
+                is_btc_viewing_vips = (ma_don_vi_lam_viec.upper() == "BTC" and c.get("Chức vụ") in ["Trọng tài", "Ban tổ chức", "VIP", "Nhân viên", "Truền thông"])
                 
                 if is_my_unit or is_btc_viewing_vips:
                     print_cards.append(c)
@@ -1009,7 +1008,7 @@ else:
             else:
                 st.success(f"Tìm thấy {len(print_cards)} thẻ sẵn sàng. Bảng cấu hình tự động lưu bên dưới.")
                 
-                font_list = ["Arial", "Arial Bold", "Times New Roman", "Times New Roman Bold", "Tahoma", "Tahoma Bold"]
+                font_list = ["Arial", "Times New Roman", "Tahoma", "Calibri"]
                 current_font = graphics_config.get("font_choice", "Arial")
                 if current_font not in font_list: current_font = "Arial"
                 
@@ -1029,8 +1028,13 @@ else:
                     
                     with tab_l12:
                         st.markdown("🔹 **Cấu hình Dòng 1**")
-                        col_c1, col_k1 = st.columns([1, 4])
-                        v_color_line1 = col_c1.color_picker("🎨 Màu Dòng 1:", graphics_config["lines"][0]["color"], key="c1")
+                        col_c1, col_k1 = st.columns([1.5, 4])
+                        with col_c1:
+                            cc1, cb1 = st.columns(2)
+                            v_color_line1 = cc1.color_picker("🎨 Màu:", graphics_config["lines"][0]["color"], key="c1")
+                            with cb1:
+                                st.write("")
+                                v_bold_1 = st.checkbox("𝗕 In đậm", value=graphics_config["lines"][0].get("is_bold", True), key="b1")
                         v_case_1 = col_k1.radio("Kiểu chữ Dòng 1:", text_case_opts, index=graphics_config["lines"][0].get("text_case", 0), horizontal=True, key="case1")
                         
                         cl1_1, cl1_2, cl1_3 = st.columns(3)
@@ -1040,8 +1044,13 @@ else:
                         
                         st.markdown("<hr style='margin:5px 0px;'>", unsafe_allow_html=True)
                         st.markdown("🔹 **Cấu hình Dòng 2**")
-                        col_c2, col_k2 = st.columns([1, 4])
-                        v_color_line2 = col_c2.color_picker("🎨 Màu Dòng 2:", graphics_config["lines"][1]["color"], key="c2")
+                        col_c2, col_k2 = st.columns([1.5, 4])
+                        with col_c2:
+                            cc2, cb2 = st.columns(2)
+                            v_color_line2 = cc2.color_picker("🎨 Màu:", graphics_config["lines"][1]["color"], key="c2")
+                            with cb2:
+                                st.write("")
+                                v_bold_2 = st.checkbox("𝗕 In đậm", value=graphics_config["lines"][1].get("is_bold", True), key="b2")
                         v_case_2 = col_k2.radio("Kiểu chữ Dòng 2:", text_case_opts, index=graphics_config["lines"][1].get("text_case", 0), horizontal=True, key="case2")
                         
                         cl2_1, cl2_2, cl2_3 = st.columns(3)
@@ -1051,8 +1060,13 @@ else:
                         
                     with tab_l34:
                         st.markdown("🔹 **Cấu hình Dòng 3**")
-                        col_c3, col_k3 = st.columns([1, 4])
-                        v_color_line3 = col_c3.color_picker("🎨 Màu Dòng 3:", graphics_config["lines"][2]["color"], key="c3")
+                        col_c3, col_k3 = st.columns([1.5, 4])
+                        with col_c3:
+                            cc3, cb3 = st.columns(2)
+                            v_color_line3 = cc3.color_picker("🎨 Màu:", graphics_config["lines"][2]["color"], key="c3")
+                            with cb3:
+                                st.write("")
+                                v_bold_3 = st.checkbox("𝗕 In đậm", value=graphics_config["lines"][2].get("is_bold", True), key="b3")
                         v_case_3 = col_k3.radio("Kiểu chữ Dòng 3:", text_case_opts, index=graphics_config["lines"][2].get("text_case", 0), horizontal=True, key="case3")
                         
                         cl3_1, cl3_2, cl3_3 = st.columns(3)
@@ -1062,8 +1076,13 @@ else:
                         
                         st.markdown("<hr style='margin:5px 0px;'>", unsafe_allow_html=True)
                         st.markdown("🔹 **Cấu hình Dòng 4**")
-                        col_c4, col_k4 = st.columns([1, 4])
-                        v_color_line4 = col_c4.color_picker("🎨 Màu Dòng 4:", graphics_config["lines"][3]["color"], key="c4")
+                        col_c4, col_k4 = st.columns([1.5, 4])
+                        with col_c4:
+                            cc4, cb4 = st.columns(2)
+                            v_color_line4 = cc4.color_picker("🎨 Màu:", graphics_config["lines"][3]["color"], key="c4")
+                            with cb4:
+                                st.write("")
+                                v_bold_4 = st.checkbox("𝗕 In đậm", value=graphics_config["lines"][3].get("is_bold", True), key="b4")
                         v_case_4 = col_k4.radio("Kiểu chữ Dòng 4:", text_case_opts, index=graphics_config["lines"][3].get("text_case", 0), horizontal=True, key="case4")
                         
                         cl4_1, cl4_2, cl4_3 = st.columns(3)
@@ -1092,10 +1111,10 @@ else:
                     "w_card_cm": v_w_card_cm, "h_card_cm": v_h_card_cm, "layout_pdf": v_layout_pdf, "bg_option": v_bg_option,
                     "data_mapping": [v_map1, v_map2, v_map3, v_map4],
                     "lines": [
-                        {"color": v_color_line1, "initial_size": v_size_line1, "l_x": v_x_line1, "l_y": v_y_line1, "text_case": text_case_opts.index(v_case_1)},
-                        {"color": v_color_line2, "initial_size": v_size_line2, "l_x": v_x_line2, "l_y": v_y_line2, "text_case": text_case_opts.index(v_case_2)},
-                        {"color": v_color_line3, "initial_size": v_size_line3, "l_x": v_x_line3, "l_y": v_y_line3, "text_case": text_case_opts.index(v_case_3)},
-                        {"color": v_color_line4, "initial_size": v_size_line4, "l_x": v_x_line4, "l_y": v_y_line4, "text_case": text_case_opts.index(v_case_4)}
+                        {"color": v_color_line1, "initial_size": v_size_line1, "l_x": v_x_line1, "l_y": v_y_line1, "text_case": text_case_opts.index(v_case_1), "is_bold": v_bold_1},
+                        {"color": v_color_line2, "initial_size": v_size_line2, "l_x": v_x_line2, "l_y": v_y_line2, "text_case": text_case_opts.index(v_case_2), "is_bold": v_bold_2},
+                        {"color": v_color_line3, "initial_size": v_size_line3, "l_x": v_x_line3, "l_y": v_y_line3, "text_case": text_case_opts.index(v_case_3), "is_bold": v_bold_3},
+                        {"color": v_color_line4, "initial_size": v_size_line4, "l_x": v_x_line4, "l_y": v_y_line4, "text_case": text_case_opts.index(v_case_4), "is_bold": v_bold_4}
                     ]
                 }
                 save_graphics_config(new_graphics_cfg)
