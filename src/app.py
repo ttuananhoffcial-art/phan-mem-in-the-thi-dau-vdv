@@ -99,9 +99,9 @@ FIELD_OPTIONS = [
 # ==========================================
 # KHỞI TẠO TRẠNG THÁI HỆ THỐNG & TÀI KHOẢN
 # ==========================================
-for k in ['logged_in', 'user_name', 'user_role', 'user_unit', 'can_print', 'clear_form', 'success_msg', 'success_url', 'edit_idx', 'show_settings', 'edit_tourney_idx']:
+for k in ['logged_in', 'user_name', 'user_role', 'user_unit', 'can_print', 'clear_form', 'success_msg', 'success_url', 'edit_idx', 'show_settings', 'edit_tourney_idx', 'cookie_fetched']:
     if k not in st.session_state:
-        st.session_state[k] = False if k in ['logged_in', 'clear_form', 'show_settings', 'can_print'] else (None if k in ['edit_idx', 'edit_tourney_idx'] else "")
+        st.session_state[k] = False if k in ['logged_in', 'clear_form', 'show_settings', 'can_print', 'cookie_fetched'] else (None if k in ['edit_idx', 'edit_tourney_idx'] else "")
 
 if st.session_state['clear_form']:
     st.session_state['clear_form'] = False
@@ -462,7 +462,7 @@ def draw_card_image(card, g_cfg):
         "Calibri": {"regular": "calibri.ttf", "bold": "calibrib.ttf"}
     }
     
-    # NỚI LỎNG GIỚI HẠN ÉP SIZE CHỮ: Cho phép chữ bám sát lề đến 95% thay vì 55% như cũ
+    # NỚI LỎNG GIỚI HẠN ÉP SIZE CHỮ
     max_safe_width = int(STD_W * 0.95)
     
     lines_text = [
@@ -573,6 +573,7 @@ def export_reportlab_pdf(print_cards, g_cfg):
 settings_data = load_settings()
 graphics_config = load_graphics_config()
 
+# ĐƯA BTC LÊN TRÊN CÙNG DANH SÁCH HIỂN THỊ ĐƠN VỊ CÓ SẴN
 danh_sach_thuc_the_cai_dat = ["BTC"] + sorted([k for k in UNIT_NAMES.keys() if k != "BTC"])
 
 tournaments_list = settings_data.get("tournaments", [])
@@ -594,27 +595,35 @@ for t in active_tourneys:
     except:
         is_registration_open = True
 
-# KHỞI TRÌNH QUẢN LÝ COOKIE (24H LOGIN) - KHÔNG DÙNG st.stop() ĐỂ TRÁNH LỖI MẤT KẾT NỐI
+# KHỞI TRÌNH QUẢN LÝ COOKIE (24H LOGIN) - TRÁNH LỖI MẤT KẾT NỐI
+cookie_manager = None
 if HAS_STX:
     cookie_manager = stx.CookieManager(key="auth_cm")
-    time.sleep(0.1) 
-    auth_token = cookie_manager.get("tk_auth_24h")
-    if auth_token and isinstance(auth_token, str) and not st.session_state['logged_in']:
-        try:
-            uname, hpwd = auth_token.split("||")
-            users_db = load_users()
-            if uname in users_db and users_db[uname]["password"] == hpwd:
-                st.session_state['logged_in'] = True
-                st.session_state['user_name'] = uname
-                st.session_state['user_role'] = users_db[uname]["role"]
-                st.session_state['user_unit'] = users_db[uname]["unit"]
-                st.session_state['can_print'] = users_db[uname].get("can_print", False)
-                st.rerun()
-        except:
-            pass
+    
+    # Tạo nhịp dừng 0.3s lần đầu tiên để trình duyệt truyền Cookie
+    if not st.session_state['cookie_fetched']:
+        st.session_state['cookie_fetched'] = True
+        time.sleep(0.3)
+        st.rerun()
+
+    if not st.session_state['logged_in']:
+        auth_token = cookie_manager.get("tk_auth_24h")
+        if auth_token and isinstance(auth_token, str):
+            try:
+                uname, hpwd = auth_token.split("||")
+                users_db = load_users()
+                if uname in users_db and users_db[uname]["password"] == hpwd:
+                    st.session_state['logged_in'] = True
+                    st.session_state['user_name'] = uname
+                    st.session_state['user_role'] = users_db[uname]["role"]
+                    st.session_state['user_unit'] = users_db[uname]["unit"]
+                    st.session_state['can_print'] = users_db[uname].get("can_print", False)
+                    st.rerun()
+            except:
+                pass
 
 # ==========================================
-# CẤU TRÚC ĐIỀU HƯỚNG CHÍNH
+# HỆ THỐNG ĐĂNG NHẬP CHÍNH
 # ==========================================
 if not st.session_state['logged_in']:
     st.markdown("<br><br>", unsafe_allow_html=True)
@@ -640,10 +649,10 @@ if not st.session_state['logged_in']:
                         st.session_state['user_unit'] = users_db[uname]["unit"]
                         st.session_state['can_print'] = users_db[uname].get("can_print", False)
                         
-                        if HAS_STX:
+                        if HAS_STX and cookie_manager is not None:
                             expire_time = datetime.datetime.now() + datetime.timedelta(days=1)
                             cookie_manager.set("tk_auth_24h", f"{uname}||{stored_pwd}", expires_at=expire_time)
-                            time.sleep(0.5) 
+                            time.sleep(0.3)
                             
                         st.success("Đăng nhập thành công!")
                         st.rerun()
@@ -651,7 +660,6 @@ if not st.session_state['logged_in']:
                         st.error("❌ Tên đăng nhập hoặc mật khẩu không chính xác!")
                 else:
                     st.error("❌ Tên đăng nhập hoặc mật khẩu không chính xác!")
-                    
 else:
     # ĐÃ ĐĂNG NHẬP THÀNH CÔNG
     st.sidebar.success("✅ Đăng nhập thành công!")
@@ -709,7 +717,9 @@ else:
     st.sidebar.markdown("---")
     if st.sidebar.button("🔄 LÀM MỚI TẢI LẠI DỮ LIỆU", type="primary", use_container_width=True): st.cache_data.clear(); st.rerun()
     if st.sidebar.button("Đăng xuất", use_container_width=True): 
-        if HAS_STX: cookie_manager.delete("tk_auth_24h")
+        if HAS_STX and cookie_manager is not None: 
+            cookie_manager.delete("tk_auth_24h")
+            time.sleep(0.2)
         st.session_state.clear(); st.cache_data.clear(); st.rerun()
 
     # ==========================================
@@ -720,15 +730,14 @@ else:
         
         if not active_tourneys:
             st.error("🚨 Không có giải đấu nào đang mở! Vui lòng nhờ Admin vào phần Cài Đặt -> Kích hoạt ít nhất 1 Giải đấu.")
-            st.stop()
-
-        banner_html = '<div style="background-color:#dff9fb; padding:15px; border-radius:8px; border-left: 5px solid #00a8ff; margin-bottom: 20px;">'
-        banner_html += '<h4 style="margin:0; color:#273c75;">🏆 CÁC GIẢI ĐẤU ĐANG MỞ CỔNG ĐĂNG KÝ:</h4><ul style="margin:10px 0 0 0; padding-left: 20px; color:#353b48;">'
-        for t in active_tourneys:
-            t_type_str = 'Cấp Quốc Gia' if t.get('type') == 'QGIA' else 'Cấp Tỉnh/Thành'
-            banner_html += f"<li><b>{t.get('name')}</b> (Từ {t.get('start_date')} đến {t.get('end_date')} | Quy mô: {t_type_str})</li>"
-        banner_html += '</ul></div>'
-        st.markdown(banner_html, unsafe_allow_html=True)
+        else:
+            banner_html = '<div style="background-color:#dff9fb; padding:15px; border-radius:8px; border-left: 5px solid #00a8ff; margin-bottom: 20px;">'
+            banner_html += '<h4 style="margin:0; color:#273c75;">🏆 CÁC GIẢI ĐẤU ĐANG MỞ CỔNG ĐĂNG KÝ:</h4><ul style="margin:10px 0 0 0; padding-left: 20px; color:#353b48;">'
+            for t in active_tourneys:
+                t_type_str = 'Cấp Quốc Gia' if t.get('type') == 'QGIA' else 'Cấp Tỉnh/Thành'
+                banner_html += f"<li><b>{t.get('name')}</b> (Từ {t.get('start_date')} đến {t.get('end_date')} | Quy mô: {t_type_str})</li>"
+            banner_html += '</ul></div>'
+            st.markdown(banner_html, unsafe_allow_html=True)
 
         if st.session_state['success_msg']:
             if "XÓA" not in st.session_state['success_msg']: st.balloons()
@@ -745,71 +754,69 @@ else:
                     if st.button("🔙 Quay lại danh sách"):
                         st.session_state['edit_idx'] = None
                         st.rerun()
-                    st.stop()
+                else:
+                    card_edit = all_cards[edit_i]
+                    st.markdown("---")
+                    st.markdown(f"<h3 style='color: #e67e22;'>✏️ Đang chỉnh sửa thẻ: {card_edit.get('Họ tên','')} - {card_edit.get('Mã','')}</h3>", unsafe_allow_html=True)
                     
-                card_edit = all_cards[edit_i]
-                st.markdown("---")
-                st.markdown(f"<h3 style='color: #e67e22;'>✏️ Đang chỉnh sửa thẻ: {card_edit.get('Họ tên','')} - {card_edit.get('Mã','')}</h3>", unsafe_allow_html=True)
-                
-                c_e1, c_e2, c_e3 = st.columns([2, 2, 2])
-                list_luatuoi = list(dict.fromkeys(["-- Chọn lứa tuổi --", "Không"] + settings_data.get("lua_tuoi", [])))
-                list_noidung = list(dict.fromkeys(["-- Chọn nội dung --", "Không"] + settings_data.get("noi_dung", [])))
-                
-                with c_e1:
-                    edit_ht = st.text_input("Họ và tên", value=card_edit.get("Họ tên", ""))
+                    c_e1, c_e2, c_e3 = st.columns([2, 2, 2])
+                    list_luatuoi = list(dict.fromkeys(["-- Chọn lứa tuổi --", "Không"] + settings_data.get("lua_tuoi", [])))
+                    list_noidung = list(dict.fromkeys(["-- Chọn nội dung --", "Không"] + settings_data.get("noi_dung", [])))
                     
-                    can_custom_role = (role == "ADMIN" or ma_don_vi_lam_viec.upper() == "BTC")
-                    role_options = ALL_ROLES.copy()
-                    if can_custom_role:
-                        role_options.append("Khác (Nhập tay)")
+                    with c_e1:
+                        edit_ht = st.text_input("Họ và tên", value=card_edit.get("Họ tên", ""))
                         
-                    current_cv = card_edit.get("Chức vụ", "VĐV")
-                    if current_cv not in ALL_ROLES:
-                        role_options.insert(0, current_cv)
-                        idx_cv = 0
-                    else:
-                        idx_cv = role_options.index(current_cv)
+                        can_custom_role = (role == "ADMIN" or ma_don_vi_lam_viec.upper() == "BTC")
+                        role_options = ALL_ROLES.copy()
+                        if can_custom_role:
+                            role_options.append("Khác (Nhập tay)")
+                            
+                        current_cv = card_edit.get("Chức vụ", "VĐV")
+                        if current_cv not in ALL_ROLES:
+                            role_options.insert(0, current_cv)
+                            idx_cv = 0
+                        else:
+                            idx_cv = role_options.index(current_cv)
+                            
+                        edit_cv = st.selectbox("Chức vụ đoàn", role_options, index=idx_cv)
+                        if edit_cv == "Khác (Nhập tay)" or (edit_cv not in ALL_ROLES and can_custom_role):
+                            val = edit_cv if edit_cv != "Khác (Nhập tay)" else ""
+                            edit_cv_final = st.text_input("✍️ Chức vụ thực tế in trên thẻ:", value=val)
+                        else:
+                            edit_cv_final = edit_cv
+                            
+                        edit_dc = st.text_input("Cấp / Đẳng", value=card_edit.get("Đẳng cấp", ""))
                         
-                    edit_cv = st.selectbox("Chức vụ đoàn", role_options, index=idx_cv)
-                    if edit_cv == "Khác (Nhập tay)" or (edit_cv not in ALL_ROLES and can_custom_role):
-                        val = edit_cv if edit_cv != "Khác (Nhập tay)" else ""
-                        edit_cv_final = st.text_input("✍️ Chức vụ thực tế in trên thẻ:", value=val)
-                    else:
-                        edit_cv_final = edit_cv
+                    with c_e2:
+                        edit_ns = st.text_input("Năm sinh", value=card_edit.get("Năm sinh", ""))
+                        edit_lt = st.selectbox("Lứa tuổi thi đấu", list_luatuoi, index=list_luatuoi.index(card_edit.get("Lứa tuổi","Không")) if card_edit.get("Lứa tuổi","Không") in list_luatuoi else 0)
+                        edit_nd = st.selectbox("Nội dung thi đấu", list_noidung, index=list_noidung.index(card_edit.get("Nội dung","Không")) if card_edit.get("Nội dung","Không") in list_noidung else 0)
+                    with c_e3:
+                        new_file = st.file_uploader("Thay ảnh chân dung mới", type=['png', 'jpg', 'jpeg'])
                         
-                    edit_dc = st.text_input("Cấp / Đẳng", value=card_edit.get("Đẳng cấp", ""))
-                    
-                with c_e2:
-                    edit_ns = st.text_input("Năm sinh", value=card_edit.get("Năm sinh", ""))
-                    edit_lt = st.selectbox("Lứa tuổi thi đấu", list_luatuoi, index=list_luatuoi.index(card_edit.get("Lứa tuổi","Không")) if card_edit.get("Lứa tuổi","Không") in list_luatuoi else 0)
-                    edit_nd = st.selectbox("Nội dung thi đấu", list_noidung, index=list_noidung.index(card_edit.get("Nội dung","Không")) if card_edit.get("Nội dung","Không") in list_noidung else 0)
-                with c_e3:
-                    new_file = st.file_uploader("Thay ảnh chân dung mới", type=['png', 'jpg', 'jpeg'])
-                    
-                if st.button("💾 Lưu cập nhật", type="primary"):
-                    all_cards[edit_i]["Họ tên"] = edit_ht
-                    all_cards[edit_i]["Chức vụ"] = edit_cv_final.strip() if edit_cv_final.strip() else "VĐV"
-                    all_cards[edit_i]["Lứa tuổi"] = edit_lt
-                    all_cards[edit_i]["Nội dung"] = edit_nd
-                    all_cards[edit_i]["Đẳng cấp"] = edit_dc
-                    all_cards[edit_i]["Năm sinh"] = edit_ns
-                    if new_file is not None:
-                        old_path = all_cards[edit_i].get("Ảnh_Path", "")
-                        if old_path and os.path.exists(old_path):
-                            try: os.remove(old_path)
-                            except: pass
-                        all_cards[edit_i]["Ảnh_Path"] = process_and_save_image(new_file, all_cards[edit_i].get("Mã", "NoID"))
-                        if "Ảnh_Base64" in all_cards[edit_i]: del all_cards[edit_i]["Ảnh_Base64"]
-                    with open(CARDS_FILE, "w", encoding="utf-8") as f: json.dump(all_cards, f, ensure_ascii=False)
-                    st.session_state.update({'edit_idx': None, 'success_msg': "✅ Cập nhật hồ sơ thành công!"}); st.rerun()
-            st.stop()
+                    if st.button("💾 Lưu cập nhật", type="primary"):
+                        all_cards[edit_i]["Họ tên"] = edit_ht
+                        all_cards[edit_i]["Chức vụ"] = edit_cv_final.strip() if edit_cv_final.strip() else "VĐV"
+                        all_cards[edit_i]["Lứa tuổi"] = edit_lt
+                        all_cards[edit_i]["Nội dung"] = edit_nd
+                        all_cards[edit_i]["Đẳng cấp"] = edit_dc
+                        all_cards[edit_i]["Năm sinh"] = edit_ns
+                        if new_file is not None:
+                            old_path = all_cards[edit_i].get("Ảnh_Path", "")
+                            if old_path and os.path.exists(old_path):
+                                try: os.remove(old_path)
+                                except: pass
+                            all_cards[edit_i]["Ảnh_Path"] = process_and_save_image(new_file, all_cards[edit_i].get("Mã", "NoID"))
+                            if "Ảnh_Base64" in all_cards[edit_i]: del all_cards[edit_i]["Ảnh_Base64"]
+                        with open(CARDS_FILE, "w", encoding="utf-8") as f: json.dump(all_cards, f, ensure_ascii=False)
+                        st.session_state.update({'edit_idx': None, 'success_msg': "✅ Cập nhật hồ sơ thành công!"}); st.rerun()
 
         if not ma_don_vi_lam_viec:
             if role == "ADMIN":
                 st.warning("⚠️ Chọn hoặc nhập Đơn vị ở menu bên trái để nộp hồ sơ & xem danh sách.")
             else:
                 st.warning("⚠️ Vui lòng liên hệ Admin để gán tài khoản vào Đơn vị!")
-        else:
+        elif st.session_state['edit_idx'] is None:
             st.markdown("### 📝 Nhập thông tin đăng ký làm thẻ mới")
             
             if not is_registration_open and role != "ADMIN":
@@ -863,120 +870,121 @@ else:
                             st.session_state.update({'success_msg': "✅ Đã ghi nhận hồ sơ mới!", 'clear_form': True})
                             st.rerun()
 
-        all_cards_updated = load_submitted_cards()
-        display_cards = []
-        
-        for c in all_cards_updated:
-            dv = str(c.get("Đơn_vị", "")).strip()
-            is_my_unit = (ma_don_vi_lam_viec and ma_don_vi_lam_viec != "-- Chọn --" and dv.upper() == ma_don_vi_lam_viec.upper())
-            is_btc_viewing_vips = (ma_don_vi_lam_viec.upper() == "BTC" and c.get("Chức vụ") in ["Trọng tài", "Ban tổ chức", "VIP", "Nhân viên", "Truyền thông"])
+        if ma_don_vi_lam_viec and st.session_state['edit_idx'] is None:
+            all_cards_updated = load_submitted_cards()
+            display_cards = []
             
-            if is_my_unit or is_btc_viewing_vips:
-                display_cards.append(c)
-        
-        if display_cards:
-            st.markdown("<br><hr>", unsafe_allow_html=True)
-            c_header, c_export, c_del = st.columns([2, 1, 1])
-            with c_header: 
-                st.subheader(f"🖼️ Danh sách thẻ ({len(display_cards)} nhân sự)")
+            for c in all_cards_updated:
+                dv = str(c.get("Đơn_vị", "")).strip()
+                is_my_unit = (ma_don_vi_lam_viec and ma_don_vi_lam_viec != "-- Chọn --" and dv.upper() == ma_don_vi_lam_viec.upper())
+                is_btc_viewing_vips = (ma_don_vi_lam_viec.upper() == "BTC" and c.get("Chức vụ") in ["Trọng tài", "Ban tổ chức", "VIP", "Nhân viên", "Truyền thông"])
+                
+                if is_my_unit or is_btc_viewing_vips:
+                    display_cards.append(c)
             
-            with c_export:
-                try:
-                    zip_data_export = tao_file_zip_xuat_du_lieu(display_cards, ma_don_vi_lam_viec)
-                    st.download_button(
-                        label="📥 TẢI BÁO CÁO PDF & ẢNH (.ZIP)",
-                        data=zip_data_export,
-                        file_name=f"Ho_So_{ma_don_vi_lam_viec}.zip",
-                        mime="application/zip",
-                        use_container_width=True
-                    )
-                except Exception as zip_err:
-                    st.warning("Đang xử lý dữ liệu in ấn, vui lòng đợi vài giây và F5 lại trang...")
+            if display_cards:
+                st.markdown("<br><hr>", unsafe_allow_html=True)
+                c_header, c_export, c_del = st.columns([2, 1, 1])
+                with c_header: 
+                    st.subheader(f"🖼️ Danh sách thẻ ({len(display_cards)} nhân sự)")
+                
+                with c_export:
+                    try:
+                        zip_data_export = tao_file_zip_xuat_du_lieu(display_cards, ma_don_vi_lam_viec)
+                        st.download_button(
+                            label="📥 TẢI BÁO CÁO PDF & ẢNH (.ZIP)",
+                            data=zip_data_export,
+                            file_name=f"Ho_So_{ma_don_vi_lam_viec}.zip",
+                            mime="application/zip",
+                            use_container_width=True
+                        )
+                    except Exception as zip_err:
+                        st.warning("Đang xử lý dữ liệu in ấn, vui lòng đợi vài giây và F5 lại trang...")
 
-            if role == "ADMIN" and ma_don_vi_lam_viec:
-                with c_del:
-                    if st.button(f"🚨 XÓA TẤT CẢ", type="primary", use_container_width=True):
-                        with st.spinner("Đang dọn dẹp dữ liệu..."):
-                            all_remaining = []
-                            deleted_count = 0
-                            for c in all_cards_updated:
-                                dv_xoa = str(c.get("Đơn_vị")).strip().upper()
-                                if dv_xoa == ma_don_vi_lam_viec.upper(): 
-                                    img_path = c.get('Ảnh_Path', '')
-                                    if img_path and os.path.exists(img_path):
-                                        try: os.remove(img_path)
-                                        except: pass
-                                    deleted_count += 1
-                                else: all_remaining.append(c)
-                            with open(CARDS_FILE, "w", encoding="utf-8") as f:
-                                json.dump(all_remaining, f, ensure_ascii=False)
-                            
-                            st.session_state['success_msg'] = f"✅ Đã xóa sạch {deleted_count} thẻ của đơn vị!"
-                            st.rerun()
-                            
-            ITEMS_PER_PAGE = 30
-            total_pages = max(1, (len(display_cards) - 1) // ITEMS_PER_PAGE + 1)
-            
-            if total_pages > 1:
-                st.markdown("---")
-                page_num = st.number_input(f"📄 Phân trang (1 - {total_pages})", min_value=1, max_value=total_pages, value=1)
-                start_idx = (page_num - 1) * ITEMS_PER_PAGE
-                end_idx = start_idx + ITEMS_PER_PAGE
-                paged_cards = display_cards[start_idx:end_idx]
-                st.info(f"Đang hiển thị hồ sơ từ {start_idx + 1} đến {min(end_idx, len(display_cards))} (Tổng: {len(display_cards)})")
-            else:
-                paged_cards = display_cards
-
-            standard_roles = ["VIP", "Ban tổ chức", "Trọng tài", "Truyền thông", "Nhân viên", "Trưởng đoàn", "HLV Trưởng", "HLV", "VĐV"]
-            all_present_roles = []
-            for c in paged_cards:
-                r = c.get("Chức vụ", "VĐV")
-                if r not in all_present_roles:
-                    all_present_roles.append(r)
-                    
-            display_roles = [r for r in standard_roles if r in all_present_roles]
-            other_roles = [r for r in all_present_roles if r not in standard_roles]
-            display_roles.extend(other_roles)
-
-            for ten_cv in display_roles:
-                nhom = [(i, c) for i, c in enumerate(all_cards_updated) if c in paged_cards and c.get("Chức vụ") == ten_cv]
-                if nhom:
-                    st.markdown(f"#### 📌 Chức vụ: {ten_cv} ({len(nhom)})")
-                    cols = st.columns(6)
-                    for idx, (original_idx, card) in enumerate(nhom):
-                        with cols[idx % 6]:
-                            img_src = ""
-                            if "Ảnh_Path" in card and os.path.exists(card["Ảnh_Path"]):
-                                with open(card["Ảnh_Path"], "rb") as f:
-                                    img_src = f"data:image/jpeg;base64,{base64.b64encode(f.read()).decode()}"
-                            elif "Ảnh_Base64" in card and card["Ảnh_Base64"]:
-                                img_src = f"data:image/jpeg;base64,{card['Ảnh_Base64']}"
+                if role == "ADMIN" and ma_don_vi_lam_viec:
+                    with c_del:
+                        if st.button(f"🚨 XÓA TẤT CẢ", type="primary", use_container_width=True):
+                            with st.spinner("Đang dọn dẹp dữ liệu..."):
+                                all_remaining = []
+                                deleted_count = 0
+                                for c in all_cards_updated:
+                                    dv_xoa = str(c.get("Đơn_vị")).strip().upper()
+                                    if dv_xoa == ma_don_vi_lam_viec.upper(): 
+                                        img_path = c.get('Ảnh_Path', '')
+                                        if img_path and os.path.exists(img_path):
+                                            try: os.remove(img_path)
+                                            except: pass
+                                        deleted_count += 1
+                                    else: all_remaining.append(c)
+                                with open(CARDS_FILE, "w", encoding="utf-8") as f:
+                                    json.dump(all_remaining, f, ensure_ascii=False)
                                 
-                            html_content = f'<div class="card-container">'
-                            html_content += f'<div class="card-img-wrapper"><img src="{img_src}"></div>'
-                            html_content += f'<div class="card-title">{card.get("Họ tên", "")}</div>'
-                            html_content += f'<div class="card-text">🏢 {get_full_unit_name(card.get("Đơn_vị", ""))}</div>'
-                            html_content += f'<div class="card-text">🎂 NS: {card.get("Năm sinh", "")}</div>'
-                            if str(card.get('Đẳng cấp', '')).strip():
-                                html_content += f'<div class="card-text">🥋 Đẳng: {card.get("Đẳng cấp", "")}</div>'
-                            if card.get("Chức vụ") == "VĐV":
-                                html_content += f'<div class="card-text" style="color: #0984e3; font-weight: bold;">🥋 {card.get("Nội dung", "")}</div>'
-                                html_content += f'<div class="card-text" style="color: #e17055; font-weight: bold;">🏅 {card.get("Lứa tuổi", "")}</div>'
-                            html_content += f'<div class="card-footer">👤 Nộp bởi: {card.get("Người_nộp", "")}</div></div>'
-                            st.markdown(html_content, unsafe_allow_html=True)
-                            
-                            st.markdown("<div style='height: 5px;'></div>", unsafe_allow_html=True)
-                            c_a1, c_a2 = st.columns(2)
-                            with c_a1: 
-                                if not is_registration_open and role != "ADMIN":
-                                    st.button("✏️ Sửa", key=f"e_{original_idx}", disabled=True, use_container_width=True)
-                                else:
-                                    st.button("✏️ Sửa", key=f"e_{original_idx}", on_click=set_edit_mode, args=(original_idx,), use_container_width=True)
-                            with c_a2: 
-                                if not is_registration_open and role != "ADMIN":
-                                    st.button("🗑️ Xóa", key=f"d_{original_idx}", disabled=True, use_container_width=True)
-                                else:
-                                    st.button("🗑️ Xóa", key=f"d_{original_idx}", on_click=delete_card, args=(original_idx,), use_container_width=True)
+                                st.session_state['success_msg'] = f"✅ Đã xóa sạch {deleted_count} thẻ của đơn vị!"
+                                st.rerun()
+                                
+                ITEMS_PER_PAGE = 30
+                total_pages = max(1, (len(display_cards) - 1) // ITEMS_PER_PAGE + 1)
+                
+                if total_pages > 1:
+                    st.markdown("---")
+                    page_num = st.number_input(f"📄 Phân trang (1 - {total_pages})", min_value=1, max_value=total_pages, value=1)
+                    start_idx = (page_num - 1) * ITEMS_PER_PAGE
+                    end_idx = start_idx + ITEMS_PER_PAGE
+                    paged_cards = display_cards[start_idx:end_idx]
+                    st.info(f"Đang hiển thị hồ sơ từ {start_idx + 1} đến {min(end_idx, len(display_cards))} (Tổng: {len(display_cards)})")
+                else:
+                    paged_cards = display_cards
+
+                standard_roles = ["VIP", "Ban tổ chức", "Trọng tài", "Truyền thông", "Nhân viên", "Trưởng đoàn", "HLV Trưởng", "HLV", "VĐV"]
+                all_present_roles = []
+                for c in paged_cards:
+                    r = c.get("Chức vụ", "VĐV")
+                    if r not in all_present_roles:
+                        all_present_roles.append(r)
+                        
+                display_roles = [r for r in standard_roles if r in all_present_roles]
+                other_roles = [r for r in all_present_roles if r not in standard_roles]
+                display_roles.extend(other_roles)
+
+                for ten_cv in display_roles:
+                    nhom = [(i, c) for i, c in enumerate(all_cards_updated) if c in paged_cards and c.get("Chức vụ") == ten_cv]
+                    if nhom:
+                        st.markdown(f"#### 📌 Chức vụ: {ten_cv} ({len(nhom)})")
+                        cols = st.columns(6)
+                        for idx, (original_idx, card) in enumerate(nhom):
+                            with cols[idx % 6]:
+                                img_src = ""
+                                if "Ảnh_Path" in card and os.path.exists(card["Ảnh_Path"]):
+                                    with open(card["Ảnh_Path"], "rb") as f:
+                                        img_src = f"data:image/jpeg;base64,{base64.b64encode(f.read()).decode()}"
+                                elif "Ảnh_Base64" in card and card["Ảnh_Base64"]:
+                                    img_src = f"data:image/jpeg;base64,{card['Ảnh_Base64']}"
+                                    
+                                html_content = f'<div class="card-container">'
+                                html_content += f'<div class="card-img-wrapper"><img src="{img_src}"></div>'
+                                html_content += f'<div class="card-title">{card.get("Họ tên", "")}</div>'
+                                html_content += f'<div class="card-text">🏢 {get_full_unit_name(card.get("Đơn_vị", ""))}</div>'
+                                html_content += f'<div class="card-text">🎂 NS: {card.get("Năm sinh", "")}</div>'
+                                if str(card.get('Đẳng cấp', '')).strip():
+                                    html_content += f'<div class="card-text">🥋 Đẳng: {card.get("Đẳng cấp", "")}</div>'
+                                if card.get("Chức vụ") == "VĐV":
+                                    html_content += f'<div class="card-text" style="color: #0984e3; font-weight: bold;">🥋 {card.get("Nội dung", "")}</div>'
+                                    html_content += f'<div class="card-text" style="color: #e17055; font-weight: bold;">🏅 {card.get("Lứa tuổi", "")}</div>'
+                                html_content += f'<div class="card-footer">👤 Nộp bởi: {card.get("Người_nộp", "")}</div></div>'
+                                st.markdown(html_content, unsafe_allow_html=True)
+                                
+                                st.markdown("<div style='height: 5px;'></div>", unsafe_allow_html=True)
+                                c_a1, c_a2 = st.columns(2)
+                                with c_a1: 
+                                    if not is_registration_open and role != "ADMIN":
+                                        st.button("✏️ Sửa", key=f"e_{original_idx}", disabled=True, use_container_width=True)
+                                    else:
+                                        st.button("✏️ Sửa", key=f"e_{original_idx}", on_click=set_edit_mode, args=(original_idx,), use_container_width=True)
+                                with c_a2: 
+                                    if not is_registration_open and role != "ADMIN":
+                                        st.button("🗑️ Xóa", key=f"d_{original_idx}", disabled=True, use_container_width=True)
+                                    else:
+                                        st.button("🗑️ Xóa", key=f"d_{original_idx}", on_click=delete_card, args=(original_idx,), use_container_width=True)
 
     # ==============================================================
     # 🖨️ MÀN HÌNH 2: IN THẺ (GIAO DIỆN MỚI TỰ ĐỘNG LƯU)
@@ -1144,6 +1152,8 @@ else:
                         )
                     except Exception as err_pdf:
                         st.error(f"❌ Lỗi biên dịch ReportLab Layout: {err_pdf}")
+
+        else: st.error("❌ Bạn không được phân quyền truy cập chức năng in ấn.")
 
     # ==========================================
     # MÀN HÌNH 3: CÀI ĐẶT HỆ THỐNG (ADMIN)
