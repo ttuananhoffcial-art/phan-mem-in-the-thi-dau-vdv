@@ -410,7 +410,12 @@ def tao_file_zip_xuat_du_lieu(danh_sach_the, ten_don_vi):
 
 def draw_card_image(card, g_cfg):
     STD_W = 2480
-    aspect_ratio = g_cfg["h_card_cm"] / g_cfg["w_card_cm"]
+    w_cm = float(g_cfg.get("w_card_cm", 10.0))
+    if w_cm <= 0: w_cm = 10.0 # Khiên bảo vệ lỗi chia cho 0
+    h_cm = float(g_cfg.get("h_card_cm", 14.0))
+    if h_cm <= 0: h_cm = 14.0
+    
+    aspect_ratio = h_cm / w_cm
     STD_H = int(STD_W * aspect_ratio) 
     
     vip_keywords = ["HLV", "HUAN LUYEN VIEN", "TRONG TAI", "BTC", "TRUONG DOAN", "BAN TO CHUC", "THU KY", "VIP", "NHAN VIEN", "TRUYEN THONG", "Y TE", "GIAM SAT"]
@@ -460,6 +465,8 @@ def draw_card_image(card, g_cfg):
         "Calibri": {"regular": "calibri.ttf", "bold": "calibrib.ttf"}
     }
     
+    max_safe_width = int(STD_W * 0.95)
+    
     lines_text = [
         get_mapped_value(card, g_cfg["data_mapping"][0]),
         get_mapped_value(card, g_cfg["data_mapping"][1]),
@@ -502,8 +509,7 @@ def draw_card_image(card, g_cfg):
             bbox = draw.textbbox((0, 0), text_processed, font=selected_font)
             text_w = bbox[2] - bbox[0]
             
-            # CẢI TIẾN: Bỏ ép kích thước chữ - Mở rộng tối đa tới 95% mép thẻ
-            if text_w <= int(STD_W * 0.95) or selected_font == ImageFont.load_default(): break
+            if text_w <= max_safe_width or selected_font == ImageFont.load_default(): break
             current_size -= 2
             
         bbox = draw.textbbox((0, 0), text_processed, font=selected_font)
@@ -517,8 +523,14 @@ def draw_card_image(card, g_cfg):
 
 def export_reportlab_pdf(print_cards, g_cfg):
     pdf_buffer = io.BytesIO()
-    w_pt = g_cfg["w_card_cm"] * cm
-    h_pt = g_cfg["h_card_cm"] * cm
+    
+    w_cm = float(g_cfg.get("w_card_cm", 10.0))
+    if w_cm <= 0: w_cm = 10.0
+    h_cm = float(g_cfg.get("h_card_cm", 14.0))
+    if h_cm <= 0: h_cm = 14.0
+    
+    w_pt = w_cm * cm
+    h_pt = h_cm * cm
     
     if "1 thẻ" in g_cfg["layout_pdf"]:
         c = canvas.Canvas(pdf_buffer, pagesize=(w_pt, h_pt))
