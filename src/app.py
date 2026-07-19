@@ -559,7 +559,6 @@ if not st.session_state['logged_in']:
     
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        st.info("Tài khoản mặc định cho Quản Trị Viên: Tên đăng nhập: **admin** | Mật khẩu: **123456**")
         with st.form("login_form"):
             username_input = st.text_input("Tên đăng nhập")
             password_input = st.text_input("Mật khẩu", type="password")
