@@ -382,7 +382,6 @@ def tao_pdf_danh_sach(danh_sach_the, ten_don_vi):
 
 def tao_file_zip_xuat_du_lieu(danh_sach_the, ten_don_vi):
     zip_buffer = io.BytesIO()
-    # Sử dụng chuẩn lưu ZIP an toàn tuyệt đối không nén để tránh lỗi thư viện Cloud
     with zipfile.ZipFile(zip_buffer, "w") as zip_file:
         for c in danh_sach_the:
             img_bytes = None
@@ -682,19 +681,30 @@ submitted_units = sorted(list(submitted_units_set))
 
 if role == "ADMIN":
     st.sidebar.info("👑 Quyền: QUẢN TRỊ VIÊN")
-    if not submitted_units: danh_sach_admin = ["Chưa có đơn vị nộp hồ sơ"]
-    else: danh_sach_admin = submitted_units
+    
+    # Gộp danh sách đơn vị đã nộp và danh sách mặc định để Admin được quyền chọn BẤT KỲ ai
+    all_admin_units = sorted(list(set(submitted_units + danh_sach_thuc_the_cai_dat)))
+    if "BTC" in all_admin_units:
+        all_admin_units.remove("BTC")
+        all_admin_units = ["BTC"] + all_admin_units
         
     printed_status = settings_data.get("printed_status", {})
     printed_units = printed_status.get(tourney_name, [])
     
     def format_dv(dv):
-        if dv == "-- Chọn --" or dv == "Chưa có đơn vị nộp hồ sơ": return dv
+        if dv == "-- Chọn --": return dv
         if dv in printed_units: return f"🟢 [Đã in] {dv}"
-        return f"🔴 [Mới] {dv}"
+        if dv in submitted_units: return f"🔴 [Đã nộp] {dv}"
+        return f"⚪ [Trống] {dv}"
         
-    don_vi_chon = st.sidebar.selectbox(f"📌 Chọn Đơn Vị (Chỉ hiện nơi đã nộp):", ["-- Chọn --"] + danh_sach_admin, format_func=format_dv)
-    if don_vi_chon != "-- Chọn --" and don_vi_chon != "Chưa có đơn vị nộp hồ sơ": ma_don_vi_lam_viec = don_vi_chon
+    don_vi_chon = st.sidebar.selectbox("📌 Chọn Đơn vị (Quản lý / Nộp hộ):", ["-- Chọn --"] + all_admin_units, format_func=format_dv)
+    custom_dv_admin = st.sidebar.text_input("✍️ Hoặc gõ tên CLB mới (nếu chưa có):", placeholder="Ví dụ: CLB Quận 1")
+    
+    if custom_dv_admin.strip():
+        ma_don_vi_lam_viec = custom_dv_admin.strip()
+    elif don_vi_chon != "-- Chọn --":
+        ma_don_vi_lam_viec = don_vi_chon
+        
 elif role == "DON_VI":
     ma_don_vi_lam_viec = st.session_state['user_unit']
     st.sidebar.info(f"🏢 Đơn vị: {ma_don_vi_lam_viec}")
@@ -799,7 +809,7 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
 
     if not ma_don_vi_lam_viec:
         if role == "ADMIN":
-            st.warning("⚠️ Chọn Đơn vị ở menu bên trái để xem danh sách thẻ.")
+            st.warning("⚠️ Chọn hoặc nhập Đơn vị ở menu bên trái để nộp hồ sơ & xem danh sách.")
         else:
             st.warning("⚠️ Vui lòng liên hệ Admin để gán tài khoản vào Đơn vị!")
     else:
@@ -874,7 +884,6 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
             st.subheader(f"🖼️ Danh sách thẻ ({len(display_cards)} nhân sự)")
         
         with c_export:
-            # BỌC TRY-EXCEPT ĐỂ CHỐNG LỖI HIỂN THỊ MÀN HÌNH ĐỎ
             try:
                 zip_data_export = tao_file_zip_xuat_du_lieu(display_cards, ma_don_vi_lam_viec)
                 st.download_button(
