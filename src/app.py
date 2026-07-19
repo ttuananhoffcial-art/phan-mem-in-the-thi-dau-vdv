@@ -246,12 +246,14 @@ UNIT_NAMES = {
     "TBIN": "Thái Bình", "TNGU": "Thái Nguyên", "THAN": "Thanh Hóa", "TTHU": "Thừa Thiên Huế", 
     "TGIA": "Tiền Giang", "TVIN": "Trà Vinh", "TQUA": "Tuyên Quang", "VLON": "Vĩnh Long", 
     "VPHU": "Vĩnh Phúc", "YBAI": "Yên Bái", "CAND": "Công An Nhân Dân", "QDOI": "Quân Đội",
-    "BTC": "Ban Tổ Chức"
+    "BTC": "Ban Tổ Chức Giải"
 }
 
 def get_full_unit_name(code):
     code_clean = str(code).strip().upper()
-    return UNIT_NAMES.get(code_clean, code_clean)
+    if code_clean in UNIT_NAMES:
+        return UNIT_NAMES[code_clean]
+    return str(code).strip()
 
 def get_mapped_value(card, field_name):
     unit_full = get_full_unit_name(card.get("Đơn_vị", ""))
@@ -444,7 +446,7 @@ def export_reportlab_pdf(print_cards, g_cfg):
 settings_data = load_settings()
 graphics_config = load_graphics_config()
 
-# ĐƯA BTC LÊN TRÊN CÙNG DANH SÁCH HIỂN THỊ ĐƠN VỊ
+# ĐƯA BTC LÊN TRÊN CÙNG DANH SÁCH HIỂN THỊ ĐƠN VỊ CÓ SẴN
 danh_sach_thuc_the_cai_dat = ["BTC"] + sorted([k for k in UNIT_NAMES.keys() if k != "BTC"])
 
 tournaments_list = settings_data.get("tournaments", [])
@@ -543,7 +545,13 @@ menu_choice = st.sidebar.radio("📌 CHỨC NĂNG CHÍNH", menu_options)
 st.sidebar.markdown("---")
 
 all_cards_for_filter = load_submitted_cards()
-submitted_units = sorted(list({str(c.get("Đơn_vị", "")).strip().upper() for c in all_cards_for_filter}))
+
+# LẤY DANH SÁCH ĐƠN VỊ ĐÃ NỘP THẺ (DÀNH CHO MENU ADMIN LỌC BÊN TRÁI)
+submitted_units_set = set()
+for c in all_cards_for_filter:
+    dv_str = str(c.get("Đơn_vị", "")).strip()
+    if dv_str: submitted_units_set.add(dv_str)
+submitted_units = sorted(list(submitted_units_set))
 
 if role == "ADMIN":
     st.sidebar.info("👑 Quyền: QUẢN TRỊ VIÊN")
@@ -616,7 +624,7 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
             with c_e1:
                 edit_ht = st.text_input("Họ và tên", value=card_edit.get("Họ tên", ""))
                 
-                can_custom_role = (role == "ADMIN" or ma_don_vi_lam_viec == "BTC")
+                can_custom_role = (role == "ADMIN" or ma_don_vi_lam_viec.upper() == "BTC")
                 role_options = ALL_ROLES.copy()
                 if can_custom_role:
                     role_options.append("Khác (Nhập tay)")
@@ -682,7 +690,7 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                     input_ho_ten = st.text_input("Họ và Tên (*)")
                     input_ma_hv = st.text_input("Mã Định Danh/Thẻ (*)")
                     
-                    can_custom_role = (role == "ADMIN" or ma_don_vi_lam_viec == "BTC")
+                    can_custom_role = (role == "ADMIN" or ma_don_vi_lam_viec.upper() == "BTC")
                     role_options = ALL_ROLES.copy()
                     if can_custom_role:
                         role_options.append("Khác (Nhập tay)")
@@ -725,8 +733,9 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
     display_cards = []
     
     for c in all_cards_updated:
-        is_my_unit = (ma_don_vi_lam_viec and ma_don_vi_lam_viec != "-- Chọn --" and str(c.get("Đơn_vị")).strip().upper() == ma_don_vi_lam_viec.upper())
-        is_btc_viewing_vips = (ma_don_vi_lam_viec == "BTC" and c.get("Chức vụ") in ["Trọng tài", "Ban tổ chức", "VIP", "Nhân viên", "Truyền thông"])
+        dv = str(c.get("Đơn_vị", "")).strip()
+        is_my_unit = (ma_don_vi_lam_viec and ma_don_vi_lam_viec != "-- Chọn --" and dv.upper() == ma_don_vi_lam_viec.upper())
+        is_btc_viewing_vips = (ma_don_vi_lam_viec.upper() == "BTC" and c.get("Chức vụ") in ["Trọng tài", "Ban tổ chức", "VIP", "Nhân viên", "Truyền thông"])
         
         if is_my_unit or is_btc_viewing_vips:
             display_cards.append(c)
@@ -754,7 +763,8 @@ if menu_choice == "1️⃣ Nộp Danh Sách Làm Thẻ":
                         all_remaining = []
                         deleted_count = 0
                         for c in all_cards_updated:
-                            if str(c.get("Đơn_vị")).strip().upper() == ma_don_vi_lam_viec.upper(): 
+                            dv_xoa = str(c.get("Đơn_vị")).strip().upper()
+                            if dv_xoa == ma_don_vi_lam_viec.upper(): 
                                 img_path = c.get('Ảnh_Path', '')
                                 if img_path and os.path.exists(img_path):
                                     try: os.remove(img_path)
@@ -842,8 +852,9 @@ elif menu_choice == "2️⃣ In Thẻ":
         
         print_cards = []
         for c in all_cards:
-            is_my_unit = (str(c.get("Đơn_vị")).strip().upper() == ma_don_vi_lam_viec.upper())
-            is_btc_viewing_vips = (ma_don_vi_lam_viec == "BTC" and c.get("Chức vụ") in ["Trọng tài", "Ban tổ chức", "VIP", "Nhân viên", "Truyền thông"])
+            dv = str(c.get("Đơn_vị", "")).strip()
+            is_my_unit = (dv.upper() == ma_don_vi_lam_viec.upper())
+            is_btc_viewing_vips = (ma_don_vi_lam_viec.upper() == "BTC" and c.get("Chức vụ") in ["Trọng tài", "Ban tổ chức", "VIP", "Nhân viên", "Truyền thông"])
             
             if is_my_unit or is_btc_viewing_vips:
                 print_cards.append(c)
@@ -1119,28 +1130,33 @@ elif menu_choice == "3️⃣ Cài đặt (Admin)":
     
     with st.form("create_user_form"):
         st.markdown("**➕ Tạo tài khoản mới cho HLV/Đơn vị**")
-        c1, c2, c3 = st.columns(3)
+        c1, c2, c3, c4 = st.columns(4)
         with c1: new_u = st.text_input("Tên đăng nhập (Viết liền, không dấu)")
         with c2: new_p = st.text_input("Mật khẩu")
-        with c3: new_dv = st.selectbox("Chọn Đơn vị/CLB quản lý", danh_sach_thuc_the_cai_dat)
+        with c3: new_dv_chon = st.selectbox("Chọn Tỉnh/Thành/BTC", ["-- Chọn --"] + danh_sach_thuc_the_cai_dat)
+        with c4: new_dv_custom = st.text_input("Hoặc nhập tên CLB mới")
         
-        c4 = st.checkbox("🖨️ Cho phép tài khoản này tự In thẻ", value=False)
+        c_print = st.checkbox("🖨️ Cho phép tài khoản này tự In thẻ", value=False)
         
         if st.form_submit_button("Tạo Tài Khoản", type="primary"):
             new_u = new_u.strip()
+            final_dv = new_dv_custom.strip() if new_dv_custom.strip() else new_dv_chon
+            
             if not new_u or not new_p:
                 st.warning("⚠️ Vui lòng nhập đủ tên đăng nhập và mật khẩu!")
+            elif final_dv == "-- Chọn --":
+                st.warning("⚠️ Vui lòng chọn Tỉnh/Thành hoặc nhập tên CLB mới!")
             elif new_u in users_db:
                 st.error(f"❌ Tài khoản '{new_u}' đã tồn tại!")
             else:
                 users_db[new_u] = {
                     "password": new_p,
                     "role": "DON_VI",
-                    "unit": new_dv,
-                    "can_print": c4
+                    "unit": final_dv,
+                    "can_print": c_print
                 }
                 save_users(users_db)
-                st.success(f"✅ Đã tạo tài khoản '{new_u}' thành công!")
+                st.success(f"✅ Đã tạo tài khoản '{new_u}' cho đơn vị '{final_dv}' thành công!")
                 st.rerun()
 
     st.markdown("**📋 Danh sách tài khoản hiện tại:**")
